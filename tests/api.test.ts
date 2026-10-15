@@ -152,7 +152,7 @@ describe("announcements API", () => {
     expect(body.notices).toHaveLength(3);
     expect(body.notices[0].title).toContain("公式");
   });
-  it("restricts DB selection to published, due, translated content", async () => {
+  it("restricts selection to published and due notices without dropping untranslated originals", async () => {
     configure();
     const fetch = vi.fn().mockResolvedValue(new globalThis.Response("[]"));
     vi.stubGlobal("fetch", fetch);
@@ -163,8 +163,9 @@ describe("announcements API", () => {
     );
     expect(fetch.mock.calls[0][0]).toContain("status=eq.published");
     expect(fetch.mock.calls[0][0]).toContain("published_at=lte.");
-    expect(fetch.mock.calls[0][0]).toContain(
-      "website_notice_translations.locale=eq.en",
+    expect(fetch.mock.calls[0][0]).not.toContain("!inner");
+    expect(fetch.mock.calls[0][0]).not.toContain(
+      "website_notice_translations.locale=eq.",
     );
     expect(r.result().body).toEqual({ notices: [] });
   });

@@ -19,10 +19,25 @@
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/assets/social.jpg" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      try {
+        var p = localStorage.getItem("fg-theme");
+        document.documentElement.dataset.theme =
+          p === "dark" || p === "light"
+            ? p
+            : matchMedia("(prefers-color-scheme:dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.style.colorScheme =
+          document.documentElement.dataset.theme;
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="/ui/controls.css" />
     <title>For Garden — 공식 홈페이지</title>
   </head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/ui/controls.js"></script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "vite";
 import notices from "./api/notices";
+import noticeTranslation from "./api/notice-translation";
 import preregister from "./api/preregister";
 import site from "./api/site";
 import type { Response, Request } from "./server/http";
@@ -13,13 +14,15 @@ export default defineConfig(({ mode }) => {
           server.middlewares.use(async (req, res, next) => {
             const path = req.url?.split("?")[0];
             const handler =
-              path === "/api/notices"
-                ? notices
-                : path === "/api/preregister"
-                  ? preregister
-                  : path === "/api/site"
-                    ? site
-                    : null;
+              path === "/api/notice-translation"
+                ? noticeTranslation
+                : path === "/api/notices"
+                  ? notices
+                  : path === "/api/preregister"
+                    ? preregister
+                    : path === "/api/site"
+                      ? site
+                      : null;
             if (!handler) return next();
             const response: Response = {
               status(code) {

@@ -1,6 +1,9 @@
 import "./style.css";
 import "./ui/controls.css";
 import "./ui/motion.css";
+import "./ui/themes.css";
+import { languages, languageIds, languageNames } from "../shared/languages.js";
+import { renderBody } from "../shared/notice-body.js";
 import { mountFeedback } from "./ui/feedback";
 import { mountScrollEffects } from "./ui/scroll";
 import { icon } from "./ui/icons";
@@ -78,6 +81,15 @@ const initial = new URLSearchParams(location.search).get("lang");
 let lang: Locale = locales.includes(initial as Locale)
   ? (initial as Locale)
   : storedLocale();
+const requestedNewsLanguage = new URLSearchParams(location.search).get(
+  "noticeLang",
+);
+let noticeLang =
+  requestedNewsLanguage && languageIds.includes(requestedNewsLanguage)
+    ? requestedNewsLanguage
+    : lang;
+let detailRequest = 0;
+let detailAbort: AbortController | null = null;
 let selected = 0;
 let category = 0;
 interface Notice {
@@ -89,6 +101,9 @@ interface Notice {
   body: string;
   cover_image?: string | null;
   pinned?: boolean;
+  translation?: "manual" | "automatic" | "original";
+  source_locale?: string;
+  content_locale?: string;
 }
 let notices: Notice[] = [];
 let newsState: "loading" | "ready" | "error" = "loading";
@@ -109,6 +124,8 @@ let cleanupPuppets = () => {};
 let cleanupScroll = () => {};
 let renderVersion = 0;
 function render() {
+  detailAbort?.abort();
+  detailRequest++;
   cleanupLanguagePicker();
   cleanupScroll();
   cleanupPuppets();
@@ -120,14 +137,14 @@ function render() {
  <a class="skip-link" href="#main">${lang === "ko" ? "본문 바로가기" : lang === "ja" ? "本文へ" : "Skip to content"}</a>
  <header class="header"><a class="brand" href="#home" aria-label="For Garden"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a>
  <nav class="desktop-nav" aria-label="${lang === "ko" ? "주 메뉴" : "Main navigation"}">${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
- <div class="header-actions">${languagePicker(lang)}<a class="nav-cta" href="#register">${t.reserve} ${arrow}</a><button class="menu-button" aria-label="${lang === "ko" ? "메뉴 열기" : "Toggle menu"}" aria-expanded="false">${icon("menu")}</button></div></header>
+ <div class="header-actions"><div class="theme-control"><select data-theme-select aria-label="${lang === "ko" ? "화면 테마" : lang === "ja" ? "テーマ" : "Theme"}"><option value="system">${lang === "ko" ? "장치 설정에 맞춤" : lang === "ja" ? "端末の設定" : "Device setting"}</option><option value="dark">${lang === "ko" ? "다크 모드" : lang === "ja" ? "ダーク" : "Dark"}</option><option value="light">${lang === "ko" ? "라이트 모드" : lang === "ja" ? "ライト" : "Light"}</option></select></div>${languagePicker(lang)}<a class="nav-cta" href="#register">${t.reserve} ${arrow}</a><button class="menu-button" aria-label="${lang === "ko" ? "메뉴 열기" : "Toggle menu"}" aria-expanded="false">${icon("menu")}</button></div></header>
  <nav class="mobile-nav" hidden>${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
  <main id="main"><section id="home" class="hero"><div class="ambient-dots" aria-hidden="true"></div><div class="hero-grain"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
  <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><div class="hero-logotype"><img src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392" fetchpriority="high"/><span>ETERNAL CITY</span></div><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}${icon("down")}</a></div><div class="release-note"><span class="tiny-star">${icon("star")}</span>${t.release}<span class="release-line"></span>Android · iOS</div></div>
  <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" data-puppet="torika" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>${icon("emblem")}</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">${icon("star")}</span><span class="floating-star star-two">${icon("star")}</span></div>
  <div class="hero-bottom"><span>01 — THE BEGINNING</span><a href="#news">${t.scroll} ${icon("down")}</a><span>EST. ETERNAL CITY</span></div></section>
  <div class="ticker"><span>${icon("star")}</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>${icon("star")}</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
- <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-tabs" role="group" aria-label="${t.news}">${t.tabs.map((x, i) => `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`).join("")}</div><div id="news-list" aria-live="polite"></div></section>
+ <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-language"><label for="notice-language">${lang === "ko" ? "공지 읽기 언어" : lang === "ja" ? "お知らせの言語" : "Announcement language"}</label><select id="notice-language" aria-label="${lang === "ko" ? "공지 읽기 언어" : lang === "ja" ? "お知らせの言語" : "Announcement language"}">${languages.map(([id, name]) => `<option value="${id}" lang="${id}" ${id === noticeLang ? "selected" : ""}>${name}</option>`).join("")}</select><span>${lang === "ko" ? "게시글은 선택한 언어로 자동 번역합니다." : lang === "ja" ? "投稿は選択した言語に自動翻訳されます。" : "Posts are automatically translated into your selected language."}</span></div><div class="news-tabs" role="group" aria-label="${t.news}">${t.tabs.map((x, i) => `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`).join("")}</div><div id="news-list" aria-live="polite"></div></section>
  <section id="world" class="world-section"><div class="world-art"><img src="/assets/city.webp" alt="${t.worldTag}" loading="lazy" width="844" height="1500"/><div class="world-image-frame"></div><span class="world-tag">${t.worldTag}</span><span class="world-coordinate">35° 41′ N &nbsp; / &nbsp; GARDEN ARCHIVE</span></div><div class="world-copy"><p class="eyebrow">${t.worldLabel} <span class="section-number">02</span></p><h2>${lines(t.worldTitle)}</h2><p class="body-copy">${t.worldBody}</p><div class="world-rule"></div><p class="world-note">${escape(t.worldNote).replace("\n", "<br>")}</p>${emblem}</div></section>
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div></section>
  <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
@@ -157,7 +174,7 @@ function renderNews() {
           ? shown
               .map(
                 (n) =>
-                  `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? icon("pin") : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
+                  `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? icon("pin") : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}${n.translation === "original" && n.content_locale !== noticeLang ? `<span class="notice-language-marker"> · ${escape(languageNames[n.content_locale || "ko"] || "원문")}</span>` : ""}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
               )
               .join("")
           : `<div class="empty-news"><span class="empty-flower">${icon("star")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
@@ -212,35 +229,98 @@ function openDialog(html: string) {
 }
 // 이미지는 https 주소만 허용한다(공지 본문의 `![설명](https://…)` 한 줄 = 그림 한 장).
 const safeImage = (u: string) => /^https:\/\/[^\s"'<>]+$/.test(u);
-function renderNoticeBody(body: string) {
-  return body
-    .split("\n\n")
-    .map((block) => {
-      const m = /^!\[([^\]]*)\]\((https:\/\/[^\s)"'<>]+)\)$/.exec(block.trim());
-      if (m)
-        return `<figure><img src="${escape(m[2])}" alt="${escape(m[1])}" loading="lazy"/></figure>`;
-      return `<p>${escape(block).replaceAll("\n", "<br>")}</p>`;
-    })
-    .join("");
+function translationNote(n: Notice, pending = false): string {
+  const original = n.content_locale !== noticeLang;
+  if (!pending && n.translation !== "automatic" && !original) return "";
+  const label = pending
+    ? {
+        ko: "선택한 언어로 번역 중입니다. 원문을 먼저 표시합니다.",
+        en: "Translating into your selected language. Showing the original for now.",
+        ja: "選択した言語に翻訳中です。原文を先に表示します。",
+      }[lang]
+    : n.translation === "automatic"
+      ? {
+          ko: "자동 번역된 내용입니다. 표현이 원문과 다를 수 있습니다.",
+          en: "Automatically translated. Wording may differ from the original.",
+          ja: "自動翻訳された内容です。原文と表現が異なる場合があります。",
+        }[lang]
+      : {
+          ko: `아직 번역되지 않아 ${languageNames[n.content_locale || "ko"] || n.content_locale} 원문을 표시합니다.`,
+          en: `Translation is not available yet. Showing the original (${n.content_locale || "ko"}).`,
+          ja: `翻訳はまだ利用できません。原文（${n.content_locale || "ko"}）を表示しています。`,
+        }[lang];
+  return `<p class="translation-note" role="status">${escape(label)}</p>`;
+}
+function noticeMarkup(n: Notice, pending = false): string {
+  return `<p class="eyebrow">GARDEN JOURNAL</p><h2 lang="${escape(n.content_locale || noticeLang)}">${escape(n.title)}</h2><time>${escape(n.published_at.slice(0, 10))}</time>${translationNote(n, pending)}${n.cover_image && safeImage(n.cover_image) ? `<img class="notice-cover" src="${escape(n.cover_image)}" alt=""/>` : ""}<div class="notice-body" lang="${escape(n.content_locale || noticeLang)}">${renderBody(n.body)}</div>`;
 }
 function openNotice(slug: string) {
   const n = notices.find((n) => n.slug === slug);
   if (!n) return;
+  detailAbort?.abort();
+  detailAbort = new AbortController();
+  const request = ++detailRequest;
   const url = new URL(location.href);
   url.searchParams.set("notice", slug);
+  url.searchParams.set("noticeLang", noticeLang);
   history.replaceState(null, "", url);
-  openDialog(
-    `<p class="eyebrow">GARDEN JOURNAL</p><h2>${escape(n.title)}</h2><time>${escape(n.published_at.slice(0, 10))}</time>${n.cover_image && safeImage(n.cover_image) ? `<img class="notice-cover" src="${escape(n.cover_image)}" alt=""/>` : ""}<div class="notice-body">${renderNoticeBody(n.body)}</div>`,
-  );
+  const pending =
+    n.translation === "original" && n.content_locale !== noticeLang;
+  openDialog(noticeMarkup(n, pending));
+  if (!pending) return;
+  const controller = detailAbort;
+  void (async () => {
+    try {
+      const response = await fetch(
+        `/api/notice-translation?slug=${encodeURIComponent(slug)}&lang=${encodeURIComponent(noticeLang)}`,
+        {
+          signal: AbortSignal.any([
+            controller.signal,
+            AbortSignal.timeout(55000),
+          ]),
+        },
+      );
+      if (!response.ok) throw Error("translation_unavailable");
+      const result = await response.json();
+      const t = result.translation;
+      if (typeof t?.title !== "string" || typeof t?.body !== "string")
+        throw Error();
+      if (request !== detailRequest) return;
+      Object.assign(n, t);
+      renderNews();
+    } catch {
+      if (request !== detailRequest) return;
+    }
+    if (
+      request !== detailRequest ||
+      !document.querySelector<HTMLDialogElement>("dialog")?.open
+    )
+      return;
+    document.querySelector(".dialog-content")!.innerHTML = noticeMarkup(n);
+  })();
 }
 function bind() {
+  document
+    .querySelector<HTMLSelectElement>("#notice-language")!
+    .addEventListener("change", (event) => {
+      noticeLang = (event.target as HTMLSelectElement).value;
+      detailAbort?.abort();
+      detailRequest++;
+      const url = new URL(location.href);
+      url.searchParams.set("noticeLang", noticeLang);
+      url.searchParams.delete("notice");
+      history.replaceState(null, "", url);
+      void loadNews();
+    });
   cleanupLanguagePicker = bindLanguagePicker(lang, (next) => {
     lang = next;
+    noticeLang = next;
     try {
       localStorage.setItem("fg-language", lang);
     } catch {}
     const url = new URL(location.href);
     url.searchParams.set("lang", lang);
+    url.searchParams.set("noticeLang", noticeLang);
     history.replaceState(null, "", url);
     render();
     loadNews();
@@ -320,6 +400,8 @@ function bind() {
     }
   });
   dialog.addEventListener("close", () => {
+    detailAbort?.abort();
+    detailRequest++;
     document.body.classList.remove("modal-open");
     document.dispatchEvent(new Event("garden:modal-change"));
     const url = new URL(location.href);
@@ -342,9 +424,12 @@ async function loadNews() {
   newsState = "loading";
   renderNews();
   try {
-    const response = await fetch(`/api/notices?lang=${lang}`, {
-      signal: AbortSignal.timeout(10000),
-    });
+    const response = await fetch(
+      `/api/notices?lang=${encodeURIComponent(noticeLang)}`,
+      {
+        signal: AbortSignal.timeout(10000),
+      },
+    );
     if (!response.ok) throw Error();
     const json = await response.json();
     if (!Array.isArray(json.notices)) throw Error();

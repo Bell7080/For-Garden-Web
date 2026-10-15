@@ -1,0 +1,435 @@
+/* Theme preference is set before first paint and follows OS changes in system mode. */
+:root {
+  --ui-panel: #24282e;
+  --ui-ink: #f2f0ec;
+  --ui-line: #525965;
+  --ui-hover: #3a404a;
+  --ui-accent: #d8b978;
+}
+.theme-control {
+  width: 145px;
+  flex: none;
+}
+.theme-control .fg-select-trigger {
+  font-size: 12px;
+  min-height: 38px;
+}
+.news-language {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 18px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.news-language .fg-select {
+  min-width: 180px;
+}
+.translation-note {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-left: 2px solid var(--yellow);
+  background: var(--ui-hover);
+}
+:root[data-theme="dark"] {
+  --paper: #1a1d21;
+  --ink: #f2f0ec;
+  --muted: #c0bdb5;
+  --line: #454b54;
+  --yellow: #d8b978;
+  --scroll-track: #1a1d21;
+  background: var(--paper);
+  color: var(--ink);
+}
+[data-theme="dark"]
+  :is(
+    .news-row,
+    .news-tabs button,
+    .relic-selector button,
+    .feature,
+    .world-section
+  ) {
+  background: transparent;
+  color: var(--ink);
+}
+[data-theme="dark"] :is(.world-section, .relic-selector button.active) {
+  background: #24282e;
+}
+[data-theme="dark"] .world-art:after {
+  background:
+    linear-gradient(90deg, transparent 65%, #24282e),
+    linear-gradient(0deg, #1a1d2180, transparent 40%);
+}
+[data-theme="dark"]
+  :is(
+    .eyebrow,
+    .section-number,
+    .news-row time,
+    .small-copy,
+    .world-copy .body-copy,
+    .world-note,
+    .feature > p:last-child,
+    .art-disclaimer,
+    .screenshot-dialog figcaption p,
+    .empty-news,
+    .news-error
+  ) {
+  color: #c0bdb5;
+}
+[data-theme="dark"]
+  :is(
+    .news-category,
+    .feature > .eyebrow,
+    .heading-dot,
+    .relic-selector button > span
+  ) {
+  color: #d8b978;
+}
+[data-theme="dark"] .news-tabs button.active {
+  color: #f2f0ec;
+  border-color: #d8b978;
+}
+[data-theme="dark"] :is(.news-row:hover, .relic-selector button:hover) {
+  background: #30353b;
+}
+:root[data-theme="light"] {
+  --paper: #f5f3eb;
+  --ink: #24282e;
+  --muted: #595c61;
+  --line: #cdc8bb;
+  --yellow: #8b672b;
+  --ui-panel: #fffdf7;
+  --ui-ink: #24282e;
+  --ui-line: #c6bda9;
+  --ui-hover: #eae4d7;
+  --ui-accent: #805e25;
+  --scroll-track: #eee9dc;
+  --scroll-thumb: #947844;
+  --scroll-active: #5c461f;
+  background: var(--paper);
+  color: var(--ink);
+}
+[data-theme="light"]
+  :is(
+    .header,
+    .mobile-nav,
+    .ticker,
+    .register-section,
+    footer,
+    .character-label,
+    .relic-stage
+  ) {
+  background: #f0ece0;
+  color: #24282e;
+  border-color: #cbc3b0;
+}
+[data-theme="light"] .hero {
+  background:
+    radial-gradient(ellipse at 76% 45%, #ddd7c4 0, transparent 58%), #f5f3eb;
+  color: #24282e;
+}
+[data-theme="light"] :is(.hero h1, .relic-controls button) {
+  color: #24282e;
+}
+[data-theme="light"]
+  :is(
+    .hero-intro,
+    .hero-side-note,
+    .botanical-label,
+    .hero-bottom,
+    .release-note,
+    .character-label > span,
+    .relic-origin,
+    .relic-description,
+    .register-copy > p:not(.eyebrow),
+    .register-copy > small,
+    .register-section legend,
+    .email-label,
+    .consent,
+    .footer-main > p,
+    .footer-status,
+    .footer-bottom,
+    .footer-bottom .privacy-link
+  ) {
+  color: #55564e;
+}
+[data-theme="light"]
+  :is(
+    .hero .eyebrow,
+    .hero-logotype span,
+    .hero-bottom > a,
+    .role-tag,
+    .relic-data h3 > span,
+    .register-copy > .eyebrow,
+    .register-section .privacy-link,
+    .character-label i,
+    .floating-star
+  ) {
+  color: #805e25;
+}
+[data-theme="light"] .brand-logotype,
+[data-theme="light"] .hero-logotype img,
+[data-theme="light"] .footer-brand img {
+  filter: drop-shadow(0 1px 0 #30281d) drop-shadow(0 0 2px #30281d);
+}
+[data-theme="light"] .hero .text-link {
+  color: #474c46;
+}
+[data-theme="light"] .language-trigger {
+  color: #24282e;
+}
+[data-theme="light"] :is(.language-menu, dialog, input[type="email"]) {
+  background: #fffdf7;
+  color: #24282e;
+  border-color: #b7ad99;
+}
+[data-theme="light"]
+  :is(.language-menu-title, .language-code, .language-menu button) {
+  color: #5a554c;
+}
+[data-theme="light"]
+  :is(.language-menu button:hover, .language-menu button.is-active) {
+  background: #eae4d7;
+}
+[data-theme="light"] .language-menu button[aria-selected="true"] {
+  color: #785420;
+}
+[data-theme="light"] :is(.platform-options span) {
+  color: #4d4b43;
+  border-color: #9d937e;
+}
+[data-theme="light"] input[type="email"]::placeholder {
+  color: #767166;
+}
+[data-theme="light"] :is(.consent input, .platform-options input) {
+  border-color: #8b795a;
+  background: #fffdf7;
+}
+[data-theme="light"] .dialog-close {
+  color: #24282e;
+}
+[data-theme="light"] .relic-controls i {
+  color: #68604e;
+}
+[data-theme="light"] :is(.nav-cta, .button-yellow) {
+  background: #d8b978;
+  color: #24282e;
+}
+@media (max-width: 1050px) {
+  .header-actions {
+    gap: 10px;
+  }
+  .theme-control {
+    width: 125px;
+  }
+}
+@media (max-width: 760px) {
+  .header {
+    flex-wrap: wrap;
+    padding: 12px 5%;
+    gap: 8px;
+  }
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    gap: 8px;
+  }
+  .theme-control {
+    width: 124px;
+  }
+  .brand .brand-logotype {
+    width: 118px;
+  }
+  .header-actions .nav-cta {
+    display: none;
+  }
+  .mobile-nav {
+    top: 78px;
+  }
+  .language-trigger {
+    padding: 8px;
+    gap: 5px;
+  }
+  .theme-control .fg-select-trigger {
+    padding: 8px;
+    font-size: 12px;
+  }
+  .news-language {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+.news-language > label {
+  font-size: 13px;
+}
+.news-language > .fg-select {
+  flex: none;
+}
+.notice-language-marker {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.notice-body h3 {
+  font-size: 20px;
+  margin: 24px 0 12px;
+}
+.notice-body ul {
+  padding-left: 24px;
+  margin: 16px 0;
+}
+.notice-body li + li {
+  margin-top: 6px;
+}
+
+@font-face {
+  font-family: "FG Sans JP";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fg-jp-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans JP";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fg-jp-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans JP";
+  font-weight: 800;
+  font-display: swap;
+  src: url("/assets/fg-jp-800.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans TC";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fg-tc-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans TC";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fg-tc-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans TC";
+  font-weight: 800;
+  font-display: swap;
+  src: url("/assets/fg-tc-800.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans SC";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fg-sc-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans SC";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fg-sc-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans SC";
+  font-weight: 800;
+  font-display: swap;
+  src: url("/assets/fg-sc-800.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans VI";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fg-vi-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans VI";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fg-vi-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FG Sans VI";
+  font-weight: 800;
+  font-display: swap;
+  src: url("/assets/fg-vi-800.woff2") format("woff2");
+}
+:lang(ja) {
+  font-family: "NEXON Kart", "FG Sans JP", system-ui, sans-serif;
+}
+:lang(zh-Hant) {
+  font-family: "NEXON Kart", "FG Sans TC", system-ui, sans-serif;
+}
+:lang(zh-Hans) {
+  font-family: "NEXON Kart", "FG Sans SC", system-ui, sans-serif;
+}
+:lang(vi) {
+  font-family: "FG Sans VI", "NEXON Kart", system-ui, sans-serif;
+}
+[data-theme="light"] .relic-stage .eyebrow {
+  color: #805e25;
+}
+[data-theme="dark"]
+  :is(.news-row, .news-tabs, .relic-selector button, .screenshot-card) {
+  border-color: #454b54;
+}
+@media (max-width: 760px) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    height: 112px;
+    padding: 10px 5%;
+    gap: 8px;
+    align-content: center;
+  }
+  .header-actions {
+    display: contents;
+  }
+  .header .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .header .menu-button {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .header .theme-control {
+    grid-column: 1;
+    grid-row: 2;
+    width: 164px;
+  }
+  .header .language-picker {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+  .mobile-nav {
+    top: 112px;
+    max-height: calc(100svh - 112px);
+  }
+  section[id] {
+    scroll-margin-top: 124px;
+  }
+}
+@media (min-width: 761px) and (max-width: 1200px) {
+  .desktop-nav {
+    display: none;
+  }
+  .menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header {
+    height: 88px;
+  }
+  .mobile-nav {
+    top: 88px;
+    max-height: calc(100svh - 88px);
+  }
+}
