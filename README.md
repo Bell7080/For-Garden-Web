@@ -32,4 +32,8 @@ Vercel에 `.env.example`의 서버 환경 변수를 입력하세요. 서비스 �
 
 `public/assets`는 게임 배경 및 Puppet ZIP의 원화를 웹용으로 최적화했습니다. 게임 저장소는 변경하지 않았습니다. NEXON 폰트 라이선스는 `public/assets/FONT-LICENSES.md`에 포함합니다. 외부 폰트·추적 리소스는 로드하지 않습니다.
 
+폰트는 인게임의 실제 `public/fonts/` 파일을 그대로 복사합니다. NEXON Kart Medium/Bold/ExtraBold를 각각 500/700/800으로 등록하고, 일본어는 게임의 FG Sans JP 500/700/800 파일을 동일한 폴백 순서로 사용합니다. 임의의 비슷한 폰트나 합성 굵기는 사용하지 않습니다. 모든 언어·반응형 구간에서 안내·라벨·본문의 CSS 폰트 크기는 최소 12px이며, 본문은 주로 15~16px입니다.
+
+타이틀 로고는 인게임 `sprites/ui/titlename.webp`의 투명 여백만 정리한 원본 아트입니다. 게임을 실행해 타이틀·로비·렐릭 도감·연구소·지도·편성·전투 화면 7장을 직접 캡처하고 `public/assets/screenshots/`에 웹용 WebP로 저장했습니다. 홈페이지에서 각 화면을 확대할 수 있습니다. 자세한 출처와 확인 기록은 `docs/game-style-audit.md`에 있습니다.
+
 참고 요청 사이트 `https://stellarcraft.biz/`는 환경 네트워크 정책상 차단돼 직접 시각 분석하지 못했습니다. 게임 세계관을 바탕으로 독자적으로 구성했습니다.
