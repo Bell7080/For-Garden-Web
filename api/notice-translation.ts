@@ -33,6 +33,11 @@ export default async function handler(req: Request, res: Response) {
   } catch (error) {
     const allowed = [
       "translation_not_configured",
+      "translation_free_tier_required",
+      "translation_budget_unavailable",
+      "translation_quota_exceeded",
+      "translation_rate_limited",
+      "translation_credentials_invalid",
       "unsupported_language_pair",
       "translation_busy",
     ];

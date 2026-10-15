@@ -1,24 +1,43 @@
 // Vite/Vitest resolve extensionless imports that native Node ESM cannot.
 // Emit the server graph as Vercel does, then load and exercise it in a real Node
 // process. No credentials or remote services are needed for this startup check.
-import ts from 'typescript';
-import {mkdtemp,readdir,readFile,writeFile,mkdir,rm} from 'node:fs/promises';
-import {join} from 'node:path';
-import {tmpdir} from 'node:os';
-import {execFileSync} from 'node:child_process';
-const root=await mkdtemp(join(tmpdir(),'for-garden-api-'));
+import ts from "typescript";
+import {
+  mkdtemp,
+  readdir,
+  readFile,
+  writeFile,
+  mkdir,
+  rm,
+} from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import { execFileSync } from "node:child_process";
+const root = await mkdtemp(join(tmpdir(), "for-garden-api-"));
 try {
- await writeFile(join(root,'package.json'),' {"type":"module"}');
- for(const directory of ['api','server','shared']){
-  await mkdir(join(root,directory));
-  for(const file of await readdir(directory)){
-   if(!/\.(js|ts)$/.test(file))continue;
-   const source=await readFile(join(directory,file),'utf8');
-   const output=file.endsWith('.ts')?ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText:source;
-   await writeFile(join(root,directory,file.replace(/\.ts$/,'.js')),output);
+  await writeFile(join(root, "package.json"), ' {"type":"module"}');
+  for (const directory of ["api", "server", "shared"]) {
+    await mkdir(join(root, directory));
+    for (const file of await readdir(directory)) {
+      if (!/\.(js|ts)$/.test(file)) continue;
+      const source = await readFile(join(directory, file), "utf8");
+      const output = file.endsWith(".ts")
+        ? ts.transpileModule(source, {
+            compilerOptions: {
+              target: ts.ScriptTarget.ES2022,
+              module: ts.ModuleKind.ESNext,
+            },
+          }).outputText
+        : source;
+      await writeFile(
+        join(root, directory, file.replace(/\.ts$/, ".js")),
+        output,
+      );
+    }
   }
- }
- await writeFile(join(root,'smoke.mjs'),`
+  await writeFile(
+    join(root, "smoke.mjs"),
+    `
  import assert from 'node:assert/strict';
  import notices from './api/notices.js';
  import site from './api/site.js';
@@ -36,6 +55,14 @@ try {
  globalThis.fetch=async()=>Response.json([{slug:'published',category:'notice',published_at:'2026-10-16T00:00:00Z',website_notice_translations:[{locale:'ko',title:'게시된 공지',summary:'',body:'본문'}]}]);
  const published=response();await notices({method:'GET',headers:{},url:'/api/notices?lang=ko'},published.res);assert.equal(published.result().status,200);assert.equal(published.result().body.notices[0].title,'게시된 공지');
  console.log('PASS: all 4 API modules load in native Node ESM; site/editorial news/published DB news and API guards execute');
- `);
- process.stdout.write(execFileSync(process.execPath,[join(root,'smoke.mjs')],{encoding:'utf8',timeout:15000}));
-}finally{await rm(root,{recursive:true,force:true});}
+ `,
+  );
+  process.stdout.write(
+    execFileSync(process.execPath, [join(root, "smoke.mjs")], {
+      encoding: "utf8",
+      timeout: 15000,
+    }),
+  );
+} finally {
+  await rm(root, { recursive: true, force: true });
+}
