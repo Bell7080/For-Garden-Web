@@ -26,6 +26,8 @@ interface Notice {
   title: string;
   summary: string;
   body: string;
+  cover_image?: string | null;
+  pinned?: boolean;
 }
 let notices: Notice[] = [];
 let newsState: "loading" | "ready" | "error" = "loading";
@@ -84,7 +86,7 @@ function renderNews() {
           ? shown
               .map(
                 (n) =>
-                  `<button class="news-row" data-notice="${escape(n.slug)}"><span class="news-category">${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
+                  `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? "★ " : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
               )
               .join("")
           : `<div class="empty-news"><span class="empty-flower">✳</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
@@ -126,6 +128,18 @@ function openDialog(html: string) {
   dialog.showModal();
   document.body.classList.add("modal-open");
 }
+// 이미지는 https 주소만 허용한다(공지 본문의 `![설명](https://…)` 한 줄 = 그림 한 장).
+const safeImage = (u: string) => /^https:\/\/[^\s"'<>]+$/.test(u);
+function renderNoticeBody(body: string) {
+  return body
+    .split("\n\n")
+    .map((block) => {
+      const m = /^!\[([^\]]*)\]\((https:\/\/[^\s)"'<>]+)\)$/.exec(block.trim());
+      if (m) return `<figure><img src="${escape(m[2])}" alt="${escape(m[1])}" loading="lazy"/></figure>`;
+      return `<p>${escape(block).replaceAll("\n", "<br>")}</p>`;
+    })
+    .join("");
+}
 function openNotice(slug: string) {
   const n = notices.find((n) => n.slug === slug);
   if (!n) return;
@@ -133,12 +147,7 @@ function openNotice(slug: string) {
   url.searchParams.set("notice", slug);
   history.replaceState(null, "", url);
   openDialog(
-    `<p class="eyebrow">GARDEN JOURNAL</p><h2>${escape(n.title)}</h2><time>${escape(n.published_at.slice(0, 10))}</time><div class="notice-body">${escape(
-      n.body,
-    )
-      .split("\n\n")
-      .map((p) => `<p>${p.replaceAll("\n", "<br>")}</p>`)
-      .join("")}</div>`,
+    `<p class="eyebrow">GARDEN JOURNAL</p><h2>${escape(n.title)}</h2><time>${escape(n.published_at.slice(0, 10))}</time>${n.cover_image && safeImage(n.cover_image) ? `<img class="notice-cover" src="${escape(n.cover_image)}" alt=""/>` : ""}<div class="notice-body">${renderNoticeBody(n.body)}</div>`,
   );
 }
 function bind() {

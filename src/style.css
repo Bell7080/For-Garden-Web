@@ -1869,3 +1869,36 @@ dialog::backdrop {
     transition: none !important;
   }
 }
+
+.news-row.has-cover {
+  grid-template-columns: 64px 90px 1fr 100px 20px;
+}
+.news-thumb {
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+.notice-cover {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  margin: 20px 0 0;
+}
+.notice-body figure {
+  margin: 24px 0;
+}
+.notice-body figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+@media (max-width: 720px) {
+  .news-row.has-cover {
+    grid-template-columns: 65px 1fr 15px;
+  }
+  .news-row.has-cover .news-thumb {
+    display: none;
+  }
+}
