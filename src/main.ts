@@ -2,6 +2,14 @@ import "./style.css";
 import "./ui/controls.css";
 import "./ui/motion.css";
 import "./ui/themes.css";
+import "./ui/codex.css";
+import {
+  renderCodex,
+  renderFactions,
+  heroProfile,
+  registerDecor,
+  gameSymbol,
+} from "./codex";
 import { languages, languageIds, languageNames } from "../shared/languages.js";
 import { renderBody } from "../shared/notice-body.js";
 import { mountFeedback } from "./ui/feedback";
@@ -10,7 +18,7 @@ import { icon } from "./ui/icons";
 import { languagePicker, bindLanguagePicker } from "./ui/language-picker";
 import { copy, locales, relics, type Locale } from "./content";
 
-const emblem = icon("emblem", "archive-emblem");
+const emblem = gameSymbol("factions", "rune", "archive-emblem");
 const gameScreens = [
   "title",
   "lobby",
@@ -140,16 +148,16 @@ function render() {
  <div class="header-actions"><div class="theme-control"><select data-theme-select aria-label="${lang === "ko" ? "화면 테마" : lang === "ja" ? "テーマ" : "Theme"}"><option value="system">${lang === "ko" ? "장치 설정에 맞춤" : lang === "ja" ? "端末の設定" : "Device setting"}</option><option value="dark">${lang === "ko" ? "다크 모드" : lang === "ja" ? "ダーク" : "Dark"}</option><option value="light">${lang === "ko" ? "라이트 모드" : lang === "ja" ? "ライト" : "Light"}</option></select></div>${languagePicker(lang)}<a class="nav-cta" href="#register">${t.reserve} ${arrow}</a><button class="menu-button" aria-label="${lang === "ko" ? "메뉴 열기" : "Toggle menu"}" aria-expanded="false">${icon("menu")}</button></div></header>
  <nav class="mobile-nav" hidden>${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
  <main id="main"><section id="home" class="hero"><div class="ambient-dots" aria-hidden="true"></div><div class="hero-grain"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
- <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><div class="hero-logotype"><img src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392" fetchpriority="high"/><span>ETERNAL CITY</span></div><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}${icon("down")}</a></div><div class="release-note"><span class="tiny-star">${icon("star")}</span>${t.release}<span class="release-line"></span>Android · iOS</div></div>
- <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" data-puppet="torika" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>${icon("emblem")}</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">${icon("star")}</span><span class="floating-star star-two">${icon("star")}</span></div>
+ <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><div class="hero-logotype"><img src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392" fetchpriority="high"/><span>ETERNAL CITY</span></div><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}${icon("down")}</a></div><div class="release-note"><span class="tiny-star">${gameSymbol("factions", "rogue")}</span>${t.release}<span class="release-line"></span>Android · iOS</div>${heroProfile(lang)}</div>
+ <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" data-puppet="torika" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>${gameSymbol("factions", "rogue")}</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">${gameSymbol("elements", "earth")}</span><span class="floating-star star-two">${gameSymbol("roles", "tank")}</span></div>
  <div class="hero-bottom"><span>01 — THE BEGINNING</span><a href="#news">${t.scroll} ${icon("down")}</a><span>EST. ETERNAL CITY</span></div></section>
- <div class="ticker"><span>${icon("star")}</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>${icon("star")}</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
+ <div class="ticker"><span>${gameSymbol("factions", "rogue")}</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>${gameSymbol("factions", "rogue")}</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
  <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-language"><label for="notice-language">${lang === "ko" ? "공지 읽기 언어" : lang === "ja" ? "お知らせの言語" : "Announcement language"}</label><select id="notice-language" aria-label="${lang === "ko" ? "공지 읽기 언어" : lang === "ja" ? "お知らせの言語" : "Announcement language"}">${languages.map(([id, name]) => `<option value="${id}" lang="${id}" ${id === noticeLang ? "selected" : ""}>${name}</option>`).join("")}</select><span>${lang === "ko" ? "게시글은 선택한 언어로 자동 번역합니다." : lang === "ja" ? "投稿は選択した言語に自動翻訳されます。" : "Posts are automatically translated into your selected language."}</span></div><div class="news-tabs" role="group" aria-label="${t.news}">${t.tabs.map((x, i) => `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`).join("")}</div><div id="news-list" aria-live="polite"></div></section>
  <section id="world" class="world-section"><div class="world-art"><img src="/assets/city.webp" alt="${t.worldTag}" loading="lazy" width="844" height="1500"/><div class="world-image-frame"></div><span class="world-tag">${t.worldTag}</span><span class="world-coordinate">35° 41′ N &nbsp; / &nbsp; GARDEN ARCHIVE</span></div><div class="world-copy"><p class="eyebrow">${t.worldLabel} <span class="section-number">02</span></p><h2>${lines(t.worldTitle)}</h2><p class="body-copy">${t.worldBody}</p><div class="world-rule"></div><p class="world-note">${escape(t.worldNote).replace("\n", "<br>")}</p>${emblem}</div></section>
- <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div></section>
+ <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div>${renderFactions(lang)}</section>
  <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
  <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">05</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
- <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p><div class="register-flower">${emblem}</div><small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><button type="button" class="privacy-link">${t.privacy} ${arrow}</button><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
+ <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><button type="button" class="privacy-link">${t.privacy} ${arrow}</button><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
  </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><button class="privacy-link">${t.privacy}</button><a href="#home">${t.top} ${icon("up")}</a></div></footer>
  <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">${icon("close")}</button><div class="dialog-content"></div></dialog>`;
   renderNews();
@@ -177,7 +185,7 @@ function renderNews() {
                   `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? icon("pin") : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}${n.translation === "original" && n.content_locale !== noticeLang ? `<span class="notice-language-marker"> · ${escape(languageNames[n.content_locale || "ko"] || "원문")}</span>` : ""}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
               )
               .join("")
-          : `<div class="empty-news"><span class="empty-flower">${icon("star")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
+          : `<div class="empty-news"><span class="empty-flower">${gameSymbol("factions", "rogue")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
   el.querySelector<HTMLButtonElement>(".retry-news")?.addEventListener(
     "click",
     () => void loadNews(),
@@ -188,28 +196,34 @@ function renderNews() {
 }
 function renderRelic() {
   cleanupPuppets();
-  const r = relics[selected];
-  const t = copy[lang];
-  document.querySelector("#relic-display")!.innerHTML =
-    `<div class="relic-stage" style="--relic-color:${r.color}"><div class="relic-stage-grid"></div><span class="relic-big-number">0${selected + 1}</span><div class="relic-halo"></div><img class="relic-portrait" data-puppet="${r.id}" src="/assets/${r.id}.webp" alt="${r.name[lang]}" loading="lazy" width="750" height="1100"/><div class="relic-data"><p class="eyebrow">${t.record} / NO.${r.number}</p><span class="relic-origin">${r.origin[lang]}</span><h3>${r.name[lang]}<span>${r.id === "rex" ? "REXIA" : r.id.toUpperCase()}</span></h3><span class="role-tag">${r.role[lang]}</span><p class="relic-description">${r.description[lang]}</p><div class="relic-controls"><button class="relic-prev" aria-label="${t.previous}">${icon("left")}</button><span>0${selected + 1}<i>/ 03</i></span><button class="relic-next" aria-label="${t.next}">${icon("right")}</button></div></div></div><div class="relic-selector" role="group" aria-label="${t.relicTitle}">${relics.map((x, i) => `<button data-relic="${i}" aria-pressed="${i === selected}" class="${i === selected ? "active" : ""}"><span>0${i + 1}</span><img src="/assets/${x.id}.webp" alt="" loading="lazy"/><strong>${x.name[lang]}</strong><span>${arrow}</span></button>`).join("")}</div>`;
-  document.querySelectorAll<HTMLButtonElement>("[data-relic]").forEach(
-    (b) =>
-      (b.onclick = () => {
-        selected = Number(b.dataset.relic);
-        renderRelic();
-        document
-          .querySelector<HTMLButtonElement>(`[data-relic="${selected}"]`)
-          ?.focus({ preventScroll: true });
-      }),
+  renderVersion += 1;
+  document.querySelector("#relic-display")!.innerHTML = renderCodex(
+    selected,
+    lang,
   );
-  document.querySelector<HTMLButtonElement>(".relic-prev")!.onclick = () => {
-    selected = (selected + 2) % 3;
+  const choose = (index: number, focus: string) => {
+    const anchor = focus.startsWith("[data-relic")
+      ? document.querySelector(focus)?.getBoundingClientRect().top
+      : undefined;
+    selected = index;
     renderRelic();
+    if (anchor !== undefined) {
+      const top = document.querySelector(focus)?.getBoundingClientRect().top;
+      if (top !== undefined)
+        window.scrollBy({ top: top - anchor, behavior: "instant" });
+    }
+    document
+      .querySelector<HTMLButtonElement>(focus)
+      ?.focus({ preventScroll: true });
   };
-  document.querySelector<HTMLButtonElement>(".relic-next")!.onclick = () => {
-    selected = (selected + 1) % 3;
-    renderRelic();
-  };
+  document.querySelectorAll<HTMLButtonElement>("[data-relic]").forEach((b) => {
+    b.onclick = () =>
+      choose(Number(b.dataset.relic), `[data-relic="${b.dataset.relic}"]`);
+  });
+  document.querySelector<HTMLButtonElement>(".relic-prev")!.onclick = () =>
+    choose((selected + relics.length - 1) % relics.length, ".relic-prev");
+  document.querySelector<HTMLButtonElement>(".relic-next")!.onclick = () =>
+    choose((selected + 1) % relics.length, ".relic-next");
   const current = renderVersion;
   void import("./puppets")
     .then(({ mountPuppets }) => {

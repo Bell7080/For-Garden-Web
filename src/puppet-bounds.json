@@ -13,5 +13,20 @@
     "width": 1085,
     "height": 1450,
     "bounds": [0, 0, 1085, 1450]
+  },
+  "torika-sd": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [198, 90, 1018, 1161]
+  },
+  "rex-sd": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [82, 86, 1082, 1211]
+  },
+  "spino-sd": {
+    "width": 1122,
+    "height": 1402,
+    "bounds": [218, 112, 987, 1328]
   }
 }

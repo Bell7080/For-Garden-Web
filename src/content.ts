@@ -1,3 +1,4 @@
+import codexData from "./codex-data.json";
 export type Locale = "ko" | "en" | "ja";
 export const locales: Locale[] = ["ko", "en", "ja"];
 export const copy = {
@@ -246,63 +247,9 @@ export const copy = {
     noticeMissing: "お知らせが見つかりませんでした。",
   },
 };
-export const relics = [
-  {
-    id: "torika",
-    number: "014",
-    origin: { ko: "트리케라톱스", en: "Triceratops", ja: "トリケラトプス" },
-    name: { ko: "토리카", en: "Torika", ja: "トリカ" },
-    role: { ko: "땅 · 탱커", en: "EARTH · TANK", ja: "地 · タンク" },
-    quote: {
-      ko: "“괜찮아. 내가 앞에 있을게.”",
-      en: "“It’s okay. I’ll stand in front.”",
-      ja: "「大丈夫。私が前にいるから。」",
-    },
-    description: {
-      ko: "노란 후드 아래, 누구보다 단단한 마음. 이터널에서의 새로운 하루를 함께할 렐릭을 만나보세요.",
-      en: "A steadfast heart beneath a yellow hood. Meet one of the Relics who will share your days in Eternal.",
-      ja: "黄色いフードの下に、誰よりも強い心。エターナルで新しい毎日を共にするレリック。",
-    },
-    color: "#e2bc52",
-  },
-  {
-    id: "rex",
-    number: "072",
-    origin: {
-      ko: "티라노사우루스",
-      en: "Tyrannosaurus",
-      ja: "ティラノサウルス",
-    },
-    name: { ko: "렉시아", en: "Rexia", ja: "レクシア" },
-    role: { ko: "불 · 전사", en: "FIRE · WARRIOR", ja: "火 · ウォリアー" },
-    quote: {
-      ko: "“새로운 내일은, 함께 찾아보자.”",
-      en: "“Let’s find a new tomorrow, together.”",
-      ja: "「新しい明日を、一緒に探そう。」",
-    },
-    description: {
-      ko: "태곳적 야성을 품고 다시 태어난 소녀. 잊혀진 과거 너머, 그녀만의 이야기를 알아가세요.",
-      en: "Reborn with a wildness from ages past. Discover her story beyond the forgotten world.",
-      ja: "太古の野性を秘めて生まれ変わった少女。忘れられた過去の先で、彼女の物語に出会おう。",
-    },
-    color: "#d88d75",
-  },
-  {
-    id: "spino",
-    number: "105",
-    origin: { ko: "스피노사우루스", en: "Spinosaurus", ja: "スピノサウルス" },
-    name: { ko: "스피나", en: "Spina", ja: "スピナ" },
-    role: { ko: "물 · 암살자", en: "WATER · ASSASSIN", ja: "水 · アサシン" },
-    quote: {
-      ko: "“여기서 시작해도, 괜찮겠지?”",
-      en: "“Maybe this is where we begin?”",
-      ja: "「ここから始めても、いいよね？」",
-    },
-    description: {
-      ko: "아득한 기억을 넘어 정원에 닿은 작은 기적. 전투와 일상 속에서 조금씩 가까워져 보세요.",
-      en: "A small miracle that found her way to Garden. Grow closer through battles and everyday moments.",
-      ja: "遥かな記憶を越えて庭園にたどり着いた、小さな奇跡。戦いと日常を通して、少しずつ近づいて。",
-    },
-    color: "#91b9c0",
-  },
-];
+// One canonical snapshot also supplies the hero's localized character labels.
+export const relics = codexData.map((r) => ({
+  id: r.id,
+  name: { ko: r.text.ko.name, en: r.text.en.name, ja: r.text.ja.name },
+  origin: { ko: r.text.ko.origin, en: r.text.en.origin, ja: r.text.ja.origin },
+}));
