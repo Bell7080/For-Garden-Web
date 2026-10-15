@@ -3,6 +3,62 @@ import { copy, locales, relics, type Locale } from "./content";
 
 const leaf =
   '<svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><path d="M20 40V19M20 29C3 29 4 9 4 9s18-1 16 20m0-10C20 5 36 4 36 4s4 17-16 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const gameScreens = [
+  "title",
+  "lobby",
+  "relics",
+  "lab",
+  "map",
+  "party",
+  "battle",
+] as const;
+const screenCopy = {
+  ko: {
+    title: "정원에서 보내는 하루",
+    intro: "직접 만나게 될, 실제 인게임 화면.",
+    labels: [
+      "타이틀",
+      "이터널 시티 로비",
+      "렐릭 도감",
+      "복원 연구소",
+      "스테이지 지도",
+      "파티 편성",
+      "실시간 전투",
+    ],
+    open: "크게 보기",
+    hint: "옆으로 넘겨 더 많은 화면을 확인하세요.",
+  },
+  en: {
+    title: "A day inside the garden",
+    intro: "A closer look at the actual game.",
+    labels: [
+      "Title",
+      "Eternal City lobby",
+      "Relic collection",
+      "Restoration lab",
+      "Stage map",
+      "Party formation",
+      "Real-time combat",
+    ],
+    open: "View screenshot",
+    hint: "Scroll sideways to explore more screenshots.",
+  },
+  ja: {
+    title: "庭園で過ごす一日",
+    intro: "実際のゲーム画面をご紹介。",
+    labels: [
+      "タイトル",
+      "エターナルシティ",
+      "レリック図鑑",
+      "復元研究所",
+      "ステージマップ",
+      "パーティ編成",
+      "リアルタイムバトル",
+    ],
+    open: "拡大する",
+    hint: "横にスクロールして、ほかの画面をご覧ください。",
+  },
+};
 const arrow = '<span aria-hidden="true">↗</span>';
 const app = document.querySelector<HTMLDivElement>("#app")!;
 function storedLocale(): Locale {
@@ -49,21 +105,22 @@ function render() {
   document.title = t.title;
   app.innerHTML = `
  <a class="skip-link" href="#main">${lang === "ko" ? "본문 바로가기" : lang === "ja" ? "本文へ" : "Skip to content"}</a>
- <header class="header"><a class="brand" href="#home" aria-label="For Garden">${leaf}<span>for <i>Garden</i><small>OFFICIAL WEBSITE</small></span></a>
+ <header class="header"><a class="brand" href="#home" aria-label="For Garden"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a>
  <nav class="desktop-nav" aria-label="${lang === "ko" ? "주 메뉴" : "Main navigation"}">${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
  <div class="header-actions"><label class="language"><span aria-hidden="true">◎</span><select aria-label="Language">${locales.map((x) => `<option value="${x}" ${x === lang ? "selected" : ""}>${{ ko: "한국어", en: "English", ja: "日本語" }[x]}</option>`).join("")}</select></label><a class="nav-cta" href="#register">${t.reserve} ${arrow}</a><button class="menu-button" aria-label="${lang === "ko" ? "메뉴 열기" : "Toggle menu"}" aria-expanded="false">☰</button></div></header>
  <nav class="mobile-nav" hidden>${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
  <main id="main"><section id="home" class="hero"><div class="hero-grain"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
- <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><p class="hero-english">A little garden.<br>A second chance.</p><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}<span aria-hidden="true">↓</span></a></div><div class="release-note"><span class="tiny-star">✳</span>${t.release}<span class="release-line"></span>Android · iOS</div></div>
+ <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><div class="hero-logotype"><img src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392" fetchpriority="high"/><span>ETERNAL CITY</span></div><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}<span aria-hidden="true">↓</span></a></div><div class="release-note"><span class="tiny-star">✳</span>${t.release}<span class="release-line"></span>Android · iOS</div></div>
  <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>✳</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">✧</span><span class="floating-star star-two">✳</span></div>
  <div class="hero-bottom"><span>01 — THE BEGINNING</span><a href="#news">${t.scroll} <span aria-hidden="true">↓</span></a><span>EST. ETERNAL CITY</span></div></section>
  <div class="ticker"><span>✳</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>✳</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
  <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-tabs" role="group" aria-label="${t.news}">${t.tabs.map((x, i) => `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`).join("")}</div><div id="news-list" aria-live="polite"></div></section>
  <section id="world" class="world-section"><div class="world-art"><img src="/assets/city.webp" alt="${t.worldTag}" loading="lazy" width="844" height="1500"/><div class="world-image-frame"></div><span class="world-tag">${t.worldTag}</span><span class="world-coordinate">35° 41′ N &nbsp; / &nbsp; GARDEN ARCHIVE</span></div><div class="world-copy"><p class="eyebrow">${t.worldLabel} <span class="section-number">02</span></p><h2>${lines(t.worldTitle)}</h2><p class="body-copy">${t.worldBody}</p><div class="world-rule"></div><p class="world-note">${escape(t.worldNote).replace("\n", "<br>")}</p>${leaf}</div></section>
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div></section>
- <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">04</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
+ <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">↗</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
+ <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">05</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
  <section id="register" class="register-section"><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p><div class="register-flower">${leaf}</div><small>${t.noPromise}</small></div><form id="register-form"><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><button type="button" class="privacy-link">${t.privacy} ↗</button><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
- </main><footer><div class="footer-main"><a class="brand" href="#home">${leaf}<span>for <i>Garden</i></span></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><button class="privacy-link">${t.privacy}</button><a href="#home">${t.top} ↑</a></div></footer>
+ </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><button class="privacy-link">${t.privacy}</button><a href="#home">${t.top} ↑</a></div></footer>
  <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">×</button><div class="dialog-content"></div></dialog>`;
   renderNews();
   renderRelic();
@@ -195,6 +252,15 @@ function bind() {
       (a.onclick = () => {
         nav.hidden = true;
         menu.setAttribute("aria-expanded", "false");
+      }),
+  );
+  document.querySelectorAll<HTMLButtonElement>("[data-screenshot]").forEach(
+    (button) =>
+      (button.onclick = () => {
+        const index = Number(button.dataset.screenshot);
+        openDialog(
+          `<figure class="screenshot-dialog"><img src="/assets/screenshots/${gameScreens[index]}.webp" alt="${screenCopy[lang].labels[index]}" width="540" height="960"/><figcaption><strong>${screenCopy[lang].labels[index]}</strong><p>${copy[lang].sample}</p></figcaption></figure>`,
+        );
       }),
   );
   const dialog = document.querySelector<HTMLDialogElement>("dialog")!;

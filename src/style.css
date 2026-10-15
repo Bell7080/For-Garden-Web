@@ -1,11 +1,54 @@
+/* Same font files and weight mapping as For-Garden/src/ui/fonts.ts. */
 @font-face {
-  font-family: Garden;
+  font-family: "NEXON Kart";
   src: url("/assets/NexonKart-Medium.woff2") format("woff2");
   font-display: swap;
-  font-weight: 400 800;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "NEXON Kart";
+  src: url("/assets/NexonKart-Bold.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "NEXON Kart";
+  src: url("/assets/NexonKart-ExtraBold.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 800;
+}
+@font-face {
+  font-family: "FG Sans JP";
+  src: url("/assets/fg-jp-500.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "FG Sans JP";
+  src: url("/assets/fg-jp-700.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "FG Sans JP";
+  src: url("/assets/fg-jp-800.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 800;
 }
 :root {
-  font-family: Garden, "Apple SD Gothic Neo", "Noto Sans JP", sans-serif;
+  --game-font:
+    "NEXON Kart", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  font-family: var(--game-font);
+  font-size: 16px;
+  font-weight: 500;
+  --game-void: #1a1d21;
+  --game-panel: #24282e;
+  --game-edge: #3a404a;
+  --game-ink: #f2f0ec;
+  --game-dim: #a9a7a2;
+  --game-gold: #d8b978;
+  --game-sortie: #d85f34;
   color: #23392e;
   background: #f7f6ee;
   font-synthesis: none;
@@ -111,17 +154,15 @@ select:focus-visible {
   height: 42px;
 }
 .brand > span {
-  font-family: Georgia, serif;
+  font-family: var(--game-font);
   font-size: 32px;
   letter-spacing: -1.4px;
 }
 .brand i {
-  font-weight: normal;
+  font-weight: 500;
 }
 .brand small {
-  font:
-    8px Garden,
-    sans-serif;
+  font: 12px var(--game-font);
   display: block;
   letter-spacing: 3px;
   margin: 3px 0 0 3px;
@@ -166,7 +207,7 @@ select:focus-visible {
   border: 0;
   background: none;
   color: var(--ink);
-  font-size: 11px;
+  font-size: 12px;
   padding: 8px 0;
   cursor: pointer;
 }
@@ -222,7 +263,7 @@ select:focus-visible {
   margin-top: -40px;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 2.3px;
   font-weight: 500;
   display: flex;
@@ -239,13 +280,13 @@ select:focus-visible {
   flex-shrink: 0;
 }
 .hero-english {
-  font-family: Georgia, serif;
+  font-family: var(--game-font);
   font-size: clamp(45px, 4.8vw, 76px);
   line-height: 1.08;
   letter-spacing: -3px;
   margin: 30px 0 28px;
-  font-weight: normal;
-  font-style: italic;
+  font-weight: 500;
+  font-style: normal;
 }
 .hero h1 {
   font-size: clamp(27px, 2.8vw, 43px);
@@ -304,7 +345,7 @@ select:focus-visible {
   display: flex;
   align-items: center;
   gap: 11px;
-  font-size: 9px;
+  font-size: 12px;
   color: #77806f;
   margin-top: 26px;
 }
@@ -360,7 +401,7 @@ select:focus-visible {
   z-index: 3;
   right: 7%;
   top: 37px;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.9px;
   line-height: 1.8;
   text-align: right;
@@ -378,7 +419,7 @@ select:focus-visible {
 }
 .character-label > span {
   display: block;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.4px;
   color: #71806c;
 }
@@ -401,7 +442,7 @@ select:focus-visible {
   right: -33px;
   top: 50%;
   writing-mode: vertical-rl;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 3px;
   color: #8c977e;
 }
@@ -453,7 +494,7 @@ select:focus-visible {
   right: 5.5%;
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.7px;
   color: #7e8972;
 }
@@ -477,7 +518,7 @@ select:focus-visible {
   letter-spacing: 1px;
 }
 .ticker > span {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 3px;
 }
 .ticker > span:first-child,
@@ -510,8 +551,8 @@ select:focus-visible {
   padding-left: 4px;
 }
 .section-number {
-  font-family: Georgia, serif;
-  font-style: italic;
+  font-family: var(--game-font);
+  font-style: normal;
   color: #9ca58e;
   border-left: 1px solid #b7bfaa;
   padding-left: 13px;
@@ -553,7 +594,7 @@ select:focus-visible {
 }
 .empty-news p {
   color: #818a78;
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 10px;
   line-height: 1.7;
 }
@@ -563,9 +604,9 @@ select:focus-visible {
 }
 .archive-stamp {
   margin-left: auto;
-  font-family: Georgia, serif;
+  font-family: var(--game-font);
   font-size: 19px;
-  font-style: italic;
+  font-style: normal;
   color: #a6ad98;
   line-height: 1.1;
   border: 1px solid #cfd3c3;
@@ -588,7 +629,7 @@ select:focus-visible {
   background: #edeee2;
 }
 .news-category {
-  font-size: 10px;
+  font-size: 12px;
   border: 1px solid #b9c5a6;
   padding: 6px 10px;
   justify-self: start;
@@ -599,7 +640,7 @@ select:focus-visible {
   font-weight: 500;
 }
 .news-row time {
-  font-size: 11px;
+  font-size: 12px;
   color: #818a78;
 }
 .world-section {
@@ -648,7 +689,7 @@ select:focus-visible {
   position: absolute;
   bottom: 37px;
   left: 52px;
-  font-size: 7px;
+  font-size: 12px;
   letter-spacing: 2px;
   z-index: 2;
   color: #fff9e6aa;
@@ -692,7 +733,7 @@ select:focus-visible {
   color: #b8c1a3;
 }
 .small-copy {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.9;
   color: #879078;
 }
@@ -720,9 +761,7 @@ select:focus-visible {
   left: 20px;
   bottom: -60px;
   line-height: 1;
-  font:
-    450px Georgia,
-    serif;
+  font: 450px var(--game-font);
   color: #cbd0b93d;
   z-index: -1;
 }
@@ -775,9 +814,7 @@ select:focus-visible {
 }
 .relic-data h3 > span {
   display: block;
-  font:
-    italic 20px Georgia,
-    serif;
+  font: 20px var(--game-font);
   letter-spacing: 3px;
   color: #8b977d;
   margin-bottom: 18px;
@@ -785,7 +822,7 @@ select:focus-visible {
 .role-tag {
   border: 1px solid #aab497;
   padding: 6px 13px;
-  font-size: 10px;
+  font-size: 12px;
   display: inline-block;
 }
 .relic-description {
@@ -805,7 +842,7 @@ select:focus-visible {
 }
 .relic-controls i {
   font-style: normal;
-  font-size: 10px;
+  font-size: 12px;
   color: #96a185;
   margin-left: 6px;
 }
@@ -841,9 +878,7 @@ select:focus-visible {
   border-bottom: 2px solid #758967;
 }
 .relic-selector button > span {
-  font:
-    italic 13px Georgia,
-    serif;
+  font: 13px var(--game-font);
   color: #939f83;
 }
 .relic-selector button > span:last-child {
@@ -890,14 +925,12 @@ select:focus-visible {
   position: absolute;
   bottom: 12px;
   left: 17px;
-  font:
-    italic 32px Georgia,
-    serif;
+  font: 32px var(--game-font);
   color: white;
   text-shadow: 0 1px 4px #0005;
 }
 .feature > .eyebrow {
-  font-size: 8px;
+  font-size: 12px;
   color: #8c967d;
   letter-spacing: 1.7px;
 }
@@ -908,7 +941,7 @@ select:focus-visible {
   line-height: 1.7;
 }
 .feature > p:last-child {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 2;
   color: #7e8773;
   word-break: keep-all;
@@ -916,7 +949,7 @@ select:focus-visible {
 .art-disclaimer {
   text-align: right;
   color: #939c87;
-  font-size: 9px;
+  font-size: 12px;
   margin-top: 26px;
   line-height: 1.8;
 }
@@ -935,7 +968,7 @@ select:focus-visible {
 }
 .register-copy > .eyebrow {
   color: #bdc8a7;
-  font-size: 9px;
+  font-size: 12px;
 }
 .register-copy h2 {
   font-size: 35px;
@@ -951,7 +984,7 @@ select:focus-visible {
   margin-top: 17px;
 }
 .register-copy > small {
-  font-size: 9px;
+  font-size: 12px;
   color: #9baa8c;
   display: block;
   margin-top: 55px;
@@ -972,7 +1005,7 @@ fieldset {
 legend,
 .email-label {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   color: #cbd5b8;
   margin-bottom: 12px;
 }
@@ -1021,7 +1054,7 @@ input[type="email"]::placeholder {
   display: flex;
   align-items: start;
   gap: 10px;
-  font-size: 10px;
+  font-size: 12px;
   color: #bac5aa;
   line-height: 1.9;
   margin-top: 17px;
@@ -1035,7 +1068,7 @@ input[type="email"]::placeholder {
   margin-top: 2px;
 }
 .privacy-link {
-  font-size: 10px;
+  font-size: 12px;
   text-decoration: underline;
   text-underline-offset: 4px;
   padding: 0;
@@ -1065,7 +1098,7 @@ input[type="email"]::placeholder {
   clip-path: inset(50%);
 }
 #form-status {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.9;
   margin-top: 12px;
   color: #e9d89b;
@@ -1088,7 +1121,7 @@ footer {
   font-size: 28px;
 }
 .footer-main > p {
-  font-size: 11px;
+  font-size: 12px;
   color: #859077;
 }
 .footer-status {
@@ -1096,7 +1129,7 @@ footer {
   display: flex;
   gap: 10px;
   align-items: center;
-  font-size: 9px;
+  font-size: 12px;
   color: #7b896f;
 }
 .footer-bottom {
@@ -1105,12 +1138,12 @@ footer {
   justify-content: space-between;
   align-items: center;
   margin-top: 22px;
-  font-size: 9px;
+  font-size: 12px;
   color: #89947c;
 }
 .footer-bottom .privacy-link {
   margin-left: auto;
-  font-size: 9px;
+  font-size: 12px;
 }
 .modal-open {
   overflow: hidden;
@@ -1277,7 +1310,7 @@ dialog::backdrop {
     height: 34px;
   }
   .brand small {
-    font-size: 6px;
+    font-size: 12px;
     letter-spacing: 2.4px;
   }
   .desktop-nav {
@@ -1290,14 +1323,14 @@ dialog::backdrop {
     gap: 3px;
   }
   .language select {
-    font-size: 10px;
+    font-size: 12px;
     width: 69px;
   }
   .language > span {
     font-size: 18px;
   }
   .nav-cta {
-    font-size: 10px;
+    font-size: 12px;
     padding: 12px 13px;
     gap: 13px;
   }
@@ -1318,7 +1351,7 @@ dialog::backdrop {
     align-self: start;
   }
   .hero .eyebrow {
-    font-size: 8px;
+    font-size: 12px;
     letter-spacing: 1.5px;
   }
   .hero-english {
@@ -1333,7 +1366,7 @@ dialog::backdrop {
     letter-spacing: -1.5px;
   }
   .hero-intro {
-    font-size: 11px;
+    font-size: 12px;
     margin-top: 13px;
     line-height: 1.9;
   }
@@ -1347,11 +1380,11 @@ dialog::backdrop {
     min-width: 155px;
   }
   .text-link {
-    font-size: 11px;
+    font-size: 12px;
     gap: 15px;
   }
   .release-note {
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 18px;
   }
   .hero-visual {
@@ -1374,7 +1407,7 @@ dialog::backdrop {
   .botanical-label {
     top: 12px;
     right: 0;
-    font-size: 7px;
+    font-size: 12px;
   }
   .character-label {
     left: -15px;
@@ -1386,7 +1419,7 @@ dialog::backdrop {
     font-size: 23px;
   }
   .character-label > span {
-    font-size: 7px;
+    font-size: 12px;
   }
   .character-label i {
     font-size: 23px;
@@ -1395,7 +1428,7 @@ dialog::backdrop {
   .hero-side-note {
     right: -10px;
     top: 42%;
-    font-size: 6px;
+    font-size: 12px;
     letter-spacing: 2px;
   }
   .star-one {
@@ -1412,7 +1445,7 @@ dialog::backdrop {
     bottom: 17px;
     left: 7%;
     right: 7%;
-    font-size: 6px;
+    font-size: 12px;
     letter-spacing: 1.2px;
   }
   .hero-bottom > span:last-child {
@@ -1436,10 +1469,10 @@ dialog::backdrop {
     justify-content: start;
   }
   .ticker p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .ticker > span {
-    font-size: 8px;
+    font-size: 12px;
     letter-spacing: 2px;
   }
   .section {
@@ -1457,14 +1490,14 @@ dialog::backdrop {
     margin-top: 12px;
   }
   .section-heading > .text-link {
-    font-size: 9px;
+    font-size: 12px;
     gap: 8px;
     white-space: nowrap;
     align-self: end;
     padding-bottom: 6px;
   }
   .eyebrow {
-    font-size: 8px;
+    font-size: 12px;
     letter-spacing: 1.7px;
     gap: 9px;
   }
@@ -1475,7 +1508,7 @@ dialog::backdrop {
     gap: 22px;
   }
   .news-tabs button {
-    font-size: 10px;
+    font-size: 12px;
     padding: 11px 1px 14px;
   }
   .empty-news {
@@ -1487,10 +1520,10 @@ dialog::backdrop {
     font-size: 27px;
   }
   .empty-news strong {
-    font-size: 11px;
+    font-size: 12px;
   }
   .empty-news p {
-    font-size: 9px;
+    font-size: 12px;
     margin-top: 8px;
     max-width: 210px;
   }
@@ -1503,12 +1536,12 @@ dialog::backdrop {
     gap: 10px;
   }
   .news-row strong {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.7;
   }
   .news-row time {
     grid-column: 2;
-    font-size: 9px;
+    font-size: 12px;
     grid-row: 2;
   }
   .news-row > span:last-child {
@@ -1516,7 +1549,7 @@ dialog::backdrop {
     grid-row: 1;
   }
   .news-category {
-    font-size: 8px;
+    font-size: 12px;
     padding: 5px 7px;
   }
   .world-section {
@@ -1538,7 +1571,7 @@ dialog::backdrop {
   .world-tag {
     bottom: 55px;
     left: 40px;
-    font-size: 11px;
+    font-size: 12px;
     color: #20382d;
   }
   .world-coordinate {
@@ -1558,7 +1591,7 @@ dialog::backdrop {
     line-height: 2.1;
   }
   .world-note {
-    font-size: 11px;
+    font-size: 12px;
   }
   .world-rule {
     margin: 25px 0;
@@ -1572,7 +1605,7 @@ dialog::backdrop {
     display: block;
   }
   .small-copy {
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 15px;
   }
   .relic-stage {
@@ -1585,11 +1618,11 @@ dialog::backdrop {
     transform: none;
   }
   .relic-data .eyebrow {
-    font-size: 7px;
+    font-size: 12px;
   }
   .relic-origin {
     margin-top: 16px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .relic-data h3 {
     font-size: 35px;
@@ -1599,11 +1632,11 @@ dialog::backdrop {
     margin-bottom: 12px;
   }
   .role-tag {
-    font-size: 9px;
+    font-size: 12px;
     padding: 5px 10px;
   }
   .relic-description {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.9;
     max-width: 65%;
     margin-top: 15px;
@@ -1621,7 +1654,7 @@ dialog::backdrop {
     font-size: 15px;
   }
   .relic-controls > span {
-    font-size: 10px;
+    font-size: 12px;
   }
   .relic-portrait {
     height: 65%;
@@ -1651,7 +1684,7 @@ dialog::backdrop {
     gap: 5px;
   }
   .relic-selector button > span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .relic-selector img {
     width: 40px;
@@ -1659,7 +1692,7 @@ dialog::backdrop {
     margin-top: 15px;
   }
   .relic-selector strong {
-    font-size: 10px;
+    font-size: 12px;
   }
   .relic-selector button > span:last-child {
     display: none;
@@ -1681,15 +1714,15 @@ dialog::backdrop {
     margin: 10px 0;
   }
   .feature > p:last-child {
-    font-size: 11px;
+    font-size: 12px;
     max-width: 340px;
   }
   .feature > .eyebrow {
-    font-size: 8px;
+    font-size: 12px;
   }
   .art-disclaimer {
     text-align: left;
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 23px;
   }
   .register-section {
@@ -1703,12 +1736,12 @@ dialog::backdrop {
     margin-top: 20px;
   }
   .register-copy > p:not(.eyebrow) {
-    font-size: 11px;
+    font-size: 12px;
     margin-top: 14px;
   }
   .register-copy > small {
     margin-top: 20px;
-    font-size: 8px;
+    font-size: 12px;
   }
   .register-flower svg {
     width: 60px;
@@ -1720,7 +1753,7 @@ dialog::backdrop {
     padding-top: 30px;
   }
   .consent {
-    font-size: 10px;
+    font-size: 12px;
   }
   .footer-main {
     flex-wrap: wrap;
@@ -1731,20 +1764,20 @@ dialog::backdrop {
     font-size: 25px;
   }
   .footer-main > p {
-    font-size: 9px;
+    font-size: 12px;
     order: 3;
     width: 100%;
   }
   .footer-status {
-    font-size: 8px;
+    font-size: 12px;
   }
   .footer-bottom {
     gap: 15px;
     flex-wrap: wrap;
-    font-size: 8px;
+    font-size: 12px;
   }
   .footer-bottom .privacy-link {
-    font-size: 8px;
+    font-size: 12px;
   }
   .footer-bottom > span {
     width: 100%;
@@ -1817,7 +1850,7 @@ dialog::backdrop {
   text-decoration: underline;
   text-underline-offset: 4px;
   margin-top: 10px;
-  font-size: 11px;
+  font-size: 12px;
 }
 @media (max-width: 440px) {
   .hero-english {
@@ -1900,5 +1933,826 @@ dialog::backdrop {
   }
   .news-row.has-cover .news-thumb {
     display: none;
+  }
+}
+
+html:lang(ja) {
+  --game-font: "NEXON Kart", "FG Sans JP", "Apple SD Gothic Neo", sans-serif;
+}
+
+.gameplay-section {
+  padding-top: 30px;
+  padding-bottom: 70px;
+}
+.feature-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.feature {
+  min-width: 0;
+}
+.feature .eyebrow {
+  overflow-wrap: anywhere;
+}
+.feature > p:last-child {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.screenshot-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 66px) / 4);
+  gap: 22px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0 2px 18px;
+  scrollbar-color: #a18a5b #e0ddd5;
+  scrollbar-width: thin;
+}
+.screenshot-card {
+  padding: 0;
+  text-align: left;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+.screenshot-image {
+  display: block;
+  aspect-ratio: 9/16;
+  position: relative;
+  overflow: hidden;
+  background: #1a1d21;
+  box-shadow: 5px 6px 0 #24282e1a;
+}
+.screenshot-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+.screenshot-card:hover .screenshot-image > img {
+  transform: scale(1.025);
+}
+.screenshot-enlarge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #24282ee8;
+  color: #d8b978;
+  padding: 4px 13px;
+  font-size: 22px;
+}
+.screenshot-caption {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 15px 0 4px;
+  font-size: 14px;
+}
+.screenshot-caption > span {
+  color: #7c6640;
+  font-size: 12px;
+}
+.screenshot-caption > strong {
+  font-weight: 700;
+}
+.gallery-hint {
+  color: #62646a;
+  font-size: 12px;
+  margin-top: 12px;
+}
+.screenshot-dialog {
+  margin: 0;
+  text-align: center;
+}
+.screenshot-dialog > img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 65svh;
+  margin: 0 auto;
+}
+.screenshot-dialog figcaption {
+  margin-top: 18px;
+  font-size: 16px;
+}
+.screenshot-dialog figcaption p {
+  font-size: 12px;
+  margin-top: 8px;
+  color: #62646a;
+}
+@media (max-width: 760px) {
+  .screenshot-grid {
+    grid-auto-columns: 70%;
+    gap: 18px;
+  }
+  .gameplay-section {
+    padding-top: 0;
+    padding-bottom: 60px;
+  }
+}
+
+/* Game art direction: charcoal hologram panels, warm gold, slanted flat controls.
+   Original airy layouts remain; typography and these values come from the game. */
+:root {
+  --paper: #f2f0ec;
+  --ink: #24282e;
+  --muted: #62646a;
+  --yellow: #d8b978;
+  --line: #d0cec8;
+  color: var(--ink);
+  background: var(--paper);
+}
+html {
+  line-height: 1.65;
+}
+h1,
+h2,
+h3 {
+  font-weight: 800 !important;
+}
+strong,
+legend,
+.email-label,
+.button,
+.nav-cta,
+.news-tabs button,
+.role-tag {
+  font-weight: 700;
+}
+.header {
+  background: var(--game-void);
+  color: var(--game-ink);
+  border-bottom-color: var(--game-edge);
+}
+.brand .brand-logotype {
+  width: 155px;
+  height: auto;
+}
+.desktop-nav {
+  font-size: 16px;
+}
+.desktop-nav a:after {
+  background: var(--game-gold);
+}
+.language select {
+  color: inherit;
+  font-size: 14px;
+  width: 90px;
+}
+.language option {
+  color: var(--game-ink);
+  background: var(--game-panel);
+}
+.nav-cta {
+  background: var(--game-gold);
+  color: var(--game-void);
+  font-size: 15px;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.hero {
+  background:
+    radial-gradient(ellipse at 76% 45%, #424948 0, transparent 58%),
+    var(--game-void);
+  color: var(--game-ink);
+}
+.hero-orbit {
+  border-color: #d8b97820;
+}
+.hero-grain {
+  opacity: 0.08;
+}
+.hero-copy {
+  margin-top: -15px;
+}
+.hero .live-dot {
+  background: var(--game-gold);
+  box-shadow: 0 0 0 4px #d8b97812;
+}
+.hero .eyebrow {
+  color: #d8b978;
+  letter-spacing: 1.3px;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+.hero-logotype {
+  margin: 34px 0 25px;
+  max-width: 430px;
+}
+.hero-logotype img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(3px 5px 0 #0009);
+}
+.hero-logotype span {
+  display: block;
+  text-align: center;
+  color: var(--game-gold);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+.hero h1 {
+  font-size: clamp(30px, 3vw, 44px);
+  color: var(--game-ink);
+  letter-spacing: -0.5px;
+  line-height: 1.45;
+}
+.hero-intro {
+  color: #ceccc7;
+  font-size: 16px;
+  line-height: 1.9;
+}
+.hero-links .text-link {
+  font-size: 15px;
+}
+.hero-links .button-dark {
+  background: var(--game-sortie);
+  color: var(--game-void);
+  font-size: 17px;
+  min-width: 200px;
+  box-shadow: 6px 6px 0 #0003;
+}
+.button,
+.role-tag {
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.button:focus-visible,
+.nav-cta:focus-visible {
+  clip-path: none;
+}
+.hero-links .button-dark:hover {
+  background: #e67a50;
+}
+.release-note {
+  color: #c3b995;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+.release-line {
+  background: #7b7460;
+}
+.hero-window {
+  border-color: #3a404a;
+  outline-color: #d8b97870;
+}
+.hero-window > img {
+  filter: none;
+}
+.hero-side-note,
+.botanical-label {
+  color: #ccc4af;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.hero-side-note {
+  right: -40px;
+}
+.botanical-label {
+  top: 16px;
+  right: 4%;
+}
+.hero-bottom {
+  color: #c2bba8;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.hero-bottom > a {
+  color: var(--game-gold);
+}
+.character-label {
+  background: #24282ef5;
+  color: var(--game-ink);
+  border: 0;
+  border-bottom: 2px solid var(--game-gold);
+  box-shadow: 5px 6px 0 #0005;
+  min-width: 200px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.character-label > span {
+  color: #c6c2b9;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.character-label strong {
+  font-size: 30px;
+  font-weight: 800;
+}
+.character-label i,
+.floating-star {
+  color: var(--game-gold);
+}
+.specimen-circle {
+  border-color: #d8b97855;
+}
+.ticker {
+  background: var(--game-panel);
+  color: var(--game-ink);
+  border-top: 1px solid #d8b97850;
+  border-bottom: 1px solid var(--game-edge);
+}
+.ticker p,
+.ticker > span {
+  font-size: 14px;
+}
+.eyebrow {
+  color: #5d6268;
+  letter-spacing: 1.5px;
+}
+.section-number {
+  color: #746950;
+  border-color: #b1a17b;
+}
+.heading-dot {
+  color: #a27b35;
+}
+.section-heading h2,
+.about-section h2 {
+  font-size: 34px;
+}
+.section-heading > .text-link {
+  font-size: 14px;
+}
+.news-tabs button {
+  font-size: 15px;
+  color: #68676a;
+  min-height: 48px;
+}
+.news-tabs button.active {
+  color: #24282e;
+}
+.news-row {
+  min-height: 88px;
+}
+.news-row strong {
+  font-size: 17px;
+  font-weight: 700;
+}
+.news-row time {
+  color: #626268;
+  font-size: 13px;
+}
+.news-category {
+  color: #785a28;
+  border-color: #b9a57c;
+  font-size: 12px;
+}
+.world-section {
+  background: #e9e7df;
+}
+.world-art:after {
+  background:
+    linear-gradient(90deg, transparent 65%, #e9e7df),
+    linear-gradient(0deg, #1a1d2180, transparent 40%);
+}
+.world-copy .body-copy {
+  font-size: 16px;
+  line-height: 2;
+  color: #555960;
+}
+.world-note {
+  font-size: 15px;
+  color: #55504a;
+}
+.world-rule {
+  background: #ac905c;
+}
+.world-tag {
+  font-size: 15px;
+}
+.world-coordinate {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.small-copy {
+  font-size: 14px;
+  color: #606267;
+}
+.relic-stage {
+  background: var(--game-panel);
+  color: var(--game-ink);
+  clip-path: polygon(16px 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+}
+.relic-stage-grid {
+  background-image:
+    linear-gradient(#d8b9780b 1px, transparent 1px),
+    linear-gradient(90deg, #d8b9780b 1px, transparent 1px);
+}
+.relic-stage .eyebrow {
+  color: var(--game-gold);
+}
+.relic-big-number {
+  color: #d8b9780c;
+  font-weight: 800;
+}
+.relic-halo:after {
+  border-color: #d8b97860;
+}
+.relic-origin {
+  color: #cecbc4;
+  font-size: 15px;
+}
+.relic-data h3 > span {
+  color: var(--game-gold);
+  letter-spacing: 2px;
+}
+.role-tag {
+  color: var(--game-gold);
+  border-color: #d8b97870;
+  font-size: 14px;
+}
+.relic-description {
+  color: #ccc9c4;
+  font-size: 15px;
+  line-height: 1.9;
+}
+.relic-controls button {
+  color: var(--game-ink);
+  border-color: #777363;
+  border-radius: 0;
+}
+.relic-controls button:hover {
+  background: #d8b97833;
+}
+.relic-controls i {
+  color: #c3bcac;
+  font-size: 12px;
+}
+.relic-selector button {
+  border-color: #c0bba9;
+  min-height: 88px;
+}
+.relic-selector button.active {
+  background: #e4dfd1;
+  border-bottom-color: #a78448;
+}
+.relic-selector strong {
+  font-size: 16px;
+}
+.relic-selector button > span {
+  color: #746a54;
+}
+.feature h3 {
+  font-size: 20px;
+}
+.feature > .eyebrow {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #776548;
+}
+.feature > p:last-child {
+  font-size: 15px;
+  color: #5d5e62;
+}
+.art-disclaimer {
+  color: #69676a;
+  font-size: 12px;
+}
+.register-section {
+  background: var(--game-void);
+  color: var(--game-ink);
+}
+.register-copy > .eyebrow {
+  color: var(--game-gold);
+  font-size: 12px;
+}
+.register-copy > p:not(.eyebrow) {
+  color: #ccc9c4;
+  font-size: 16px;
+}
+.register-copy > small {
+  color: #bbb8b0;
+  font-size: 12px;
+}
+.register-flower {
+  opacity: 0.6;
+}
+.register-section legend,
+.email-label {
+  color: #ddd7c9;
+  font-size: 15px;
+}
+.platform-options span {
+  border-color: #767266;
+  color: #d6d2c9;
+  font-size: 15px;
+}
+.platform-options input:checked + span {
+  background: var(--game-gold);
+  color: var(--game-void);
+  border-color: var(--game-gold);
+}
+input[type="email"] {
+  color: var(--game-ink);
+  background: var(--game-panel);
+  border-color: #6f6c63;
+  font-size: 16px;
+}
+input[type="email"]::placeholder {
+  color: #b0ada5;
+}
+.consent {
+  font-size: 13px;
+  color: #d3d0c8;
+}
+.register-section .privacy-link {
+  color: #d0bd94;
+  font-size: 13px;
+}
+.button-yellow {
+  background: var(--game-gold);
+  color: var(--game-void);
+  font-size: 16px;
+}
+.button-yellow:hover {
+  background: #ead09c;
+}
+#form-status {
+  font-size: 14px;
+}
+footer {
+  background: var(--game-panel);
+  color: var(--game-ink);
+}
+.footer-main {
+  border-color: var(--game-edge);
+}
+.footer-main > p,
+.footer-status {
+  color: #c5c0b4;
+  font-size: 13px;
+}
+.footer-bottom,
+.footer-bottom .privacy-link {
+  color: #c5c0b4;
+  font-size: 12px;
+}
+.footer-status .live-dot {
+  background: var(--game-gold);
+}
+.mobile-nav {
+  background: var(--game-panel);
+  color: var(--game-ink);
+  border-color: var(--game-edge);
+}
+@media (max-width: 1050px) {
+  .desktop-nav {
+    gap: 20px;
+    font-size: 14px;
+  }
+  .header {
+    gap: 18px;
+  }
+  .header-actions {
+    gap: 16px;
+  }
+  .brand .brand-logotype {
+    width: 140px;
+  }
+  .relic-description {
+    font-size: 14px;
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    padding-top: 32px;
+    padding-bottom: 56px;
+  }
+  .hero .eyebrow {
+    font-size: 12px;
+  }
+  .hero-copy {
+    margin: 0;
+  }
+  .hero-logotype {
+    max-width: 300px;
+    margin: 25px 0 20px;
+  }
+  .hero-logotype span {
+    font-size: 16px;
+    margin-top: 6px;
+  }
+  .hero h1 {
+    font-size: 29px;
+  }
+  .hero-intro {
+    font-size: 15px;
+  }
+  .hero-links .button {
+    font-size: 16px;
+    min-width: 155px;
+    padding: 17px 20px;
+  }
+  .hero-links .text-link {
+    font-size: 14px;
+    gap: 12px;
+  }
+  .release-note {
+    font-size: 12px;
+    gap: 10px;
+  }
+  .hero-visual {
+    height: 500px;
+    margin-top: 25px;
+    margin-right: 8px;
+    margin-left: 5%;
+  }
+  .hero-window {
+    top: 55px;
+  }
+  .botanical-label {
+    top: 7px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .hero-side-note {
+    font-size: 12px;
+    right: -25px;
+    letter-spacing: 0.5px;
+  }
+  .character-label {
+    min-width: 180px;
+    bottom: 32px;
+  }
+  .character-label strong {
+    font-size: 27px;
+  }
+  .hero-bottom {
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  .hero-bottom > span {
+    display: none;
+  }
+  .hero-bottom > a {
+    margin-left: auto;
+  }
+  .ticker p,
+  .ticker > span {
+    font-size: 12px;
+  }
+  .section-heading {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .section-heading h2,
+  .about-section h2 {
+    font-size: 26px;
+  }
+  .section-heading > .text-link {
+    font-size: 13px;
+  }
+  .news-tabs {
+    gap: 23px;
+  }
+  .news-tabs button {
+    font-size: 14px;
+  }
+  .news-row {
+    grid-template-columns: 76px 1fr 16px;
+    gap: 10px;
+  }
+  .news-row strong {
+    font-size: 15px;
+  }
+  .news-row time {
+    font-size: 12px;
+  }
+  .news-category {
+    font-size: 12px;
+  }
+  .world-copy h2 {
+    font-size: 29px;
+  }
+  .world-copy .body-copy {
+    font-size: 15px;
+  }
+  .world-note {
+    font-size: 14px;
+  }
+  .world-art:after {
+    background: linear-gradient(0deg, #e9e7df, transparent 28%);
+  }
+  .world-tag {
+    color: #24282e;
+    font-size: 14px;
+  }
+  .world-coordinate {
+    color: #44474a;
+    font-size: 12px;
+    left: 25px;
+    letter-spacing: 0.5px;
+  }
+  .small-copy {
+    font-size: 14px;
+  }
+  .relic-stage {
+    height: 770px;
+  }
+  .relic-description {
+    font-size: 14px;
+    max-width: 100%;
+    margin-top: 16px;
+  }
+  .relic-origin {
+    font-size: 14px;
+  }
+  .role-tag {
+    font-size: 13px;
+  }
+  .relic-data h3 {
+    font-size: 38px;
+  }
+  .relic-data h3 > span {
+    font-size: 16px;
+  }
+  .relic-controls {
+    top: 85px;
+    gap: 10px;
+  }
+  .relic-controls > span {
+    font-size: 14px;
+  }
+  .relic-portrait {
+    height: 58%;
+    bottom: -2%;
+  }
+  .relic-selector button {
+    height: 88px;
+    padding: 0 7px;
+    gap: 7px;
+  }
+  .relic-selector img {
+    width: 40px;
+  }
+  .relic-selector strong {
+    font-size: 14px;
+  }
+  .relic-selector button > span {
+    font-size: 12px;
+  }
+  .feature > .eyebrow {
+    font-size: 12px;
+  }
+  .feature h3 {
+    font-size: 19px;
+  }
+  .feature > p:last-child {
+    font-size: 15px;
+  }
+  .art-disclaimer {
+    font-size: 12px;
+  }
+  .register-copy > p:not(.eyebrow) {
+    font-size: 15px;
+  }
+  .register-copy > small {
+    font-size: 12px;
+  }
+  .footer-main > p,
+  .footer-status {
+    font-size: 12px;
+  }
+  .footer-bottom,
+  .footer-bottom .privacy-link {
+    font-size: 12px;
+  }
+  .footer-bottom {
+    gap: 18px;
+  }
+}
+@media (max-width: 440px) {
+  .brand .brand-logotype {
+    width: 112px;
+  }
+  .header-actions {
+    gap: 9px;
+  }
+  .language select {
+    width: 66px;
+    font-size: 12px;
+  }
+  .nav-cta {
+    font-size: 12px;
+    padding: 12px 10px;
+  }
+  .hero h1 {
+    font-size: 27px;
+  }
+  .relic-selector {
+    gap: 5px;
+  }
+  .relic-selector img {
+    width: 33px;
+  }
+  .relic-selector strong {
+    font-size: 12px;
+  }
+  .relic-selector button {
+    gap: 5px;
   }
 }
