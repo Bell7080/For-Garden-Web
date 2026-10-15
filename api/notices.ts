@@ -4,8 +4,8 @@ import {
   reply,
   type Request,
   type Response,
-} from "../server/http";
-import { seedNotices } from "../server/seed-notices";
+} from "../server/http.js";
+import { seedNotices } from "../server/seed-notices.js";
 import { languageIds } from "../shared/languages.js";
 import { availableTranslation } from "../shared/notice-translation.js";
 export default async function handler(req: Request, res: Response) {

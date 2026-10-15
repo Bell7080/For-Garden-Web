@@ -3,7 +3,7 @@ import {
   reply,
   type Request,
   type Response,
-} from "../server/http";
+} from "../server/http.js";
 export default function handler(req: Request, res: Response) {
   if (req.method !== "GET")
     return reply(res, 405, { error: "method_not_allowed" });

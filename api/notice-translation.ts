@@ -4,7 +4,7 @@ import {
   reply,
   type Request,
   type Response,
-} from "../server/http";
+} from "../server/http.js";
 import { languageIds } from "../shared/languages.js";
 import { ensureTranslation } from "../shared/notice-translation.js";
 export const config = { maxDuration: 60 };

@@ -5,7 +5,7 @@ import {
   reply,
   type Request,
   type Response,
-} from "../server/http";
+} from "../server/http.js";
 export default async function handler(req: Request, res: Response) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
