@@ -42,19 +42,17 @@ try {
  import notices from './api/notices.js';
  import site from './api/site.js';
  import preregister from './api/preregister.js';
- import translate from './api/notice-translation.js';
  delete process.env.SUPABASE_URL;
  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
  function response(){let status,body;const res={setHeader(){},status(code){status=code;return res;},json(value){body=value;}};return {res,result:()=>({status,body})};}
  const settings=response();await site({method:'GET',headers:{}},settings.res);assert.equal(settings.result().status,200);
  const news=response();await notices({method:'GET',headers:{},url:'/api/notices?lang=ko'},news.res);assert.equal(news.result().status,200);assert(news.result().body.notices.length>0);
  const signup=response();await preregister({method:'GET',headers:{}},signup.res);assert.equal(signup.result().status,405);
- const translation=response();await translate({method:'GET',headers:{},url:'/api/notice-translation?slug=test&lang=ko'},translation.res);assert.equal(translation.result().status,503);
  // Also exercise the configured DB path without allowing a network request.
  process.env.SUPABASE_URL='https://project.supabase.co';process.env.SUPABASE_SERVICE_ROLE_KEY='runtime-test-only';
  globalThis.fetch=async()=>Response.json([{slug:'published',category:'notice',published_at:'2026-10-16T00:00:00Z',website_notice_translations:[{locale:'ko',title:'게시된 공지',summary:'',body:'본문'}]}]);
  const published=response();await notices({method:'GET',headers:{},url:'/api/notices?lang=ko'},published.res);assert.equal(published.result().status,200);assert.equal(published.result().body.notices[0].title,'게시된 공지');
- console.log('PASS: all 4 API modules load in native Node ESM; site/editorial news/published DB news and API guards execute');
+ console.log('PASS: all 3 API modules load in native Node ESM; site/editorial news/published DB news and API guards execute');
  `,
   );
   process.stdout.write(

@@ -14,19 +14,7 @@
   font-size: 12px;
   min-height: 38px;
 }
-.news-language {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 18px 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-.news-language .fg-select {
-  min-width: 180px;
-}
-.translation-note {
+.notice-source-note {
   font-size: 12px;
   line-height: 1.7;
   color: var(--muted);
@@ -257,10 +245,6 @@
   .theme-control .fg-select-trigger {
     padding: 8px;
     font-size: 12px;
-  }
-  .news-language {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }
 .news-language > label {

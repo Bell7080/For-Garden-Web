@@ -26,10 +26,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "api/notice-translation.ts": {
-      "maxDuration": 60
-    }
-  }
+  ]
 }
