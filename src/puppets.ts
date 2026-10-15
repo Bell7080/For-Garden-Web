@@ -1,5 +1,6 @@
 import { Puppet, type PuppetProject, type PuppetTexture } from "puppetforge";
 import bounds from "./puppet-bounds.json";
+import { createHitMotion } from "./puppet-motion";
 
 type Character = keyof typeof bounds;
 const definitions = new Map<
@@ -33,10 +34,22 @@ async function surface(
   const puppet = Puppet.fromProject(source.project, source.texture);
   if (!puppet.mesh || !puppet.texture || !puppet.play("idle"))
     throw Error("Idle puppet unavailable");
+  const motion = createHitMotion(puppet);
+  const interactive = !!puppet.project.animations.hit;
+  const events = new AbortController();
   const canvas = document.createElement("canvas");
   canvas.className = `${image.className} puppet-canvas`;
-  canvas.setAttribute("role", "img");
-  canvas.setAttribute("aria-label", image.alt);
+  canvas.setAttribute("role", interactive ? "button" : "img");
+  const action = {
+    ko: "눌러서 반응 보기",
+    en: "Play reaction",
+    ja: "押してリアクション",
+  };
+  const locale = document.documentElement.lang as keyof typeof action;
+  canvas.setAttribute(
+    "aria-label",
+    interactive ? `${image.alt} — ${action[locale] ?? action.en}` : image.alt,
+  );
   canvas.dataset.motion = "idle";
   canvas.style.animation = "none";
   canvas.style.visibility = "hidden";
@@ -68,11 +81,13 @@ async function surface(
     canvas.style.visibility = animated ? "visible" : "hidden";
     image.style.visibility = animated ? "hidden" : "";
     canvas.setAttribute("aria-hidden", String(!animated));
+    canvas.tabIndex = animated && interactive ? 0 : -1;
   };
   const dispose = () => {
     if (disposed) return;
     show(false);
     disposed = true;
+    events.abort();
     resizeObserver?.disconnect();
     canvas.remove();
     buffers.forEach((b) => gl.deleteBuffer(b));
@@ -188,9 +203,58 @@ async function surface(
     resize();
     resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(image);
+    const hit = () => {
+      if (
+        disposed || contextFailed || document.hidden ||
+        document.body.classList.contains("modal-open") ||
+        matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        canvas.style.visibility !== "visible"
+      ) return;
+      if (motion.hit()) canvas.dataset.motion = "hit";
+    };
+    if (interactive) {
+      // Leave native touch scrolling intact; a drag is not a character tap.
+      let press: { id: number; x: number; y: number; moved: boolean } | null = null;
+      const options = { signal: events.signal };
+      canvas.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || event.button !== 0) return;
+        press = {
+          id: event.pointerId,
+          x: event.clientX,
+          y: event.clientY,
+          moved: false,
+        };
+      }, options);
+      canvas.addEventListener("pointermove", (event) => {
+        if (
+          press?.id === event.pointerId &&
+          Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8
+        ) press.moved = true;
+      }, options);
+      canvas.addEventListener("pointercancel", () => { press = null; }, options);
+      canvas.addEventListener("pointerleave", () => { press = null; }, options);
+      canvas.addEventListener("pointerup", (event) => {
+        const tap = press;
+        press = null;
+        if (
+          tap?.id === event.pointerId && !tap.moved &&
+          Math.hypot(event.clientX - tap.x, event.clientY - tap.y) <= 8
+        ) hit();
+      }, options);
+      canvas.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        if (!event.repeat) hit();
+      }, options);
+      // Assistive technology can invoke a button through a synthesized click.
+      canvas.addEventListener("click", (event) => { if (event.detail === 0) hit(); }, options);
+    }
     const draw = (dt: number) => {
       if (disposed || contextFailed || gl.isContextLost()) return;
       const vertices = puppet.update(dt);
+      motion.advance(dt);
+      const playing = puppet.playing ?? "idle";
+      if (canvas.dataset.motion !== playing) canvas.dataset.motion = playing;
       gl.bindBuffer(gl.ARRAY_BUFFER, positions);
       if (vertices) gl.bufferSubData(gl.ARRAY_BUFFER, 0, vertices);
       gl.clearColor(0, 0, 0, 0);
@@ -244,7 +308,12 @@ export function mountPuppets(root: ParentNode = document): () => void {
     entries.some((e) => e.visible && e.surface?.healthy());
   function tick(now: number) {
     frame = 0;
-    if (!eligible()) return;
+    if (!eligible()) {
+      // Some browsers update matches before delivering the media change event.
+      // Switch to static art before stopping the last scheduled frame as well.
+      if (reduced.matches) entries.forEach((e) => e.surface?.show(false));
+      return;
+    }
     if (now - last >= 1000 / 30) {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;

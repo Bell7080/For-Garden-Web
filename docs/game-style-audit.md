@@ -35,3 +35,7 @@
 | `fg-jp-500.woff2`           | `bf1f114a5fc5baf6431d7c9935d0e1da8e338e206cb822030038be05fd74f134` |
 | `fg-jp-700.woff2`           | `2c1868d57d4b49c398ab8146fae081df233a316e2b482c0a0f9edddad73803b1` |
 | `fg-jp-800.woff2`           | `ecd37a7680f29e76c35fe516553d861e11dc4aad819718e03ec2969041024ade` |
+
+## 캐릭터 누르기 반응
+
+게임 `src/puppets/assets.ts`의 `enableHitOnClick`, `MOTION.hit`, `playMotion`을 참조했습니다. 홈페이지 메인과 렐릭 소개에서 원본 hit 클립을 속도 2.2·강도 0.4로 재생하며, 각 ZIP의 duration / 2.2 뒤 idle로 복귀합니다. 현재 세 ZIP은 hit 길이가 0.5초이므로 약 227ms입니다. 같은 우선순위의 hit는 연타로 끊지 않으며, 화면 밖·비활성 탭에서는 모션과 복귀 카운트가 함께 멈춥니다. 별도 wall-clock 타이머를 만들지 않습니다. 클릭·탭·Enter/Space를 지원하고, 드래그·터치 스크롤은 반응에서 제외합니다. 동작 줄이기와 WebGL 실패 시 정적 원화를 유지합니다.

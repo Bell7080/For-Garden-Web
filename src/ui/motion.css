@@ -20,6 +20,15 @@
 .puppet-canvas {
   pointer-events: none;
 }
+.puppet-canvas[role="button"] {
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.puppet-canvas[role="button"]:focus-visible {
+  outline: 2px solid #d8b978;
+  outline-offset: 4px;
+}
 .scroll-progress {
   position: fixed;
   left: 0;
