@@ -1,8 +1,13 @@
 import "./style.css";
+import "./ui/controls.css";
+import "./ui/motion.css";
+import { mountFeedback } from "./ui/feedback";
+import { mountScrollEffects } from "./ui/scroll";
+import { icon } from "./ui/icons";
+import { languagePicker, bindLanguagePicker } from "./ui/language-picker";
 import { copy, locales, relics, type Locale } from "./content";
 
-const leaf =
-  '<svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><path d="M20 40V19M20 29C3 29 4 9 4 9s18-1 16 20m0-10C20 5 36 4 36 4s4 17-16 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const emblem = icon("emblem", "archive-emblem");
 const gameScreens = [
   "title",
   "lobby",
@@ -59,7 +64,7 @@ const screenCopy = {
     hint: "横にスクロールして、ほかの画面をご覧ください。",
   },
 };
-const arrow = '<span aria-hidden="true">↗</span>';
+const arrow = `<span class="arrow-icon">${icon("arrow")}</span>`;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 function storedLocale(): Locale {
   try {
@@ -99,7 +104,15 @@ const escape = (s: string) =>
       ]!,
   );
 const lines = (values: readonly string[]) => values.map(escape).join("<br>");
+let cleanupLanguagePicker = () => {};
+let cleanupPuppets = () => {};
+let cleanupScroll = () => {};
+let renderVersion = 0;
 function render() {
+  cleanupLanguagePicker();
+  cleanupScroll();
+  cleanupPuppets();
+  renderVersion += 1;
   const t = copy[lang];
   document.documentElement.lang = lang;
   document.title = t.title;
@@ -107,24 +120,25 @@ function render() {
  <a class="skip-link" href="#main">${lang === "ko" ? "본문 바로가기" : lang === "ja" ? "本文へ" : "Skip to content"}</a>
  <header class="header"><a class="brand" href="#home" aria-label="For Garden"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a>
  <nav class="desktop-nav" aria-label="${lang === "ko" ? "주 메뉴" : "Main navigation"}">${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
- <div class="header-actions"><label class="language"><span aria-hidden="true">◎</span><select aria-label="Language">${locales.map((x) => `<option value="${x}" ${x === lang ? "selected" : ""}>${{ ko: "한국어", en: "English", ja: "日本語" }[x]}</option>`).join("")}</select></label><a class="nav-cta" href="#register">${t.reserve} ${arrow}</a><button class="menu-button" aria-label="${lang === "ko" ? "메뉴 열기" : "Toggle menu"}" aria-expanded="false">☰</button></div></header>
+ <div class="header-actions">${languagePicker(lang)}<a class="nav-cta" href="#register">${t.reserve} ${arrow}</a><button class="menu-button" aria-label="${lang === "ko" ? "메뉴 열기" : "Toggle menu"}" aria-expanded="false">${icon("menu")}</button></div></header>
  <nav class="mobile-nav" hidden>${t.nav.map((x, i) => `<a href="#${["news", "world", "relics", "about"][i]}">${x}</a>`).join("")}</nav>
- <main id="main"><section id="home" class="hero"><div class="hero-grain"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
- <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><div class="hero-logotype"><img src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392" fetchpriority="high"/><span>ETERNAL CITY</span></div><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}<span aria-hidden="true">↓</span></a></div><div class="release-note"><span class="tiny-star">✳</span>${t.release}<span class="release-line"></span>Android · iOS</div></div>
- <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>✳</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">✧</span><span class="floating-star star-two">✳</span></div>
- <div class="hero-bottom"><span>01 — THE BEGINNING</span><a href="#news">${t.scroll} <span aria-hidden="true">↓</span></a><span>EST. ETERNAL CITY</span></div></section>
- <div class="ticker"><span>✳</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>✳</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
+ <main id="main"><section id="home" class="hero"><div class="ambient-dots" aria-hidden="true"></div><div class="hero-grain"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+ <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span>${t.soon}</p><div class="hero-logotype"><img src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392" fetchpriority="high"/><span>ETERNAL CITY</span></div><h1>${lines(t.hero)}</h1><p class="hero-intro">${escape(t.intro).replace("\n", "<br>")}</p><div class="hero-links"><a href="#register" class="button button-dark">${t.reserve} ${arrow}</a><a href="#world" class="text-link">${t.explore}${icon("down")}</a></div><div class="release-note"><span class="tiny-star">${icon("star")}</span>${t.release}<span class="release-line"></span>Android · iOS</div></div>
+ <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" data-puppet="torika" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>${icon("emblem")}</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">${icon("star")}</span><span class="floating-star star-two">${icon("star")}</span></div>
+ <div class="hero-bottom"><span>01 — THE BEGINNING</span><a href="#news">${t.scroll} ${icon("down")}</a><span>EST. ETERNAL CITY</span></div></section>
+ <div class="ticker"><span>${icon("star")}</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>${icon("star")}</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
  <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-tabs" role="group" aria-label="${t.news}">${t.tabs.map((x, i) => `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`).join("")}</div><div id="news-list" aria-live="polite"></div></section>
- <section id="world" class="world-section"><div class="world-art"><img src="/assets/city.webp" alt="${t.worldTag}" loading="lazy" width="844" height="1500"/><div class="world-image-frame"></div><span class="world-tag">${t.worldTag}</span><span class="world-coordinate">35° 41′ N &nbsp; / &nbsp; GARDEN ARCHIVE</span></div><div class="world-copy"><p class="eyebrow">${t.worldLabel} <span class="section-number">02</span></p><h2>${lines(t.worldTitle)}</h2><p class="body-copy">${t.worldBody}</p><div class="world-rule"></div><p class="world-note">${escape(t.worldNote).replace("\n", "<br>")}</p>${leaf}</div></section>
+ <section id="world" class="world-section"><div class="world-art"><img src="/assets/city.webp" alt="${t.worldTag}" loading="lazy" width="844" height="1500"/><div class="world-image-frame"></div><span class="world-tag">${t.worldTag}</span><span class="world-coordinate">35° 41′ N &nbsp; / &nbsp; GARDEN ARCHIVE</span></div><div class="world-copy"><p class="eyebrow">${t.worldLabel} <span class="section-number">02</span></p><h2>${lines(t.worldTitle)}</h2><p class="body-copy">${t.worldBody}</p><div class="world-rule"></div><p class="world-note">${escape(t.worldNote).replace("\n", "<br>")}</p>${emblem}</div></section>
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div></section>
- <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">↗</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
+ <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
  <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">05</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
- <section id="register" class="register-section"><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p><div class="register-flower">${leaf}</div><small>${t.noPromise}</small></div><form id="register-form"><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><button type="button" class="privacy-link">${t.privacy} ↗</button><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
- </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><button class="privacy-link">${t.privacy}</button><a href="#home">${t.top} ↑</a></div></footer>
- <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">×</button><div class="dialog-content"></div></dialog>`;
+ <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p><div class="register-flower">${emblem}</div><small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><button type="button" class="privacy-link">${t.privacy} ${arrow}</button><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
+ </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><button class="privacy-link">${t.privacy}</button><a href="#home">${t.top} ${icon("up")}</a></div></footer>
+ <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">${icon("close")}</button><div class="dialog-content"></div></dialog>`;
   renderNews();
   renderRelic();
   bind();
+  cleanupScroll = mountScrollEffects();
 }
 function renderNews() {
   const t = copy[lang];
@@ -138,15 +152,15 @@ function renderNews() {
     newsState === "loading"
       ? `<p class="empty-news">${t.loading}</p>`
       : newsState === "error"
-        ? `<div class="news-error">${{ ko: "소식을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", en: "News is temporarily unavailable. Please try again.", ja: "お知らせを読み込めませんでした。もう一度お試しください。" }[lang]}<button class="retry-news">${{ ko: "다시 불러오기", en: "Try again", ja: "再読み込み" }[lang]} ↻</button></div>`
+        ? `<div class="news-error">${{ ko: "소식을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", en: "News is temporarily unavailable. Please try again.", ja: "お知らせを読み込めませんでした。もう一度お試しください。" }[lang]}<button class="retry-news">${{ ko: "다시 불러오기", en: "Try again", ja: "再読み込み" }[lang]} ${icon("retry")}</button></div>`
         : shown.length
           ? shown
               .map(
                 (n) =>
-                  `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? "★ " : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
+                  `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? icon("pin") : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong>${escape(n.title)}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
               )
               .join("")
-          : `<div class="empty-news"><span class="empty-flower">✳</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
+          : `<div class="empty-news"><span class="empty-flower">${icon("star")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
   el.querySelector<HTMLButtonElement>(".retry-news")?.addEventListener(
     "click",
     () => void loadNews(),
@@ -156,10 +170,11 @@ function renderNews() {
   );
 }
 function renderRelic() {
+  cleanupPuppets();
   const r = relics[selected];
   const t = copy[lang];
   document.querySelector("#relic-display")!.innerHTML =
-    `<div class="relic-stage" style="--relic-color:${r.color}"><div class="relic-stage-grid"></div><span class="relic-big-number">0${selected + 1}</span><div class="relic-halo"></div><img class="relic-portrait" src="/assets/${r.id}.webp" alt="${r.name[lang]}" loading="lazy" width="750" height="1100"/><div class="relic-data"><p class="eyebrow">${t.record} / NO.${r.number}</p><span class="relic-origin">${r.origin[lang]}</span><h3>${r.name[lang]}<span>${r.id === "rex" ? "REXIA" : r.id.toUpperCase()}</span></h3><span class="role-tag">${r.role[lang]}</span><p class="relic-description">${r.description[lang]}</p><div class="relic-controls"><button class="relic-prev" aria-label="${t.previous}">←</button><span>0${selected + 1}<i>/ 03</i></span><button class="relic-next" aria-label="${t.next}">→</button></div></div></div><div class="relic-selector" role="group" aria-label="${t.relicTitle}">${relics.map((x, i) => `<button data-relic="${i}" aria-pressed="${i === selected}" class="${i === selected ? "active" : ""}"><span>0${i + 1}</span><img src="/assets/${x.id}.webp" alt="" loading="lazy"/><strong>${x.name[lang]}</strong><span>${arrow}</span></button>`).join("")}</div>`;
+    `<div class="relic-stage" style="--relic-color:${r.color}"><div class="relic-stage-grid"></div><span class="relic-big-number">0${selected + 1}</span><div class="relic-halo"></div><img class="relic-portrait" data-puppet="${r.id}" src="/assets/${r.id}.webp" alt="${r.name[lang]}" loading="lazy" width="750" height="1100"/><div class="relic-data"><p class="eyebrow">${t.record} / NO.${r.number}</p><span class="relic-origin">${r.origin[lang]}</span><h3>${r.name[lang]}<span>${r.id === "rex" ? "REXIA" : r.id.toUpperCase()}</span></h3><span class="role-tag">${r.role[lang]}</span><p class="relic-description">${r.description[lang]}</p><div class="relic-controls"><button class="relic-prev" aria-label="${t.previous}">${icon("left")}</button><span>0${selected + 1}<i>/ 03</i></span><button class="relic-next" aria-label="${t.next}">${icon("right")}</button></div></div></div><div class="relic-selector" role="group" aria-label="${t.relicTitle}">${relics.map((x, i) => `<button data-relic="${i}" aria-pressed="${i === selected}" class="${i === selected ? "active" : ""}"><span>0${i + 1}</span><img src="/assets/${x.id}.webp" alt="" loading="lazy"/><strong>${x.name[lang]}</strong><span>${arrow}</span></button>`).join("")}</div>`;
   document.querySelectorAll<HTMLButtonElement>("[data-relic]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -178,12 +193,22 @@ function renderRelic() {
     selected = (selected + 1) % 3;
     renderRelic();
   };
+  const current = renderVersion;
+  void import("./puppets")
+    .then(({ mountPuppets }) => {
+      if (current === renderVersion) {
+        cleanupPuppets();
+        cleanupPuppets = mountPuppets();
+      }
+    })
+    .catch(() => {});
 }
 function openDialog(html: string) {
   const dialog = document.querySelector<HTMLDialogElement>("dialog")!;
   dialog.querySelector(".dialog-content")!.innerHTML = html;
   dialog.showModal();
   document.body.classList.add("modal-open");
+  document.dispatchEvent(new Event("garden:modal-change"));
 }
 // 이미지는 https 주소만 허용한다(공지 본문의 `![설명](https://…)` 한 줄 = 그림 한 장).
 const safeImage = (u: string) => /^https:\/\/[^\s"'<>]+$/.test(u);
@@ -192,7 +217,8 @@ function renderNoticeBody(body: string) {
     .split("\n\n")
     .map((block) => {
       const m = /^!\[([^\]]*)\]\((https:\/\/[^\s)"'<>]+)\)$/.exec(block.trim());
-      if (m) return `<figure><img src="${escape(m[2])}" alt="${escape(m[1])}" loading="lazy"/></figure>`;
+      if (m)
+        return `<figure><img src="${escape(m[2])}" alt="${escape(m[1])}" loading="lazy"/></figure>`;
       return `<p>${escape(block).replaceAll("\n", "<br>")}</p>`;
     })
     .join("");
@@ -208,8 +234,7 @@ function openNotice(slug: string) {
   );
 }
 function bind() {
-  document.querySelector("select")!.onchange = (e) => {
-    const next = (e.target as HTMLSelectElement).value as Locale;
+  cleanupLanguagePicker = bindLanguagePicker(lang, (next) => {
     lang = next;
     try {
       localStorage.setItem("fg-language", lang);
@@ -219,7 +244,7 @@ function bind() {
     history.replaceState(null, "", url);
     render();
     loadNews();
-  };
+  });
   document.querySelectorAll<HTMLButtonElement>("[data-category]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -243,14 +268,30 @@ function bind() {
   };
   const menu = document.querySelector<HTMLButtonElement>(".menu-button")!;
   const nav = document.querySelector<HTMLElement>(".mobile-nav")!;
+  const closeNav = () => {
+    nav.hidden = true;
+    menu.innerHTML = icon("menu");
+    menu.setAttribute("aria-expanded", "false");
+  };
+  document
+    .querySelector(".language-trigger")!
+    .addEventListener("focus", closeNav);
+  nav.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeNav();
+      menu.focus({ preventScroll: true });
+    }
+  });
   menu.onclick = () => {
     nav.hidden = !nav.hidden;
+    menu.innerHTML = icon(nav.hidden ? "menu" : "close");
     menu.setAttribute("aria-expanded", String(!nav.hidden));
   };
   nav.querySelectorAll("a").forEach(
     (a) =>
       (a.onclick = () => {
         nav.hidden = true;
+        menu.innerHTML = icon("menu");
         menu.setAttribute("aria-expanded", "false");
       }),
   );
@@ -280,6 +321,7 @@ function bind() {
   });
   dialog.addEventListener("close", () => {
     document.body.classList.remove("modal-open");
+    document.dispatchEvent(new Event("garden:modal-change"));
     const url = new URL(location.href);
     url.searchParams.delete("notice");
     history.replaceState(null, "", url);
@@ -333,10 +375,22 @@ async function submit(e: SubmitEvent) {
   e.preventDefault();
   const t = copy[lang];
   const form = e.target as HTMLFormElement;
-  if (!form.reportValidity()) return;
   const data = new FormData(form);
   const button = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
   const status = document.querySelector<HTMLElement>("#form-status")!;
+  const inputs = [...form.querySelectorAll<HTMLInputElement>("input")];
+  inputs.forEach((input) =>
+    input.setAttribute("aria-invalid", String(!input.validity.valid)),
+  );
+  if (!form.checkValidity()) {
+    status.textContent = t.invalid;
+    status.dataset.state = "error";
+    inputs
+      .find((input) => !input.validity.valid)
+      ?.focus({ preventScroll: true });
+    return;
+  }
+
   button.disabled = true;
   button.textContent = t.submitting;
   status.textContent = "";
@@ -376,6 +430,7 @@ async function submit(e: SubmitEvent) {
     button.innerHTML = `${t.submit} ${arrow}`;
   }
 }
+mountFeedback();
 render();
 void loadNews();
 void fetch("/api/site", { signal: AbortSignal.timeout(10000) })

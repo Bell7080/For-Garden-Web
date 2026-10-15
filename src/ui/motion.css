@@ -1,0 +1,115 @@
+.ambient-dots {
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #d8b978 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  opacity: 0.12;
+  mask-image: linear-gradient(110deg, transparent 15%, #000 85%);
+  animation: ambient-drift 18s linear infinite;
+  z-index: 0;
+}
+.register-section > .ambient-dots {
+  opacity: 0.075;
+}
+.register-section > .register-copy,
+.register-section > form {
+  position: relative;
+  z-index: 1;
+}
+.puppet-canvas {
+  pointer-events: none;
+}
+.scroll-progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: #d8b978;
+  z-index: 90;
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.reveal-pending {
+  opacity: 0;
+}
+.click-effects {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+.click-spark {
+  position: fixed;
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  color: #d8b978;
+  pointer-events: none;
+  z-index: 100;
+  animation: spark-out 480ms ease-out both;
+}
+.click-spark > .game-icon {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
+}
+.click-spark > i {
+  position: absolute;
+  left: 17px;
+  top: 0;
+  width: 2px;
+  height: 6px;
+  background: #d8b978;
+  transform-origin: 1px 18px;
+}
+.click-spark > i:nth-of-type(2) {
+  transform: rotate(90deg);
+}
+.click-spark > i:nth-of-type(3) {
+  transform: rotate(180deg);
+}
+.click-spark > i:nth-of-type(4) {
+  transform: rotate(270deg);
+}
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(24px, -24px, 0);
+  }
+}
+@keyframes spark-out {
+  0% {
+    opacity: 0.9;
+    scale: 0.45;
+  }
+  65% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.3;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-dots {
+    animation: none;
+  }
+  .click-spark {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .ambient-dots,
+  .click-effects {
+    display: none;
+  }
+}

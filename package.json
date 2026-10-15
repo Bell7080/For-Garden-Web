@@ -15,5 +15,8 @@
     "typescript": "~5.9.2",
     "vite": "^7.1.3",
     "vitest": "^3.2.7"
+  },
+  "dependencies": {
+    "puppetforge": "github:Bell7080/WebGLE#b5af06a3bcac73b8d639e7e760812d13ee19e475"
   }
 }
