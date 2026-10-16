@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import support from "../api/support";
 import preregister from "../api/preregister";
 import notices from "../api/notices";
 import type { Request, Response } from "../server/http";
@@ -176,5 +177,61 @@ describe("announcements API", () => {
     await notices({ method: "GET", headers: {}, url: "/api/notices" }, r.res);
     expect(r.result().status).toBe(503);
     expect(r.result().body).not.toHaveProperty("notices");
+  });
+});
+
+describe("support intake API", () => {
+  const ticket = {
+    email: "player@example.com",
+    category: "bug",
+    subject: "화면이 멈춰요",
+    body: "전투 중 멈춥니다.",
+    consent: true,
+  };
+  it("rejects non-POST, bad origin and invalid input", async () => {
+    let r = response();
+    await support({ ...request(ticket), method: "GET" }, r.res);
+    expect(r.result().status).toBe(405);
+    r = response();
+    const bad = request(ticket);
+    bad.headers.origin = "https://evil.test";
+    await support(bad, r.res);
+    expect(r.result().status).toBe(403);
+    r = response();
+    await support(request({ ...ticket, category: "x" }), r.res);
+    expect(r.result().status).toBe(400);
+    r = response();
+    await support(request({ ...ticket, consent: false }), r.res);
+    expect(r.result().status).toBe(400);
+  });
+  it("silently drops honeypot hits without touching the database", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const r = response();
+    await support(request({ ...ticket, website: "http://spam" }), r.res);
+    expect(r.result().status).toBe(200);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  it("sends a hashed IP (never the raw one) and maps results", async () => {
+    configure();
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ ok: true, ticket_no: 7 })),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const r = response();
+    await support(request(ticket), r.res);
+    expect(r.result().body).toEqual({ ok: true, ticket_no: 7 });
+    const sent = JSON.parse((fetchMock.mock.calls[0] as any)[1].body);
+    expect(sent.p_ip_hash).toMatch(/^[0-9a-f]{64}$/);
+    expect(JSON.stringify(sent)).not.toContain("192.0.2.10");
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ ok: false, error: "rate_limited" }))));
+    const limited = response();
+    await support(request(ticket), limited.res);
+    expect(limited.result().status).toBe(429);
+  });
+  it("reports unavailable when the database is not configured", async () => {
+    const r = response();
+    await support(request(ticket), r.res);
+    expect(r.result().status).toBe(503);
   });
 });
