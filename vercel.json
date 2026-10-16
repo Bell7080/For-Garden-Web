@@ -16,7 +16,11 @@
       "handle": "filesystem"
     },
     {
-      "src": "/(legal|terms|privacy|probabilities)/?",
+      "src": "/about/(en|ja)/?",
+      "dest": "/about/$1/index.html"
+    },
+    {
+      "src": "/(about|legal|terms|privacy|probabilities)/?",
       "dest": "/$1/index.html"
     },
     {

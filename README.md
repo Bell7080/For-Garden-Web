@@ -55,3 +55,9 @@ Vercel에 `.env.example`의 서버 환경 변수를 입력하세요. 서비스 �
 ## 입체 패턴 배경
 
 `src/ui/depth.css`의 얇은 격자·점·겹친 패널을 페이지와 메인·세계관·사전예약에 배치합니다. 기존 스크롤 처리기의 단일 requestAnimationFrame에서 transform만 다른 깊이로 갱신하며 레이아웃을 매 프레임 읽거나 계속 재생하는 루프를 만들지 않습니다. 숨겨진 탭·화면 밖 구역·모달에서 배경 갱신을 멈추고 모션 감소에서는 정적 패턴, 강제 색상에서는 배경을 숨깁니다. 모바일에서는 패턴 대비와 패널 수를 줄였습니다.
+
+## 프로젝트 소개와 하단 메뉴
+
+`/about`·`/about/en`·`/about/ja`는 1인 개발 프로젝트 소개 페이지다. 개인 프로필 대신 게임 원화·SD, 개발 방향과 소식·문의 링크를 배치한다. 원고는 `content/project.json`, 생성기는 `scripts/generate-about.mjs`다. `npm run generate:pages`가 정책 및 소개 페이지를 함께 생성하며 dev/test/build에서 자동 실행된다.
+
+홈페이지·정책·소개 페이지의 하단 메뉴는 `shared/site-footer.js`와 `public/ui/footer.css`를 공유한다. UI 화살표는 기존 `src/ui/icons.ts`를 빌드 시 읽어 동일한 SVG를 사용한다. 테마는 기존 `fg-theme`, 언어는 `fg-language` 설정을 공유한다. 운영명은 재검토 중이며 과거 후보 EnterGames를 현재 운영명으로 표시하지 않는다.

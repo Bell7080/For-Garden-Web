@@ -1,0 +1,158 @@
+{
+  "ko": {
+    "title": "프로젝트 소개",
+    "headline": [
+      "작은 손에서,",
+      "자라나는 정원."
+    ],
+    "intro": "멸종한 생명에게 다시 한 번의 내일을. For Garden은 렐릭들의 이야기와 함께 자라나는 1인 개발 수집형 RPG입니다.",
+    "home": "정원으로 돌아가기",
+    "language": "페이지 언어",
+    "theme": "화면 테마 변경",
+    "art": "For Garden의 렐릭, 토리카",
+    "caption": "이 정원에서, 다시 만나요.",
+    "section": "포가든이 담고 싶은 것",
+    "values": [
+      [
+        "01",
+        "다시 살아가는 이야기",
+        "오래된 화석에서 복원된 소녀들, 렐릭. 사라진 생명이 이터널 시티에서 새로운 일상을 시작합니다."
+      ],
+      [
+        "02",
+        "한 명씩 알아가는 즐거움",
+        "서로 다른 파벌과 야성을 품은 렐릭들을 만나고, 관찰일지와 전투를 통해 각자의 매력을 발견해 보세요."
+      ],
+      [
+        "03",
+        "조금씩 쌓이는 개발 기록",
+        "개발 과정과 업데이트 소식은 이 홈페이지에서 전합니다. 게임에 대한 의견과 문의도 공식 문의 창구에서 받습니다."
+      ]
+    ],
+    "record": "프로젝트 기록",
+    "facts": [
+      [
+        "프로젝트",
+        "For Garden"
+      ],
+      [
+        "개발 형태",
+        "1인 개발"
+      ],
+      [
+        "현재 상태",
+        "출시 준비 중"
+      ]
+    ],
+    "brand": "정식 운영명과 사업자 정보는 확정 후 안내합니다.",
+    "newsTitle": "정원이 자라는 과정을 함께해 주세요.",
+    "newsBody": "새로운 소식은 개발 기록에서, 게임에 대한 제안과 질문은 문의하기에서 이어집니다.",
+    "news": "소식·개발 기록",
+    "contact": "의견·문의 보내기",
+    "status": "개발 중 · 출시일 추후 공개"
+  },
+  "en": {
+    "title": "About the project",
+    "headline": [
+      "A small beginning.",
+      "A growing garden."
+    ],
+    "intro": "Another tomorrow for lives once lost. For Garden is a solo-developed collection RPG, growing alongside the stories of its Relics.",
+    "home": "Return to the garden",
+    "language": "Page language",
+    "theme": "Change appearance",
+    "art": "Torika, a Relic from For Garden",
+    "caption": "Let's meet again in this garden.",
+    "section": "What grows in For Garden",
+    "values": [
+      [
+        "01",
+        "Life begins again",
+        "Restored from ancient fossils, the girls known as Relics begin new lives in Eternal City."
+      ],
+      [
+        "02",
+        "A character at a time",
+        "Meet Relics from different factions, discover their wild instincts, and learn about them through observation journals and battles."
+      ],
+      [
+        "03",
+        "A record of small steps",
+        "Development notes and updates are shared on this website. The official contact form welcomes your feedback and questions."
+      ]
+    ],
+    "record": "Project record",
+    "facts": [
+      [
+        "Project",
+        "For Garden"
+      ],
+      [
+        "Development",
+        "Solo development"
+      ],
+      [
+        "Status",
+        "Preparing for release"
+      ]
+    ],
+    "brand": "The operator name and registered business details will be announced once confirmed.",
+    "newsTitle": "Watch the garden grow.",
+    "newsBody": "Follow the development notes, or share your questions and suggestions through the contact form.",
+    "news": "News & development notes",
+    "contact": "Feedback & contact",
+    "status": "In development · Release date to be announced"
+  },
+  "ja": {
+    "title": "プロジェクト紹介",
+    "headline": [
+      "小さな手から、",
+      "育っていく庭。"
+    ],
+    "intro": "失われた命に、もう一度の明日を。For Gardenは、レリックたちの物語とともに育つ個人開発の収集型RPGです。",
+    "home": "庭へ戻る",
+    "language": "ページの言語",
+    "theme": "表示テーマを変更",
+    "art": "For Gardenのレリック、トリカ",
+    "caption": "この庭で、また会いましょう。",
+    "section": "For Gardenが描きたいこと",
+    "values": [
+      [
+        "01",
+        "もう一度、生きる物語",
+        "古い化石から復元された少女たち、レリック。失われた命が、エターナルシティで新しい日々を歩み始めます。"
+      ],
+      [
+        "02",
+        "一人ずつ、知っていく楽しさ",
+        "さまざまな派閥と野性を持つレリックに出会い、観察日誌や戦闘を通じて、それぞれの魅力を見つけてください。"
+      ],
+      [
+        "03",
+        "少しずつ積み重なる開発記録",
+        "開発の歩みや更新情報は、このサイトでお伝えします。ゲームへのご意見やご質問は、公式のお問い合わせ窓口で受け付けます。"
+      ]
+    ],
+    "record": "プロジェクト記録",
+    "facts": [
+      [
+        "プロジェクト",
+        "For Garden"
+      ],
+      [
+        "開発体制",
+        "個人開発"
+      ],
+      [
+        "現在の状況",
+        "リリース準備中"
+      ]
+    ],
+    "brand": "正式な運営者名と事業者情報は、確定後にご案内します。",
+    "newsTitle": "庭が育つ過程を、一緒に。",
+    "newsBody": "新しいお知らせは開発記録から。ご提案やご質問は、お問い合わせフォームからお寄せください。",
+    "news": "お知らせ・開発記録",
+    "contact": "ご意見・お問い合わせ",
+    "status": "開発中 · リリース日は後日公開"
+  }
+}

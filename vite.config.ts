@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
             const path = req.url?.split("?")[0];
             if (
               path &&
-              /^\/(legal(?:\/[A-Za-z0-9-]+)*|terms|privacy|probabilities)\/?$/.test(
+              /^\/(legal(?:\/[A-Za-z0-9-]+)*|about(?:\/(?:en|ja))?|terms|privacy|probabilities)\/?$/.test(
                 path,
               )
             ) {

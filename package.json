@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "npm run generate:legal && tsc --noEmit && npm run test:api-runtime && vite build",
+    "build": "npm run generate:pages && tsc --noEmit && npm run test:api-runtime && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:api-runtime": "node scripts/check-api-runtime.mjs",
     "generate:legal": "node scripts/generate-legal.mjs",
     "sync:probabilities": "node scripts/sync-probabilities.mjs",
-    "predev": "npm run generate:legal",
-    "pretest": "npm run generate:legal"
+    "predev": "npm run generate:pages",
+    "pretest": "npm run generate:pages",
+    "generate:about": "node scripts/generate-about.mjs",
+    "generate:pages": "npm run generate:legal && npm run generate:about"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
