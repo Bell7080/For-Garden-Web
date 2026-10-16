@@ -26,6 +26,7 @@ button:disabled{opacity:.6;cursor:wait}
 #status[data-s=error]{color:var(--bad)}#status[data-s=ok]{color:var(--ok)}
 a{color:var(--accent)}
 </style>
+<link rel="stylesheet" href="/ui/controls.css"><link rel="stylesheet" href="/legal/center.css"><script src="/legal/theme.js"></script>
 </head>
 <body>
 <main>
@@ -39,6 +40,7 @@ a{color:var(--accent)}
 <label><span id="l-body">내용</span><textarea name="body" required maxlength="4000"></textarea></label>
 <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
 <label class="check"><input name="consent" type="checkbox" required><span id="l-consent">답변을 위해 이메일과 문의 내용을 수집·보관하는 데 동의합니다.</span></label>
+<p><a href="/legal/support-consent">문의 수집·이용 안내 (출시 준비 초안)</a> · <a href="/privacy">개인정보 처리방침</a></p>
 <button type="submit" id="go">보내기</button>
 <p id="status" role="status"></p>
 </form>
@@ -67,5 +69,6 @@ else{s.textContent=x[0]===429?m.rate:x[0]===400?m.bad:m.fail;s.dataset.s="error"
 .then(function(){b.disabled=false})});
 })();
 </script>
+<script type="module" src="/ui/controls.js"></script>
 </body>
 </html>

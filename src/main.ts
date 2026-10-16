@@ -108,8 +108,6 @@ interface Notice {
 let notices: Notice[] = [];
 let newsState: "loading" | "ready" | "error" = "loading";
 let newsRequest = 0;
-let siteDetails: { operator?: string | null; privacyContact?: string | null } =
-  {};
 const escape = (s: string) =>
   s.replace(
     /[&<>"']/g,
@@ -147,8 +145,8 @@ function render() {
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div>${renderFactions(lang)}</section>
  <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
  <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">05</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
- <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><button type="button" class="privacy-link">${t.privacy} ${arrow}</button><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
- </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><button class="privacy-link">${t.privacy}</button><a href="#home">${t.top} ${icon("up")}</a></div></footer>
+ <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><a class="privacy-link" href="/legal/preregistration-consent">${t.privacy} ${arrow}</a><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
+ </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span><a class="privacy-link" href="/privacy">${t.privacy}</a><a href="/legal">${lang === "ko" ? "정책·운영 안내" : lang === "ja" ? "規約・運営案内" : "Policies"}</a><a href="/probabilities">${lang === "ko" ? "확률 정보" : lang === "ja" ? "提供割合" : "Probabilities"}</a><a href="/support.html">${lang === "ko" ? "문의하기" : lang === "ja" ? "お問い合わせ" : "Contact"}</a><a href="#home">${t.top} ${icon("up")}</a></div></footer>
  <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">${icon("close")}</button><div class="dialog-content"></div></dialog>`;
   renderNews();
   renderRelic();
@@ -345,15 +343,6 @@ function bind() {
     url.searchParams.delete("notice");
     history.replaceState(null, "", url);
   });
-  document
-    .querySelectorAll<HTMLButtonElement>(".privacy-link")
-    .forEach(
-      (b) =>
-        (b.onclick = () =>
-          openDialog(
-            `<p class="eyebrow">FOR GARDEN / PRIVACY</p><h2>${copy[lang].privacyTitle}</h2><p class="notice-body">${copy[lang].privacyBody}</p>${siteDetails.operator ? `<p class="notice-body">${escape(siteDetails.operator)}<br>${escape(siteDetails.privacyContact ?? "")}</p>` : ""}`,
-          )),
-    );
   document.querySelector<HTMLFormElement>("form")!.onsubmit = submit;
 }
 async function loadNews() {
@@ -455,9 +444,3 @@ async function submit(e: SubmitEvent) {
 mountFeedback();
 render();
 void loadNews();
-void fetch("/api/site", { signal: AbortSignal.timeout(10000) })
-  .then((r) => (r.ok ? r.json() : {}))
-  .then((data) => {
-    siteDetails = data;
-  })
-  .catch(() => {});

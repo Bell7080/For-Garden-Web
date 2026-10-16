@@ -5,3 +5,12 @@ dist/
 !.env.example
 .vercel/
 test-results/
+
+# Static legal pages are reproduced from versioned content on dev/build.
+public/legal/**/index.html
+public/legal/index.html
+public/legal/probabilities.json
+public/legal/archive/
+public/terms/
+public/privacy/
+public/probabilities/
