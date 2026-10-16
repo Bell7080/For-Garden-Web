@@ -5,6 +5,33 @@ export function mountScrollEffects(): () => void {
   bar.className = "scroll-progress";
   bar.setAttribute("aria-hidden", "true");
   document.body.append(bar);
+  const fields = [
+    document.querySelector<HTMLElement>("#app")!,
+    ...document.querySelectorAll<HTMLElement>("#home,#world,#register"),
+  ].map((parent, index) => {
+    const element = document.createElement("div");
+    element.className = `depth-field${index === 0 ? " depth-global" : ""}`;
+    element.setAttribute("aria-hidden", "true");
+    element.innerHTML =
+      '<div class="depth-grid"></div><div class="depth-dots"></div><div class="depth-facets"><i class="depth-facet"></i><i class="depth-facet"></i><i class="depth-facet"></i></div>';
+    parent.prepend(element);
+    return {
+      element,
+      global: index === 0,
+      visible: index === 0,
+      layers: [...element.children] as HTMLElement[],
+    };
+  });
+  const depthObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const field = fields.find((f) => f.element === entry.target);
+      if (field) field.visible = entry.isIntersecting;
+    });
+    update();
+  });
+  fields
+    .filter((f) => !f.global)
+    .forEach((f) => depthObserver.observe(f.element));
   let height = 1;
   let frame = 0;
   const measure = () => {
@@ -15,7 +42,20 @@ export function mountScrollEffects(): () => void {
     if (frame) return;
     frame = requestAnimationFrame(() => {
       frame = 0;
-      bar.style.transform = `scaleX(${Math.min(1, Math.max(0, scrollY / height))})`;
+      const progress = Math.min(1, Math.max(0, scrollY / height));
+      bar.style.transform = `scaleX(${progress})`;
+      if (document.hidden || document.body.classList.contains("modal-open"))
+        return;
+      for (const field of fields) {
+        if (!field.visible) continue;
+        // Only transform finite layers when native scroll/resize/visibility changes.
+        // No layout reads, interpolation loop, pointer tracking or idle frames.
+        field.layers.forEach((layer, index) => {
+          layer.style.transform = reduced.matches
+            ? "none"
+            : `translate3d(0,${(-progress * [108, 44, 170][index]).toFixed(2)}px,0)`;
+        });
+      }
     });
   };
   const resize = new ResizeObserver(measure);
@@ -83,6 +123,11 @@ export function mountScrollEffects(): () => void {
     });
   const onMotion = () => {
     pauseAmbient();
+    if (reduced.matches)
+      fields.forEach((f) =>
+        f.layers.forEach((layer) => (layer.style.transform = "none")),
+      );
+    update();
     if (reduced.matches) {
       observer.disconnect();
       targets.forEach((e) => {
@@ -92,7 +137,13 @@ export function mountScrollEffects(): () => void {
     }
   };
   reduced.addEventListener("change", onMotion);
+  document.addEventListener("visibilitychange", update);
+  document.addEventListener("garden:modal-change", update);
   return () => {
+    depthObserver.disconnect();
+    fields.forEach((f) => f.element.remove());
+    document.removeEventListener("visibilitychange", update);
+    document.removeEventListener("garden:modal-change", update);
     observer.disconnect();
     ambience.disconnect();
     resize.disconnect();

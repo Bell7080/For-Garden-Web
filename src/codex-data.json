@@ -479,5 +479,147 @@
         }
       }
     }
+  },
+  {
+    "id": "dodo",
+    "squad": "rogue",
+    "name": "도디",
+    "specimenNumber": "001",
+    "projectName": "ECHO NEST",
+    "excavationSite": "모리셔스 석회동굴 보관층",
+    "fossilRecord": "석회동굴의 마른 보관층에서 골격과 난각 조각이 함께 발견됐다. 염분 손상이 적어 최초의 안정 복원 기준이 되었다.",
+    "observationProfile": {
+      "originYear": "약 400년 전",
+      "restorationYear": "E.C. 9년",
+      "lifeStage": "성체 초기",
+      "height": "1.08 m",
+      "weight": "20 kg"
+    },
+    "catalogSummary": "신장 1.08m, 체중 20kg의 가벼운 체형과 짧은 날개, 단단한 부리가 확인된 비행 불능 조류 표본.",
+    "unlockRecord": {
+      "status": "recorded",
+      "text": "도디는 새로운 물건만 보면 “대장님, 이것 좀 보세요!” 하고 달려오는 아이다. 반짝이는 잡동사니도 발견 기록이라며 깃펜으로 일지에 또박또박 적어 넣는데, 정작 제 밥때는 적어 두지 않아서 자꾸 놓친다. 동료의 사소한 버릇과 낯선 상대의 반응까지 받아 적다 보니 손가락에는 늘 잉크가 묻어 있다. 너무 반가운 나머지 한 걸음 더 다가서다가 상대를 놀라게 하고 저도 놀라 물러서는 일도 잦다. 요즘은 관제탑의 시그널 아이가 여러 신호를 한꺼번에 살피고 판단하는 모습을 오래 올려다보더니, 높은 곳에 올라 동료들의 움직임을 일일이 확인하고 먼저 갈 길을 정하려 한다. 아직은 길보다 도디가 먼저 길을 잃는다. 일지 첫 장 맨 위에는 나를 부르는 말인 '대장님'이 크게 적혀 있고, 이름 쓸 칸은 비어 있다. 1호 팬이라는 말은 본인이 붙였다."
+    },
+    "rarity": "R",
+    "origin": "도도새",
+    "element": "wind",
+    "role": "support",
+    "stats": {
+      "hp": 794,
+      "def": 52,
+      "res": 90,
+      "atk": 96,
+      "ap": 118,
+      "attackSpeed": 84,
+      "moveSpeed": 94,
+      "critChance": 10,
+      "critDamage": 150,
+      "energyGain": 26,
+      "lifeSteal": 0,
+      "ferocityGain": 0
+    },
+    "passive": {
+      "id": "dodo-passive",
+      "name": "연구원님, 이것 좀 보세요!",
+      "kind": "guardianNestAura",
+      "iconAssetId": "skill-icon-buff",
+      "effectType": "buff",
+      "value": 15,
+      "teamDefenseResistancePercent": 15,
+      "enemyHealingReceivedReductionPercent": 30,
+      "desc": "생존 중 아군 전체의 방어력·저항력을 15% 높이고 적 전체가 받는 회복량을 30% 낮춘다."
+    },
+    "basic": {
+      "id": "dodo-basic",
+      "name": "깃펜 톡톡",
+      "power": 50,
+      "iconAssetId": "skill-icon-magical",
+      "effectType": "magical",
+      "damageType": "magical",
+      "lowestHpAllyHealingFromDamagePercent": 30
+    },
+    "ultimate": {
+      "id": "dodo-ult",
+      "name": "세기의 대발견... 맞죠?!",
+      "power": 150,
+      "iconAssetId": "skill-icon-magical",
+      "effectType": "magical",
+      "damageType": "magical",
+      "cost": 100,
+      "allyHealingPower": 100,
+      "targeting": "targetedCircle",
+      "radius": 360
+    },
+    "ferocityTrait": {
+      "name": "인비저블 썸띵?",
+      "effectId": "selfAttackSpeedMultiplier",
+      "bonusPercent": 50,
+      "healingShieldPercent": 40
+    },
+    "text": {
+      "ko": {
+        "name": "도디",
+        "origin": "도도새",
+        "excavationSite": "모리셔스 석회동굴 보관층",
+        "fossilRecord": "석회동굴의 마른 보관층에서 골격과 난각 조각이 함께 발견됐다. 염분 손상이 적어 최초의 안정 복원 기준이 되었다.",
+        "diary": "도디는 새로운 물건만 보면 “대장님, 이것 좀 보세요!” 하고 달려오는 아이다. 반짝이는 잡동사니도 발견 기록이라며 깃펜으로 일지에 또박또박 적어 넣는데, 정작 제 밥때는 적어 두지 않아서 자꾸 놓친다. 동료의 사소한 버릇과 낯선 상대의 반응까지 받아 적다 보니 손가락에는 늘 잉크가 묻어 있다. 너무 반가운 나머지 한 걸음 더 다가서다가 상대를 놀라게 하고 저도 놀라 물러서는 일도 잦다. 요즘은 관제탑의 시그널 아이가 여러 신호를 한꺼번에 살피고 판단하는 모습을 오래 올려다보더니, 높은 곳에 올라 동료들의 움직임을 일일이 확인하고 먼저 갈 길을 정하려 한다. 아직은 길보다 도디가 먼저 길을 잃는다. 일지 첫 장 맨 위에는 나를 부르는 말인 '대장님'이 크게 적혀 있고, 이름 쓸 칸은 비어 있다. 1호 팬이라는 말은 본인이 붙였다.",
+        "quote": "대장님, 이것 좀 보세요! …아, 방금 건 일지에 적어도 되죠?",
+        "profile": {
+          "originYear": "약 400년 전",
+          "restorationYear": "E.C. 9년",
+          "lifeStage": "성체 초기",
+          "height": "1.08 m",
+          "weight": "20 kg"
+        },
+        "skillNames": {
+          "basic": "깃펜 톡톡",
+          "ultimate": "세기의 대발견... 맞죠?!",
+          "passive": "연구원님, 이것 좀 보세요!",
+          "ferocity": "인비저블 썸띵?"
+        }
+      },
+      "en": {
+        "name": "Dodi",
+        "origin": "Dodo",
+        "excavationSite": "Limestone cave storage layer, Mauritius",
+        "fossilRecord": "In the dry storage layer of a limestone cave, a skeleton and eggshell fragments were found together. Salt damage was slight, making it the first standard for stable restoration.",
+        "diary": "Dodi is a child who comes running with \"Captain, look at this!\" at every new object. She writes even glittering junk into her log with a quill as a discovery record, yet she never writes down her own mealtimes, so she keeps missing them. From noting down her companions' smallest habits and even strangers' reactions, her fingers are always stained with ink. She often steps a little closer out of sheer delight, startles the other person, gets startled herself and backs off. Lately she has spent a long time looking up at the Signal Eye in the control tower watching and judging many signals at once, and now she climbs somewhere high, checks her companions' movements one by one, and tries to decide the way ahead first. For now, Dodi loses her way before the road does. At the very top of the first page of her log, the word she uses for me, \"Captain\", is written large, and the space for a name is empty. She added the \"No. 1 fan\" label herself.",
+        "quote": "Captain, look at this! …Oh, can I put that in my log?",
+        "profile": {
+          "originYear": "About 400 years ago",
+          "restorationYear": "E.C. 13",
+          "lifeStage": "Early adult",
+          "height": "1.08 m",
+          "weight": "20 kg"
+        },
+        "skillNames": {
+          "basic": "Quill Tap",
+          "ultimate": "The Discovery of the Century… Right?!",
+          "passive": "Researcher, Look at This!",
+          "ferocity": "Invisible Something?"
+        }
+      },
+      "ja": {
+        "name": "ドディ",
+        "origin": "ドードー",
+        "excavationSite": "モーリシャス 石灰洞窟の保管層",
+        "fossilRecord": "石灰洞窟の乾いた保管層で、骨格と卵殻の欠片が一緒に見つかった。塩分による損傷が少なく、最初の安定復元の基準となった。",
+        "diary": "ドディは新しい物を見るたびに「隊長、これ見てください！」と駆けてくる子だ。きらきらしたがらくたも発見記録だと言って羽ペンで日誌にきちんと書き込むのだが、肝心の自分の食事の時間は書き留めておかないので、しょっちゅう逃してしまう。仲間のささいな癖や見知らぬ相手の反応まで書き取っているうちに、指にはいつもインクがついている。嬉しさのあまりもう一歩近づいて相手を驚かせ、自分も驚いて後ずさることも多い。最近は管制塔のシグナル・アイがいくつもの信号を一度に見て判断する姿を長く見上げていたかと思うと、高い所に登って仲間の動きを一つひとつ確かめ、先に行く道を決めようとする。今のところ、道よりもドディのほうが先に迷子になる。日誌の最初のページの一番上には、私を呼ぶ言葉である「隊長」が大きく書かれていて、名前を書く欄は空いている。1号ファンという肩書きは本人がつけた。",
+        "quote": "隊長、これ見てください！…あ、今のも日誌に書いていいですよね？",
+        "profile": {
+          "originYear": "約400年前",
+          "restorationYear": "E.C. 13年",
+          "lifeStage": "成体初期",
+          "height": "1.08 m",
+          "weight": "20 kg"
+        },
+        "skillNames": {
+          "basic": "羽ペンでつんつん",
+          "ultimate": "世紀の大発見… ですよね？！",
+          "passive": "研究員さん、これ見てください！",
+          "ferocity": "インビジブル・サムシング？"
+        }
+      }
+    }
   }
 ]

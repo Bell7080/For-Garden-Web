@@ -1,0 +1,158 @@
+/* Finite CSS layers: no canvas, blur, external artwork or perpetual animation. */
+#app {
+  isolation: isolate;
+}
+.depth-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  contain: paint;
+  --depth-line: #d8b978;
+  --depth-opacity: 0.1;
+}
+.depth-field.depth-global {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+[data-theme="light"] .depth-field {
+  --depth-line: #85683c;
+  --depth-opacity: 0.13;
+}
+.depth-grid,
+.depth-facets,
+.depth-dots {
+  position: absolute;
+  inset: -180px -90px;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+}
+.depth-grid {
+  opacity: var(--depth-opacity);
+  background-image:
+    linear-gradient(
+      115deg,
+      transparent calc(50% - 0.5px),
+      var(--depth-line) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      25deg,
+      transparent calc(50% - 0.5px),
+      var(--depth-line) 50%,
+      transparent calc(50% + 0.5px)
+    );
+  background-size: 180px 180px;
+  mask-image: linear-gradient(110deg, #0009, transparent 43%, #0006);
+  rotate: -8deg;
+}
+.depth-dots {
+  opacity: calc(var(--depth-opacity) * 1.2);
+  background-image: radial-gradient(
+    circle,
+    var(--depth-line) 1px,
+    transparent 1.5px
+  );
+  background-size: 30px 30px;
+  mask-image: radial-gradient(ellipse at 90% 45%, #000, transparent 62%);
+}
+.depth-facets {
+  opacity: 1;
+}
+.depth-facet {
+  position: absolute;
+  display: block;
+  width: clamp(280px, 40vw, 660px);
+  aspect-ratio: 1.45;
+  border: 1px solid color-mix(in srgb, var(--depth-line) 16%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--depth-line) 4%, transparent),
+    transparent 70%
+  );
+  box-shadow:
+    20px 22px 0 -1px color-mix(in srgb, var(--paper) 94%, transparent),
+    20px 22px 0 0 color-mix(in srgb, var(--depth-line) 10%, transparent);
+  rotate: -28deg;
+  transform: skewY(9deg);
+}
+.depth-facet:first-child {
+  left: -13%;
+  top: 15%;
+}
+.depth-facet:nth-child(2) {
+  right: -16%;
+  top: 53%;
+  rotate: 28deg;
+}
+.depth-facet:nth-child(3) {
+  right: 18%;
+  top: 90%;
+  width: 220px;
+  opacity: 0.55;
+}
+#home > .depth-field {
+  --depth-opacity: 0.12;
+}
+#world > .depth-field {
+  --depth-opacity: 0.08;
+}
+#register > .depth-field {
+  --depth-opacity: 0.09;
+}
+#world {
+  position: relative;
+}
+#world > .world-art,
+#world > .world-copy {
+  z-index: 1;
+}
+#home > .depth-field .depth-facet:first-child {
+  left: -20%;
+  top: 20%;
+}
+#home > .depth-field .depth-facet:nth-child(2) {
+  right: -15%;
+  top: 12%;
+}
+@media (max-width: 760px) {
+  .depth-field {
+    --depth-opacity: 0.075;
+  }
+  [data-theme="light"] .depth-field {
+    --depth-opacity: 0.09;
+  }
+  .depth-grid {
+    background-size: 130px 130px;
+  }
+  .depth-facet {
+    width: 300px;
+    box-shadow:
+      12px 15px 0 -1px color-mix(in srgb, var(--paper) 95%, transparent),
+      12px 15px 0 0 color-mix(in srgb, var(--depth-line) 10%, transparent);
+  }
+  .depth-facet:first-child {
+    left: -55%;
+  }
+  .depth-facet:nth-child(2) {
+    right: -55%;
+  }
+  .depth-facet:nth-child(3) {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .depth-grid,
+  .depth-dots,
+  .depth-facets {
+    transform: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .depth-field {
+    display: none;
+  }
+}

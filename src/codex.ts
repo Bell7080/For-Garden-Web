@@ -5,7 +5,7 @@ import { icon } from "./ui/icons";
 // Text, numbers and skill names are snapshots of the sibling game's relics,
 // relicStories and en/ja data catalogs. Keep IDs and artwork paths untranslated.
 export const codex = data;
-const colors = ["#e2bc52", "#dc8d85", "#9cabe9"];
+const colors = ["#e2bc52", "#dc8d85", "#9cabe9", "#d9bd7e"];
 const escape = (s: string) =>
   s.replace(
     /[&<>"']/g,
@@ -222,17 +222,24 @@ function badge(group: string, id: string, value: string, label: string) {
 function elementName(id: string, lang: Locale) {
   return tr(
     lang,
-    { earth: "땅", fire: "불", water: "물" }[id]!,
+    { earth: "땅", fire: "불", water: "물", wind: "바람" }[id]!,
     id.toUpperCase(),
-    { earth: "地", fire: "火", water: "水" }[id]!,
+    { earth: "地", fire: "火", water: "水", wind: "風" }[id]!,
   );
 }
 function roleName(id: string, lang: Locale) {
   return tr(
     lang,
-    { tank: "탱커", warrior: "전사", assassin: "암살자" }[id]!,
+    { tank: "탱커", warrior: "전사", assassin: "암살자", support: "서포터" }[
+      id
+    ]!,
     id.toUpperCase(),
-    { tank: "タンク", warrior: "ウォリアー", assassin: "アサシン" }[id]!,
+    {
+      tank: "タンク",
+      warrior: "ウォリアー",
+      assassin: "アサシン",
+      support: "サポート",
+    }[id]!,
   );
 }
 export function heroProfile(lang: Locale) {
@@ -242,6 +249,28 @@ export function heroProfile(lang: Locale) {
 }
 function descriptions(id: string, lang: Locale): string[] {
   const entries: Record<string, string[][]> = {
+    dodo: [
+      [
+        "깃펜으로 마법 피해를 주고, 입힌 피해의 30%만큼 가장 다친 아군을 회복합니다.",
+        "Deals magic damage with her quill and heals the most wounded ally for 30% of damage dealt.",
+        "羽ペンで魔法ダメージを与え、最も傷ついた味方を与ダメージの30%分回復します。",
+      ],
+      [
+        "지정 범위의 적에게 주문력 150% 위력으로 공격하고, 범위 내 아군을 주문력 100%만큼 회복합니다.",
+        "Strikes enemies in the target area with 150% ability power and heals allies inside for 100% ability power.",
+        "指定範囲の敵を魔力150%の威力で攻撃し、範囲内の味方を魔力100%分回復します。",
+      ],
+      [
+        "공격 속도가 50% 증가하고, 회복량의 40%만큼 보호막을 더합니다.",
+        "Attack speed increases by 50%. Healing also grants a shield equal to 40% of the amount healed.",
+        "攻撃速度が50%増加。回復量の40%分のシールドも付与します。",
+      ],
+      [
+        "생존 중 아군 전체의 방어력·저항력을 15% 높이고, 적 전체가 받는 회복량을 30% 낮춥니다.",
+        "While alive, raises all allies’ defense and resistance by 15% and reduces all enemies’ healing received by 30%.",
+        "生存中、味方全体の防御力・抵抗力を15%上げ、敵全体の被回復量を30%下げます。",
+      ],
+    ],
     torika: [
       [
         "세 번의 뿔 끝에 적을 멈춰 세우는 전방의 방패.",
