@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
-import edition from "../content/legal/2026-10-17-draft-1.json";
+import edition from "../content/legal/2026-10-17-draft-2.json";
 import snapshot from "../content/probabilities/2026-10-17-draft-1.json";
 
 describe("공개 연구 확률의 조건별 정합성", () => {
