@@ -6,7 +6,12 @@ import {
   type Request,
   type Response,
 } from "../server/http.js";
-const categories = ["inquiry", "bug", "report", "other"];
+import {
+  isTicketCategory,
+  TICKET_BODY_MAX,
+  TICKET_EMAIL_MAX,
+  TICKET_SUBJECT_MAX,
+} from "../server/support-rules.js";
 // DB 함수가 한도·형식을 다시 검증한다. 여기서는 가볍게 걸러 불필요한 호출만 줄인다.
 export default async function handler(req: Request, res: Response) {
   if (req.method !== "POST") {
@@ -39,15 +44,15 @@ export default async function handler(req: Request, res: Response) {
       !data ||
       typeof data !== "object" ||
       typeof data.email !== "string" ||
-      data.email.length > 254 ||
+      data.email.length > TICKET_EMAIL_MAX ||
       !/^\S+@[^\s@]+\.[^\s@]+$/.test(data.email.trim()) ||
-      !categories.includes(data.category) ||
+      !isTicketCategory(data.category) ||
       typeof data.subject !== "string" ||
       typeof data.body !== "string" ||
       !data.subject.trim() ||
       !data.body.trim() ||
-      data.subject.length > 100 ||
-      data.body.length > 4000 ||
+      data.subject.length > TICKET_SUBJECT_MAX ||
+      data.body.length > TICKET_BODY_MAX ||
       data.consent !== true
     )
       return reply(res, 400, { error: "invalid_request" });
