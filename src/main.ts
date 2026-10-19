@@ -4,6 +4,7 @@ import "./ui/motion.css";
 import "./ui/themes.css";
 import "./ui/codex.css";
 import "./ui/depth.css";
+import "./ui/notices.css";
 import {
   renderCodex,
   renderFactions,
@@ -14,6 +15,14 @@ import {
 import { languageNames } from "../shared/languages.js";
 import { renderFooterLinks } from "../shared/site-footer.js";
 import { renderBody } from "../shared/notice-body.js";
+import {
+  noticeHero,
+  noticeKind,
+  noticePeriod,
+  noticeTabs,
+  renderNoticeBoard,
+  safeImage,
+} from "./ui/notice-views";
 import { mountFeedback } from "./ui/feedback";
 import { mountScrollEffects } from "./ui/scroll";
 import { icon } from "./ui/icons";
@@ -93,6 +102,7 @@ let lang: Locale = locales.includes(initial as Locale)
   : storedLocale();
 let selected = 0;
 let category = 0;
+let eventPick: string | undefined;
 interface Notice {
   slug: string;
   category: "notice" | "development" | "event";
@@ -102,6 +112,9 @@ interface Notice {
   body: string;
   cover_image?: string | null;
   pinned?: boolean;
+  template?: string;
+  cover_frame?: { zoom: number; x: number; y: number } | null;
+  meta?: unknown;
   translation?: "manual" | "original";
   source_locale?: string;
   content_locale?: string;
@@ -141,7 +154,14 @@ function render() {
  <div class="hero-visual"><div class="botanical-label">ETERNAL CITY<br>RESEARCH ARCHIVE — 001</div><div class="hero-window"><img src="/assets/garden.webp" alt="" fetchpriority="high" width="844" height="1500"/><div class="window-shade"></div></div><div class="specimen-circle"></div><img class="hero-character" data-puppet="torika" src="/assets/torika.webp" alt="${relics[0].name[lang]}" fetchpriority="high" width="750" height="1100"/><div class="character-label"><span>RELIC NO.014</span><strong>${relics[0].name[lang]}</strong><span>${relics[0].origin[lang]}</span><i>${gameSymbol("factions", "rogue")}</i></div><span class="hero-side-note">PRESERVING THE PAST. GROWING TOMORROW.</span><span class="floating-star star-one">${gameSymbol("elements", "earth")}</span><span class="floating-star star-two">${gameSymbol("roles", "tank")}</span></div>
  <div class="hero-bottom"><span>01 — THE BEGINNING</span><a href="#news">${t.scroll} ${icon("down")}</a><span>EST. ETERNAL CITY</span></div></section>
  <div class="ticker"><span>${gameSymbol("factions", "rogue")}</span><p>${t.ticker}</p><span>FOR GARDEN</span><span>${gameSymbol("factions", "rogue")}</span><p>${t.ticker}</p><span>FOR GARDEN</span></div>
- <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-tabs" role="group" aria-label="${t.news}">${t.tabs.map((x, i) => `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`).join("")}</div><div id="news-list" aria-live="polite"></div></section>
+ <section id="news" class="section news-section"><div class="section-heading"><div><p class="eyebrow">GARDEN JOURNAL <span class="section-number">01</span></p><h2>${t.news}<span class="heading-dot">.</span></h2></div><button class="text-link all-news">${t.allNews} ${arrow}</button></div><div class="news-tabs" role="group" aria-label="${t.news}">${noticeTabs(
+   lang,
+ )
+   .map(
+     (x, i) =>
+       `<button data-category="${i}" class="${category === i ? "active" : ""}" aria-pressed="${category === i}">${x}</button>`,
+   )
+   .join("")}</div><div id="news-list" aria-live="polite"></div></section>
  <section id="world" class="world-section"><div class="world-art"><img src="/assets/city.webp" alt="${t.worldTag}" loading="lazy" width="844" height="1500"/><div class="world-image-frame"></div><span class="world-tag">${t.worldTag}</span><span class="world-coordinate">35° 41′ N &nbsp; / &nbsp; GARDEN ARCHIVE</span></div><div class="world-copy"><p class="eyebrow">${t.worldLabel} <span class="section-number">02</span></p><h2>${lines(t.worldTitle)}</h2><p class="body-copy">${t.worldBody}</p><div class="world-rule"></div><p class="world-note">${escape(t.worldNote).replace("\n", "<br>")}</p>${emblem}</div></section>
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div>${renderFactions(lang)}</section>
  <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
@@ -157,24 +177,38 @@ function render() {
 function renderNews() {
   const t = copy[lang];
   const el = document.querySelector("#news-list")!;
-  const shown = notices.filter(
-    (n) =>
-      category === 0 ||
-      n.category === ["", "notice", "development", "event"][category],
-  );
+  const row = (n: Notice, ended = false) =>
+    `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? icon("pin") : ""}${ended ? noticeTabs(lang)[1] : t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong lang="${escape(n.content_locale || lang)}">${escape(n.title)}${n.translation === "original" && n.content_locale !== lang ? `<span class="notice-language-marker"> · ${escape(languageNames[n.content_locale || "ko"] || "원문")}</span>` : ""}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`;
+  const rail = el.querySelector<HTMLElement>(".event-rail")?.scrollTop ?? 0;
+  const board =
+    newsState === "ready"
+      ? renderNoticeBoard(notices, lang, {
+          tab: category,
+          pick: eventPick,
+          row,
+        })
+      : "";
   el.innerHTML =
     newsState === "loading"
       ? `<p class="empty-news">${t.loading}</p>`
       : newsState === "error"
         ? `<div class="news-error">${{ ko: "소식을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", en: "News is temporarily unavailable. Please try again.", ja: "お知らせを読み込めませんでした。もう一度お試しください。" }[lang]}<button class="retry-news">${{ ko: "다시 불러오기", en: "Try again", ja: "再読み込み" }[lang]} ${icon("retry")}</button></div>`
-        : shown.length
-          ? shown
-              .map(
-                (n) =>
-                  `<button class="news-row${n.cover_image ? " has-cover" : ""}" data-notice="${escape(n.slug)}">${n.cover_image && safeImage(n.cover_image) ? `<img class="news-thumb" src="${escape(n.cover_image)}" alt="" loading="lazy"/>` : ""}<span class="news-category">${n.pinned ? icon("pin") : ""}${t.tabs[["notice", "development", "event"].indexOf(n.category) + 1]}</span><strong lang="${escape(n.content_locale || lang)}">${escape(n.title)}${n.translation === "original" && n.content_locale !== lang ? `<span class="notice-language-marker"> · ${escape(languageNames[n.content_locale || "ko"] || "원문")}</span>` : ""}</strong><time datetime="${escape(n.published_at)}">${new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(n.published_at))}</time>${arrow}</button>`,
-              )
-              .join("")
-          : `<div class="empty-news"><span class="empty-flower">${gameSymbol("factions", "rogue")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
+        : board ||
+          `<div class="empty-news"><span class="empty-flower">${gameSymbol("factions", "rogue")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
+  const railEl = el.querySelector<HTMLElement>(".event-rail");
+  if (railEl) railEl.scrollTop = rail;
+  el.querySelectorAll<HTMLButtonElement>("[data-event-pick]").forEach(
+    (b) =>
+      (b.onclick = () => {
+        eventPick = b.dataset.eventPick;
+        renderNews();
+        document
+          .querySelector<HTMLButtonElement>(
+            `[data-event-pick="${CSS.escape(eventPick!)}"]`,
+          )
+          ?.focus({ preventScroll: true });
+      }),
+  );
   el.querySelector<HTMLButtonElement>(".retry-news")?.addEventListener(
     "click",
     () => void loadNews(),
@@ -231,7 +265,6 @@ function openDialog(html: string) {
   document.dispatchEvent(new Event("garden:modal-change"));
 }
 // 이미지는 https 주소만 허용한다(공지 본문의 `![설명](https://…)` 한 줄 = 그림 한 장).
-const safeImage = (u: string) => /^https:\/\/[^\s"'<>]+$/.test(u);
 function originalNote(n: Notice): string {
   if (!n.content_locale || n.content_locale === lang) return "";
   const name = languageNames[n.content_locale] || n.content_locale;
@@ -239,7 +272,8 @@ function originalNote(n: Notice): string {
 }
 function noticeMarkup(n: Notice): string {
   const contentLang = n.content_locale || lang;
-  return `<p class="eyebrow">GARDEN JOURNAL</p><h2 lang="${escape(contentLang)}">${escape(n.title)}</h2><time>${escape(n.published_at.slice(0, 10))}</time>${originalNote(n)}${n.cover_image && safeImage(n.cover_image) ? `<img class="notice-cover" src="${escape(n.cover_image)}" alt=""/>` : ""}<div class="notice-body" lang="${escape(contentLang)}">${renderBody(n.body)}</div>`;
+  const hero = noticeHero(n, lang);
+  return `${hero}<p class="eyebrow">GARDEN JOURNAL</p><h2 lang="${escape(contentLang)}">${escape(n.title)}</h2><time>${escape(n.published_at.slice(0, 10))}</time>${noticePeriod(n, lang)}${originalNote(n)}${noticeKind(n) === "plain" ? (n.cover_image && safeImage(n.cover_image) ? `<img class="notice-cover" src="${escape(n.cover_image)}" alt=""/>` : "") : ""}<div class="notice-body" lang="${escape(contentLang)}">${renderBody(n.body)}</div>`;
 }
 function openNotice(slug: string) {
   const n = notices.find((n) => n.slug === slug);
