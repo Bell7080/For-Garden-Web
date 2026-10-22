@@ -253,7 +253,7 @@ export function noticeHero(n: StyledNotice, lang: Lang, now = Date.now()) {
   if (kind === "plain") return "";
   const b = kind === "event" ? badge(n, lang, now) : null;
   const hasCover = safeImage(n.cover_image);
-  return `<div class="notice-hero kind-${kind}${hasCover ? "" : " no-cover"}"><span class="cover-box">${coverImage(n)}</span><span class="feature-shade"></span><span class="hero-copy">${kind === "update" && m.version ? `<span class="event-badge">${esc(m.version)}</span>` : ""}${b ? `<span class="event-badge ${b.cls}">${icon("star")}${esc(b.label)}</span>` : ""}</span></div>`;
+  return `<div class="notice-hero kind-${kind}${hasCover ? "" : " no-cover"}"><span class="cover-box">${coverImage(n)}</span><span class="feature-shade"></span><span class="notice-hero-copy">${kind === "update" && m.version ? `<span class="event-badge">${esc(m.version)}</span>` : ""}${b ? `<span class="event-badge ${b.cls}">${icon("star")}${esc(b.label)}</span>` : ""}</span></div>`;
 }
 export function noticePeriod(n: StyledNotice, lang: Lang) {
   if (noticeKind(n) !== "event") return "";

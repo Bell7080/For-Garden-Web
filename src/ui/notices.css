@@ -339,7 +339,7 @@
 .notice-hero.no-cover {
   aspect-ratio: 5 / 1.4;
 }
-.hero-copy {
+.notice-hero-copy {
   position: absolute;
   left: 18px;
   bottom: 16px;
