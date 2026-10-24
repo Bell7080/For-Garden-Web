@@ -36,6 +36,8 @@ Supabase 미설정 시 `server/seed-notices.ts`의 세 언어 기본 안내문�
 npm run sync:events -- ../For-Garden --admin ../For-Garden-Admin
 ```
 
+카드에는 게임과 같은 SD(실제 PuppetForge idle, 누르면 hit 반응)가 섭니다. 동기화가 SD ZIP과 실측 경계(`src/puppet-bounds.json`)를 함께 옮기며, 정지 이미지가 없으면 `npm run render:sd-still -- <개체 ID>`로 idle 첫 프레임에서 만듭니다(playwright 필요). `npm test`는 게임 저장소(`../For-Garden`)가 옆에 있으면 스냅샷이 게임과 같은지 먼저 점검하고(`npm run check:events`), 다르면 실패해 갱신을 잊지 않게 합니다. 게임 저장소가 없는 배포 환경에서는 건너뜁니다.
+
 ## 출시 알림 / 사전예약
 
 현재는 **출시 알림 신청**이며 스토어 사전예약·보상 지급·메일 발송을 가장하지 않습니다.

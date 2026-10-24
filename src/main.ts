@@ -135,12 +135,15 @@ const escape = (s: string) =>
 const lines = (values: readonly string[]) => values.map(escape).join("<br>");
 let cleanupLanguagePicker = () => {};
 let cleanupPuppets = () => {};
+let cleanupNewsPuppets = () => {};
 let cleanupScroll = () => {};
 let renderVersion = 0;
+let newsPuppetVersion = 0;
 function render() {
   cleanupLanguagePicker();
   cleanupScroll();
   cleanupPuppets();
+  cleanupNewsPuppets();
   renderVersion += 1;
   const t = copy[lang];
   document.documentElement.lang = lang;
@@ -198,6 +201,16 @@ function renderNews() {
         ? `<div class="news-error">${{ ko: "소식을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", en: "News is temporarily unavailable. Please try again.", ja: "お知らせを読み込めませんでした。もう一度お試しください。" }[lang]}<button class="retry-news">${{ ko: "다시 불러오기", en: "Try again", ja: "再読み込み" }[lang]} ${icon("retry")}</button></div>`
         : board ||
           `<div class="empty-news"><span class="empty-flower">${gameSymbol("factions", "rogue")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
+  cleanupNewsPuppets();
+  cleanupNewsPuppets = () => {};
+  if (el.querySelector("img[data-puppet]")) {
+    const current = ++newsPuppetVersion;
+    void import("./puppets")
+      .then(({ mountPuppets }) => {
+        if (current === newsPuppetVersion) cleanupNewsPuppets = mountPuppets(el);
+      })
+      .catch(() => {});
+  }
   el.querySelectorAll<HTMLButtonElement>("[data-event-phase]").forEach(
     (b) =>
       (b.onclick = () => {

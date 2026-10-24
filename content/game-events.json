@@ -24,7 +24,8 @@
       },
       "sd": {
         "relicId": "dian",
-        "side": "right"
+        "side": "right",
+        "still": "/assets/dian-sd.webp"
       },
       "showcase": null,
       "destination": "lab"
@@ -47,7 +48,8 @@
       "frame": null,
       "sd": {
         "relicId": "meron",
-        "side": "right"
+        "side": "right",
+        "still": "/assets/meron-sd.webp"
       },
       "showcase": "roulette",
       "destination": "roulette"

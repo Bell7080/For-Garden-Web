@@ -2,6 +2,7 @@
 // (content/game-events.json, `npm run sync:events`)이고, 카드 양식은 게임 LobbyEventCard를 따른다:
 // 원화 뒷배경 · 글 쪽 어둠 · 왼쪽 금빛 빗금 · 제목 · 한 줄 부제 · 붉은 기간 시계.
 import snapshot from "../../content/game-events.json";
+import bounds from "../puppet-bounds.json";
 import { normalizeMeta, remaining } from "../../shared/notice-style.js";
 import { icon } from "./icons";
 
@@ -17,7 +18,7 @@ export interface GameEvent {
   endsAt: string;
   backdrop: string;
   frame: { zoom: number; offsetX: number; offsetY: number } | null;
-  sd: { relicId: string; side: string } | null;
+  sd: { relicId: string; side: string; still: string } | null;
   showcase: string | null;
   destination: string | null;
 }
@@ -118,6 +119,14 @@ export function sortEvents(list: readonly GameEvent[], phase: EventPhase): GameE
     phase === "upcoming" ? Date.parse(e.startsAt) : phase === "ended" ? -Date.parse(e.endsAt) : Date.parse(e.endsAt);
   return list.filter((e) => gameEventPhase(e) === phase).sort((a, b) => key(a) - key(b));
 }
+// 게임 카드처럼 SD는 글의 반대쪽에 서고 몸 아래는 카드 밑변에서 잘린다. 움직임은 mountPuppets가 맡고 정지 이미지는 대체다.
+function sdFigure(e: GameEvent, name: string): string {
+  const sd = e.sd;
+  const box = sd && (bounds as Record<string, { bounds: number[] } | undefined>)[`${sd.relicId}-sd`];
+  if (!sd || !box) return "";
+  const [l, t, r, b] = box.bounds;
+  return `<img class="gc-sd side-${sd.side === "left" ? "left" : "right"}" data-puppet="${esc(sd.relicId)}-sd" src="${esc(sd.still)}" alt="${esc(name)}" style="aspect-ratio:${r - l}/${b - t}" loading="lazy" draggable="false"/>`;
+}
 export function eventCard(
   e: GameEvent,
   lang: Lang,
@@ -133,11 +142,12 @@ export function eventCard(
         ? dayClock(Date.parse(e.startsAt) - now)
         : t.ended;
   const clockLabel = phase === "upcoming" ? t.start : phase === "live" ? t.end : "";
-  const body = `<span class="gc-art" aria-hidden="true"><img src="${esc(e.backdrop)}" alt="" loading="lazy" style="${backdropStyle(e.frame)}"/></span><span class="gc-veil" aria-hidden="true"></span><span class="gc-rail" aria-hidden="true"></span><span class="gc-copy"><strong class="gc-title">${esc(e.title[lang])}</strong><span class="gc-sub">${esc(e.subtitle[lang])}</span><span class="gc-clock"><span class="gc-clock-label">${esc(clockLabel)}</span><time datetime="${esc(phase === "upcoming" ? e.startsAt : e.endsAt)}">${esc(clock)}</time></span></span><span class="gc-period"><span>${esc(stamp(e.startsAt, lang))} ~ ${esc(stamp(e.endsAt, lang))} (KST)</span></span>${noticeSlug ? `<span class="gc-more">${t.more} ${icon("arrow")}</span>` : ""}`;
-  const cls = `game-card is-${phase}`;
-  return noticeSlug
-    ? `<button type="button" class="${cls}" data-notice="${esc(noticeSlug)}" aria-label="${esc(e.title[lang])} · ${t.more}">${body}</button>`
-    : `<article class="${cls}" aria-label="${esc(e.title[lang])}">${body}</article>`;
+  const body = `<span class="gc-art" aria-hidden="true"><img src="${esc(e.backdrop)}" alt="" loading="lazy" style="${backdropStyle(e.frame)}"/></span><span class="gc-veil" aria-hidden="true"></span><span class="gc-rail" aria-hidden="true"></span><span class="gc-copy"><strong class="gc-title">${esc(e.title[lang])}</strong><span class="gc-sub">${esc(e.subtitle[lang])}</span><span class="gc-clock"><span class="gc-clock-label">${esc(clockLabel)}</span><time datetime="${esc(phase === "upcoming" ? e.startsAt : e.endsAt)}">${esc(clock)}</time></span></span>${sdFigure(e, e.title[lang])}<span class="gc-period"><span>${esc(stamp(e.startsAt, lang))} ~ ${esc(stamp(e.endsAt, lang))} (KST)</span></span>${noticeSlug ? `<span class="gc-more">${t.more} ${icon("arrow")}</span>` : ""}`;
+  // 링크 버튼은 카드 전체를 덮고, SD 퍼펫은 그 위에 서서 SD를 누르면 반응하고 나머지는 공지로 이동한다(버튼 안에 버튼을 두지 않는다).
+  const link = noticeSlug
+    ? `<button type="button" class="gc-link" data-notice="${esc(noticeSlug)}" aria-label="${esc(e.title[lang])} · ${t.more}"></button>`
+    : "";
+  return `<article class="game-card is-${phase}${noticeSlug ? " has-link" : ""}" aria-label="${esc(e.title[lang])}">${body.replace('<span class="gc-copy">', `${link}<span class="gc-copy">`)}</article>`;
 }
 export interface EventNoticeLike {
   slug: string;

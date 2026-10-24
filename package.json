@@ -13,10 +13,12 @@
     "generate:legal": "node scripts/generate-legal.mjs",
     "sync:probabilities": "node scripts/sync-probabilities.mjs",
     "sync:events": "node scripts/sync-game-events.mjs",
+    "render:sd-still": "node scripts/render-sd-still.mjs",
     "predev": "npm run generate:pages",
-    "pretest": "npm run generate:pages",
+    "pretest": "npm run generate:pages && npm run check:events",
     "generate:about": "node scripts/generate-about.mjs",
-    "generate:pages": "npm run generate:legal && npm run generate:about"
+    "generate:pages": "npm run generate:legal && npm run generate:about",
+    "check:events": "node scripts/sync-game-events.mjs --check"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

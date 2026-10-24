@@ -502,15 +502,23 @@
     0 34px
   );
 }
-.game-card[data-notice] {
+.gc-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   cursor: pointer;
 }
-.game-card[data-notice]:hover .gc-art img {
+.game-card.has-link:hover .gc-art img {
   filter: brightness(1.1);
 }
-.game-card[data-notice]:focus-visible {
+.gc-link:focus-visible {
   outline: 3px solid var(--nt-gold);
   outline-offset: -5px;
+}
+.gc-copy,
+.gc-period,
+.gc-more {
+  pointer-events: none;
 }
 .gc-art {
   position: absolute;
@@ -596,7 +604,7 @@
 }
 .gc-period {
   position: absolute;
-  right: 40px;
+  left: 54px;
   bottom: 12px;
   font-size: 12px;
   font-weight: 700;
@@ -639,7 +647,7 @@
     left: 16px;
   }
   .gc-period {
-    right: 30px;
+    left: 40px;
     bottom: 8px;
   }
   .gc-more {
@@ -649,5 +657,41 @@
 @media (forced-colors: active) {
   .phase-tab.active {
     outline: 3px solid Highlight;
+  }
+}
+
+.gc-sd {
+  position: absolute;
+  z-index: 2;
+  bottom: -16%;
+  height: 112%;
+  width: auto;
+  max-width: 40%;
+  object-fit: contain;
+  filter: drop-shadow(3px 5px 0 rgba(4, 6, 10, 0.55));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.gc-sd.side-right {
+  right: 5%;
+}
+.gc-sd.side-left {
+  left: 5%;
+}
+.gc-sd.puppet-canvas {
+  touch-action: pan-y;
+}
+.game-card.is-ended .gc-sd {
+  filter: grayscale(0.9) brightness(0.8);
+}
+@media (max-width: 860px) {
+  .gc-sd {
+    max-width: 34%;
+    height: 96%;
+    bottom: -10%;
+    right: 3%;
+  }
+  .gc-copy {
+    width: calc(100% - 56px);
   }
 }
