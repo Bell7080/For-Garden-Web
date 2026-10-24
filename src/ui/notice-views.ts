@@ -7,6 +7,14 @@ import {
   remaining,
 } from "../../shared/notice-style.js";
 import { icon } from "./icons";
+import {
+  EVENT_PHASES,
+  GAME_EVENTS,
+  gameEventPhase,
+  renderGameEventBoard,
+  type EventPhase,
+  type GameEvent,
+} from "./game-events";
 
 export interface StyledNotice {
   slug: string;
@@ -222,6 +230,8 @@ function patchBlock(list: StyledNotice[], lang: Lang, now: number) {
 export interface BoardOptions<T extends StyledNotice> {
   tab: number;
   pick?: string;
+  phase?: EventPhase;
+  gameEvents?: readonly GameEvent[];
   now?: number;
   row: (n: T, ended?: boolean) => string;
 }
@@ -239,6 +249,36 @@ export function renderNoticeBoard<T extends StyledNotice>(
   const plain = part("plain");
   const t = text[lang];
   let html = "";
+  if (only === "event") {
+    // 이벤트 탭: 인게임 이벤트 카드를 상태별로 보여 준다. 게임 이벤트와 이어지지 않은 공지 이벤트는 같은 상태의 목록에 덧붙는다.
+    const gameEvents = o.gameEvents ?? GAME_EVENTS;
+    const known = new Set(gameEvents.map((e) => e.id));
+    const own = (events || []).filter((n) => {
+      const id = normalizeMeta(n.meta).game_event_id;
+      return !(id && known.has(id));
+    });
+    const phaseOf = (n: StyledNotice): EventPhase => {
+      const p = eventPhase(n.meta, now);
+      return p === "ended" ? "ended" : p === "upcoming" ? "upcoming" : "live";
+    };
+    const extraCount = (p: EventPhase) => own.filter((n) => phaseOf(n) === p).length;
+    const total = (p: EventPhase) =>
+      gameEvents.filter((e) => gameEventPhase(e, now) === p).length + extraCount(p);
+    // 고른 상태가 없으면 항목이 있는 첫 상태(진행 중 → 준비 중 → 완료)를 연다.
+    const phase = o.phase ?? EVENT_PHASES.find((p) => total(p) > 0) ?? "live";
+    html += renderGameEventBoard(gameEvents, events || [], lang, {
+      phase,
+      now,
+      extraCount,
+      extra: (p) => {
+        const mine = own.filter((n) => phaseOf(n) === p);
+        return mine.length
+          ? `<div class="board game-notice-board">${mine.map((n) => o.row(n, p === "ended")).join("")}</div>`
+          : "";
+      },
+    });
+    return html;
+  }
   if (events && events.length)
     html += eventBlock(events, lang, now, o.pick, o.row);
   if (updates && updates.length) html += patchBlock(updates, lang, now);

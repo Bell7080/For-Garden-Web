@@ -26,6 +26,7 @@ import {
 import { mountFeedback } from "./ui/feedback";
 import { mountScrollEffects } from "./ui/scroll";
 import { icon } from "./ui/icons";
+import type { EventPhase } from "./ui/game-events";
 import { languagePicker, bindLanguagePicker } from "./ui/language-picker";
 import { copy, locales, relics, type Locale } from "./content";
 
@@ -103,6 +104,7 @@ let lang: Locale = locales.includes(initial as Locale)
 let selected = 0;
 let category = 0;
 let eventPick: string | undefined;
+let eventPhaseSel: EventPhase | undefined;
 interface Notice {
   slug: string;
   category: "notice" | "development" | "event";
@@ -185,6 +187,7 @@ function renderNews() {
       ? renderNoticeBoard(notices, lang, {
           tab: category,
           pick: eventPick,
+          phase: eventPhaseSel,
           row,
         })
       : "";
@@ -195,6 +198,18 @@ function renderNews() {
         ? `<div class="news-error">${{ ko: "소식을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", en: "News is temporarily unavailable. Please try again.", ja: "お知らせを読み込めませんでした。もう一度お試しください。" }[lang]}<button class="retry-news">${{ ko: "다시 불러오기", en: "Try again", ja: "再読み込み" }[lang]} ${icon("retry")}</button></div>`
         : board ||
           `<div class="empty-news"><span class="empty-flower">${gameSymbol("factions", "rogue")}</span><div><strong>${t.empty}</strong><p>${t.newsFallback}</p></div><span class="archive-stamp">GARDEN<br>JOURNAL</span></div>`;
+  el.querySelectorAll<HTMLButtonElement>("[data-event-phase]").forEach(
+    (b) =>
+      (b.onclick = () => {
+        eventPhaseSel = b.dataset.eventPhase as EventPhase;
+        renderNews();
+        document
+          .querySelector<HTMLButtonElement>(
+            `[data-event-phase="${eventPhaseSel}"]`,
+          )
+          ?.focus({ preventScroll: true });
+      }),
+  );
   const railEl = el.querySelector<HTMLElement>(".event-rail");
   if (railEl) railEl.scrollTop = rail;
   el.querySelectorAll<HTMLButtonElement>("[data-event-pick]").forEach(

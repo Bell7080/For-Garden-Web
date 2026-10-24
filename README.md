@@ -26,6 +26,16 @@ Supabase 미설정 시 `server/seed-notices.ts`의 세 언어 기본 안내문�
 
 본문은 일반 텍스트이며 HTML은 이스케이프합니다. 주소 `/?lang=ko&notice=welcome-to-garden`으로 공지를 공유할 수 있습니다.
 
+## 이벤트란과 인게임 연동
+
+공지의 **이벤트** 탭은 게임 로비 이벤트(`For-Garden src/data/lobbyEvents.ts`)를 그대로 카드로 보여 줍니다. 카드는 게임 `LobbyEventCard`와 같은 양식(원화 뒷배경·금빛 빗금·제목·부제·붉은 `D00:HH:MM:SS` 시계)이며 제목·부제는 게임 번역(ko/en/ja)을 씁니다. 라벨은 **진행 중 / 준비 중 / 완료**로 나뉘고 항목이 있는 첫 라벨이 먼저 열립니다. 공지에서 같은 이벤트를 연결(`meta.game_event_id`)해 두면 카드를 눌러 그 공지로 이동하고, 게임 이벤트와 이어지지 않은 이벤트 공지는 같은 상태의 목록에 덧붙습니다.
+
+이벤트 데이터는 `content/game-events.json` 스냅샷입니다. 게임에 이벤트를 추가·변경하면 다음을 실행해 스냅샷과 원화(`public/assets/events/`)를 갱신하고 함께 커밋하세요. `--admin`을 주면 어드민의 이벤트 연결 목록(`shared/game-events.js`)도 같은 값으로 다시 씁니다.
+
+```
+npm run sync:events -- ../For-Garden --admin ../For-Garden-Admin
+```
+
 ## 출시 알림 / 사전예약
 
 현재는 **출시 알림 신청**이며 스토어 사전예약·보상 지급·메일 발송을 가장하지 않습니다.

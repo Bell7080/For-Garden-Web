@@ -1,0 +1,56 @@
+{
+  "version": "0.339.0",
+  "commit": "9c42a0bd3610c196645571ed0094199f0f629089",
+  "events": [
+    {
+      "id": "wolf-cafe",
+      "title": {
+        "ko": "우당탕탕 늑대 카페",
+        "en": "The Clumsy Wolf Café",
+        "ja": "ドタバタ狼カフェ"
+      },
+      "subtitle": {
+        "ko": "디안 한정 픽업 이벤트!",
+        "en": "Limited-time Dian Pick-Up Event!",
+        "ja": "ディアン限定ピックアップイベント！"
+      },
+      "startsAt": "2026-09-01T00:00:00+09:00",
+      "endsAt": "2026-12-31T23:59:59+09:00",
+      "backdrop": "/assets/events/wolf-cafe.webp",
+      "frame": {
+        "zoom": 1.22,
+        "offsetX": 90,
+        "offsetY": 336
+      },
+      "sd": {
+        "relicId": "dian",
+        "side": "right"
+      },
+      "showcase": null,
+      "destination": "lab"
+    },
+    {
+      "id": "research-roulette",
+      "title": {
+        "ko": "행운의 돌림판",
+        "en": "Lucky Wheel",
+        "ja": "幸運のルーレット"
+      },
+      "subtitle": {
+        "ko": "젬 1,000개의 행운! 매일 무료 1회",
+        "en": "Win up to 1,000 Gems! 1 free spin daily",
+        "ja": "ジェム1,000個のチャンス！毎日無料1回"
+      },
+      "startsAt": "2026-09-01T00:00:00+09:00",
+      "endsAt": "2026-12-31T23:59:59+09:00",
+      "backdrop": "/assets/events/research-roulette.webp",
+      "frame": null,
+      "sd": {
+        "relicId": "meron",
+        "side": "right"
+      },
+      "showcase": "roulette",
+      "destination": "roulette"
+    }
+  ]
+}

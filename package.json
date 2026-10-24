@@ -12,6 +12,7 @@
     "test:api-runtime": "node scripts/check-api-runtime.mjs",
     "generate:legal": "node scripts/generate-legal.mjs",
     "sync:probabilities": "node scripts/sync-probabilities.mjs",
+    "sync:events": "node scripts/sync-game-events.mjs",
     "predev": "npm run generate:pages",
     "pretest": "npm run generate:pages",
     "generate:about": "node scripts/generate-about.mjs",
