@@ -34,7 +34,7 @@ export type NoticeKind = "plain" | "update" | "event";
 type Lang = "ko" | "en" | "ja";
 const text = {
   ko: {
-    tabs: ["전체", "이벤트", "패치노트", "공지"],
+    tabs: ["이벤트", "패치노트", "공지"],
     ongoing: "진행 중인 이벤트",
     ended: "종료된 이벤트",
     patch: "패치노트",
@@ -53,7 +53,7 @@ const text = {
     pick: "이벤트 선택",
   },
   en: {
-    tabs: ["All", "Events", "Patch notes", "Notices"],
+    tabs: ["Events", "Patch notes", "Notices"],
     ongoing: "Ongoing events",
     ended: "Past events",
     patch: "Patch notes",
@@ -72,7 +72,7 @@ const text = {
     pick: "Choose event",
   },
   ja: {
-    tabs: ["すべて", "イベント", "パッチノート", "お知らせ"],
+    tabs: ["イベント", "パッチノート", "お知らせ"],
     ongoing: "開催中のイベント",
     ended: "終了したイベント",
     patch: "パッチノート",
@@ -116,7 +116,8 @@ export function noticeKind(n: StyledNotice): NoticeKind {
       ? "update"
       : "plain";
 }
-const tabKinds: (NoticeKind | null)[] = [null, "event", "update", "plain"];
+// 탭은 이벤트·패치노트·공지 셋뿐이다. 전체 탭은 두지 않는다.
+const tabKinds: NoticeKind[] = ["event", "update", "plain"];
 const date = (iso: string, lang: Lang) =>
   new Intl.DateTimeFormat(lang, {
     year: "numeric",
@@ -241,9 +242,9 @@ export function renderNoticeBoard<T extends StyledNotice>(
   o: BoardOptions<T>,
 ): string {
   const now = o.now ?? Date.now();
-  const only = tabKinds[o.tab] ?? null;
+  const only = tabKinds[o.tab] ?? tabKinds[0];
   const part = (k: NoticeKind) =>
-    (only === null || only === k) && list.filter((n) => noticeKind(n) === k);
+    only === k && list.filter((n) => noticeKind(n) === k);
   const events = part("event");
   const updates = part("update");
   const plain = part("plain");
@@ -283,7 +284,7 @@ export function renderNoticeBoard<T extends StyledNotice>(
     html += eventBlock(events, lang, now, o.pick, o.row);
   if (updates && updates.length) html += patchBlock(updates, lang, now);
   if (plain && plain.length)
-    html += `<section class="notice-block" aria-label="${t.board}">${only === null ? `<h3 class="block-title">${t.board}</h3>` : ""}<div class="board">${plain.map((n) => o.row(n)).join("")}</div></section>`;
+    html += `<section class="notice-block" aria-label="${t.board}"><div class="board">${plain.map((n) => o.row(n)).join("")}</div></section>`;
   return html;
 }
 // Detail dialog header for the two styled kinds; plain keeps the original markup.

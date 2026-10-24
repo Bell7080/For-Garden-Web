@@ -12,6 +12,7 @@ import {
 import {
   noticeHero,
   noticeKind,
+  noticeTabs,
   noticePeriod,
   renderNoticeBoard,
   type StyledNotice,
@@ -113,30 +114,33 @@ describe("board", () => {
   };
   const plain = { ...base, slug: "n" };
   const list = [event, past, patch, plain];
-  it("groups by style and filters by tab", () => {
-    const all = renderNoticeBoard(list, "ko", { tab: 0, now, row });
-    expect(all).toContain("진행 중인 이벤트 <span>(1)</span>");
-    expect(all).toContain("<row old ended>");
-    expect(all).toContain('class="patch-version" role="cell">1.4.0');
-    expect(all).toContain("New</em>");
-    expect(all).toContain("<row n>");
-    expect(all).toContain("D-29");
-    const soon = renderNoticeBoard(
-      [{ ...event, meta: { starts_at: "2026-10-20T00:00:00Z" } }],
-      "ko",
-      { tab: 0, now, row },
-    );
-    expect(soon).toContain('event-d is-soon">시작 예정');
-    expect(all).toContain(
-      "object-position:30% 40%;transform:scale(1.2);transform-origin:30% 40%",
-    );
-    expect(all).toContain("2026.10.07 00:00 ~ 2026.11.17 00:00 (KST)");
-    const events = renderNoticeBoard(list, "ko", { tab: 1, now, row });
+  it("has no all tab and filters by tab", () => {
+    expect(noticeTabs("ko")).toEqual(["이벤트", "패치노트", "공지"]);
+    expect(noticeTabs("en")).toHaveLength(3);
+    expect(noticeTabs("ja")).toHaveLength(3);
+    const events = renderNoticeBoard(list, "ko", { tab: 0, now, row, gameEvents: [] });
     expect(events).not.toContain("<row n>");
     expect(events).not.toContain("patch-table");
-    expect(renderNoticeBoard(list, "ko", { tab: 3, now, row })).toBe(
+    const patches = renderNoticeBoard(list, "ko", { tab: 1, now, row });
+    expect(patches).toContain('class="patch-version" role="cell">1.4.0');
+    expect(patches).toContain("New</em>");
+    expect(patches).not.toContain("<row n>");
+    expect(patches).not.toContain("<row old ended>");
+    expect(renderNoticeBoard(list, "ko", { tab: 2, now, row })).toBe(
       '<section class="notice-block" aria-label="공지"><div class="board"><row n></div></section>',
     );
+  });
+  it("renders event styling inside the events tab", () => {
+    const html = renderNoticeBoard(list, "ko", { tab: 0, now, row, gameEvents: [] });
+    expect(html).toContain("<row ev>");
+    const ended = renderNoticeBoard(list, "ko", {
+      tab: 0,
+      now,
+      row,
+      gameEvents: [],
+      phase: "ended",
+    });
+    expect(ended).toContain("<row old ended>");
   });
   it("escapes titles and falls back to category for old rows", () => {
     expect(noticeKind({ ...base, category: "development" })).toBe("update");
@@ -144,7 +148,7 @@ describe("board", () => {
     const html = renderNoticeBoard(
       [{ ...event, title: '<img src=x onerror="1">' }],
       "en",
-      { tab: 0, now, row },
+      { tab: 0, now, row, gameEvents: [] },
     );
     expect(html).not.toContain("<img src=x");
     expect(noticeHero(plain, "ko", now)).toBe("");

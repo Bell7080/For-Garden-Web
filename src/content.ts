@@ -17,7 +17,6 @@ export const copy = {
     ticker: "한때 사라졌던 생명에게, 또 한 번의 내일을.",
     news: "정원에서 온 소식",
     allNews: "모든 소식 보기",
-    tabs: ["전체", "공지", "개발 노트", "이벤트"],
     empty: "아직 등록된 소식이 없습니다.",
     newsFallback: "공식 사이트 오픈 소식과 개발 기록을 이곳에서 전합니다.",
     worldLabel: "THE WORLD OF GARDEN",
@@ -97,7 +96,6 @@ export const copy = {
     ticker: "For a life once lost, another tomorrow.",
     news: "Letters from the garden",
     allNews: "View all news",
-    tabs: ["All", "Notice", "Dev notes", "Events"],
     empty: "No news has been published yet.",
     newsFallback:
       "Official announcements and stories from development will appear here.",
@@ -180,7 +178,6 @@ export const copy = {
     ticker: "かつて失われた命に、もう一度の明日を。",
     news: "庭園からのお知らせ",
     allNews: "すべてのお知らせ",
-    tabs: ["すべて", "お知らせ", "開発ノート", "イベント"],
     empty: "お知らせはまだありません。",
     newsFallback: "公式のお知らせや開発記録をこちらでお届けします。",
     worldLabel: "THE WORLD OF GARDEN",

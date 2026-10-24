@@ -95,13 +95,13 @@ describe("event tab of the notice board", () => {
       notice("linked", { game_event_id: "live" }),
       notice("solo", { starts_at: "2026-09-01T00:00:00Z", ends_at: "2026-12-01T00:00:00Z" }),
     ];
-    const html = renderNoticeBoard(list, "ko", { tab: 1, now, row, gameEvents: [live] });
+    const html = renderNoticeBoard(list, "ko", { tab: 0, now, row, gameEvents: [live] });
     expect(html).toContain('data-notice="linked"');
     expect(html).toContain("<row solo>");
     expect(html).not.toContain("<row linked>");
   });
   it("opens the first non-empty phase when none is chosen", () => {
-    const html = renderNoticeBoard([], "ko", { tab: 1, now, row, gameEvents: [soon] });
+    const html = renderNoticeBoard([], "ko", { tab: 0, now, row, gameEvents: [soon] });
     expect(html).toContain('class="phase-tab active" data-event-phase="upcoming"');
   });
 });
