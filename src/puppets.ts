@@ -35,7 +35,9 @@ async function surface(
   if (!puppet.mesh || !puppet.texture || !puppet.play("idle"))
     throw Error("Idle puppet unavailable");
   const motion = createHitMotion(puppet);
-  const interactive = !!puppet.project.animations.hit;
+  // data-puppet-mode="idle": 장식·버튼 안의 퍼펫은 누르는 반응 없이 idle만 재생한다.
+  const interactive =
+    !!puppet.project.animations.hit && image.dataset.puppetMode !== "idle";
   const events = new AbortController();
   const canvas = document.createElement("canvas");
   canvas.className = `${image.className} puppet-canvas`;
@@ -285,10 +287,14 @@ async function surface(
 }
 
 /** Lazy loading and one 30fps scheduler, paused offscreen, in hidden tabs and reduced motion. */
-export function mountPuppets(root: ParentNode = document): () => void {
+export function mountPuppets(
+  roots: ParentNode | ParentNode[] = document,
+): () => void {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const entries = [
-    ...root.querySelectorAll<HTMLImageElement>("img[data-puppet]"),
+    ...(Array.isArray(roots) ? roots : [roots]).flatMap((root) => [
+      ...root.querySelectorAll<HTMLImageElement>("img[data-puppet]"),
+    ]),
   ].map((image) => ({
     image,
     id: image.dataset.puppet as Character,

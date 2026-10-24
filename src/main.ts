@@ -136,14 +136,18 @@ const lines = (values: readonly string[]) => values.map(escape).join("<br>");
 let cleanupLanguagePicker = () => {};
 let cleanupPuppets = () => {};
 let cleanupNewsPuppets = () => {};
+let cleanupPagePuppets = () => {};
 let cleanupScroll = () => {};
 let renderVersion = 0;
 let newsPuppetVersion = 0;
+let pagePuppetVersion = 0;
 function render() {
   cleanupLanguagePicker();
   cleanupScroll();
   cleanupPuppets();
   cleanupNewsPuppets();
+  cleanupPagePuppets();
+  pagePuppetVersion += 1;
   renderVersion += 1;
   const t = copy[lang];
   document.documentElement.lang = lang;
@@ -178,6 +182,16 @@ function render() {
   renderRelic();
   bind();
   cleanupScroll = mountScrollEffects();
+  // 메인 화면과 사전예약의 장식 퍼펫은 렐릭을 고를 때마다 다시 만들지 않고 화면을 그릴 때 한 번만 올린다.
+  const page = ++pagePuppetVersion;
+  void import("./puppets")
+    .then(({ mountPuppets }) => {
+      if (page === pagePuppetVersion)
+        cleanupPagePuppets = mountPuppets(
+          ["#home", "#register"].map((q) => document.querySelector(q)!),
+        );
+    })
+    .catch(() => {});
 }
 function renderNews() {
   const t = copy[lang];
@@ -280,7 +294,9 @@ function renderRelic() {
     .then(({ mountPuppets }) => {
       if (current === renderVersion) {
         cleanupPuppets();
-        cleanupPuppets = mountPuppets();
+        cleanupPuppets = mountPuppets(
+          document.querySelector("#relic-display")!,
+        );
       }
     })
     .catch(() => {});

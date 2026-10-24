@@ -1484,3 +1484,9 @@ html[lang="ja"]
     top: -15%;
   }
 }
+
+/* Animated puppets that replace static art in decorative spots: they never take pointer input. */
+.codex-card-portrait.puppet-canvas,
+.register-sd.puppet-canvas {
+  pointer-events: none;
+}

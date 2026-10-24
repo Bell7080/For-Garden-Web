@@ -6,7 +6,7 @@
 - `src/codex.ts`: 위 기록을 표시하는 한·영·일 UI. 파벌 설명은 `docs/factions.md`와 `src/data/factions.ts`를 간추렸다. 스킬 효과 요약은 현재 구조화된 전투 수치를 기준으로 작성했다. 게임 밸런스가 바뀌면 JSON과 효과 요약을 함께 갱신해야 한다. 웹에서 게임 라이브 데이터나 API를 불러오는 구조가 아니다.
 - `public/assets/game/`: 게임 `public/sprites/{factions,elements,roles,skills,currency}`의 사용 에셋만 그대로 복사했다. 파벌·속성·직군의 정체성을 임의 SVG로 대체하지 않는다. 스킬의 실제 전용 아이콘도 동일하다. 기능용 화살표·닫기·메뉴는 기존 게임 기하를 따르는 UI SVG를 유지한다.
 - `public/assets/*-sd.webp`: `public/puppets/charSD_001.zip`부터 `005.zip`의 원본 텍스처에서 투명 여백만 제거했다. 001 토리카, 002 렉시아, 003 스피나, 004 루카, 005 도디. 코인·치즈케이크와 루카·도디 SD는 사전예약의 장식이며 확정 보상이 아니다.
-- `public/assets/puppets/*-sd.zip`: 위 001~003과 005를 원본 그대로 복사했다. 알파 > 16 실루엣 경계는 `src/puppet-bounds.json`에 기록했다. 도감 SD와 전신은 실제 PuppetForge idle/hit를 공유하되 별도 런타임을 사용한다. 캐릭터 선택 카드·사전예약 SD는 정적 이미지다.
+- `public/assets/puppets/*-sd.zip`: 위 001~003과 005를 원본 그대로 복사했다. 알파 > 16 실루엣 경계는 `src/puppet-bounds.json`에 기록했다. 도감 SD와 전신은 실제 PuppetForge idle/hit를 공유하되 별도 런타임을 사용한다. 캐릭터 선택 카드·사전예약 SD는 `data-puppet-mode="idle"`로 idle만 재생하고 정적 이미지가 대체한다.
 
 퍼펫은 기존 가시성 기반 30fps 스케줄러를 재사용하며 전환 시 이전 인스턴스·WebGL 리소스를 정리한다. 원본 이미지가 먼저 표시되고, 화면에 들어온 퍼펫만 로드된다. 숨겨진 탭·화면 밖·모달에서는 렌더링이 중단되며 모션 감소 설정에서는 정적 원화를 표시한다. 전환 효과는 짧은 opacity/transform 애니메이션이다. 캐릭터 선택 시 키보드 초점과 선택 카드의 화면 위치를 보존한다.
 
