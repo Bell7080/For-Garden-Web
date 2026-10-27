@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import notices from "./api/notices";
 import preregister from "./api/preregister";
+import preregisterCount from "./api/preregister-count";
 import site from "./api/site";
 import support from "./api/support";
 import type { Response, Request } from "./server/http";
@@ -32,6 +33,8 @@ export default defineConfig(({ mode }) => {
                 ? notices
                 : path === "/api/preregister"
                   ? preregister
+                  : path === "/api/preregister-count"
+                    ? preregisterCount
                   : path === "/api/site"
                     ? site
                     : path === "/api/support"

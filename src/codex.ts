@@ -383,5 +383,18 @@ export function renderFactions(lang: Locale) {
   return `<section class="codex-factions"><div class="codex-factions-heading"><p class="eyebrow">FIVE SQUADS / ONE CITY</p><h3>${tr(lang, "다섯 개의 스쿼드, 하나의 정원.", "Five squads. One garden.", "五つのスクワッド、ひとつの庭園。")}</h3><p>${tr(lang, "같은 도시를 지키는 서로 다른 방식. 당신을 부르는 이름에도, 그들만의 마음이 담겨 있습니다.", "Different ways to protect the same city. Even the names they call you tell a story.", "同じ都市を守る、それぞれのやり方。あなたを呼ぶ名前にも、彼女たちの想いが宿ります。")}</p></div><div class="codex-faction-grid">${factions.map((f, i) => `<article class="codex-faction">${gameSymbol("factions", f.id)}<span class="codex-kicker">SQUAD / 0${i + 1}</span><h4>${local(f.name, lang)}</h4><span class="codex-faction-latin">${f.latin}</span><strong>${local(f.duty, lang)}</strong><p>${local(f.body, lang)}</p></article>`).join("")}</div></section>`;
 }
 export function registerDecor(lang: Locale) {
-  return `<div class="register-companions"><span class="register-companion-label">A LITTLE COMPANY FOR YOUR NEXT CHAPTER</span><div class="register-companion-scene" aria-hidden="true"><img class="register-sd register-sd-luka" data-puppet="luka-sd" data-puppet-mode="idle" src="/assets/luka-sd.webp" alt="" width="240" height="300" loading="lazy"/><img class="register-sd register-sd-dodo" data-puppet="dodo-sd" data-puppet-mode="idle" src="/assets/dodo-sd.webp" alt="" width="200" height="270" loading="lazy"/><img class="register-cake" src="/assets/game/currency/cake.webp" alt="" width="110" height="110" loading="lazy"/><img class="register-coin coin-one" src="/assets/game/currency/gold.webp" alt="" width="64" height="64" loading="lazy"/><img class="register-coin coin-two" src="/assets/game/currency/gold.webp" alt="" width="48" height="48" loading="lazy"/></div><p>${tr(lang, "루카와 도디도, 당신과의 만남을 기다리는 중.", "Luka and Dodi are waiting to meet you, too.", "ルカとドディも、あなたとの出会いを待っています。")}</p></div>`;
+  const sparkles = [
+    [14, 22, 0],
+    [46, 8, 0.7],
+    [78, 18, 1.4],
+    [90, 52, 0.4],
+    [6, 58, 1.1],
+    [58, 40, 1.8],
+  ]
+    .map(
+      ([x, y, d]) =>
+        `<i class="register-sparkle" style="left:${x}%;top:${y}%;--delay:${d}s"></i>`,
+    )
+    .join("");
+  return `<div class="register-companions"><span class="register-companion-label">A LITTLE COMPANY FOR YOUR NEXT CHAPTER</span><div class="register-companion-scene" aria-hidden="true"><span class="register-spotlight"></span><span class="register-floor"></span>${sparkles}<span class="register-actor register-actor-luka"><img class="register-sd" data-puppet="luka-sd" data-puppet-mode="idle" src="/assets/luka-sd.webp" alt="" width="240" height="300" loading="lazy"/></span><span class="register-actor register-actor-dodo"><img class="register-sd" data-puppet="dodo-sd" data-puppet-mode="idle" src="/assets/dodo-sd.webp" alt="" width="200" height="270" loading="lazy"/></span><span class="register-bubble">${tr(lang, "기다리고 있을게요!", "We'll be waiting!", "待ってますね!")}</span><img class="register-cake" src="/assets/game/currency/cake.webp" alt="" width="110" height="110" loading="lazy"/><img class="register-coin coin-one" src="/assets/game/currency/gold.webp" alt="" width="64" height="64" loading="lazy"/><img class="register-coin coin-two" src="/assets/game/currency/gold.webp" alt="" width="48" height="48" loading="lazy"/><img class="register-coin coin-three" src="/assets/game/currency/crystal.webp" alt="" width="48" height="48" loading="lazy"/></div><p>${tr(lang, "루카와 도디도, 당신과의 만남을 기다리는 중.", "Luka and Dodi are waiting to meet you, too.", "ルカとドディも、あなたとの出会いを待っています。")}</p></div>`;
 }

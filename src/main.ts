@@ -3,6 +3,7 @@ import "./ui/controls.css";
 import "./ui/motion.css";
 import "./ui/themes.css";
 import "./ui/codex.css";
+import "./ui/register.css";
 import "./ui/depth.css";
 import "./ui/notices.css";
 import {
@@ -25,6 +26,7 @@ import {
 } from "./ui/notice-views";
 import { mountFeedback } from "./ui/feedback";
 import { mountScrollEffects } from "./ui/scroll";
+import { mountRegisterSection, registerMilestones } from "./ui/register-milestones";
 import { icon } from "./ui/icons";
 import type { EventPhase } from "./ui/game-events";
 import { languagePicker, bindLanguagePicker } from "./ui/language-picker";
@@ -138,12 +140,14 @@ let cleanupPuppets = () => {};
 let cleanupNewsPuppets = () => {};
 let cleanupPagePuppets = () => {};
 let cleanupScroll = () => {};
+let cleanupRegister = () => {};
 let renderVersion = 0;
 let newsPuppetVersion = 0;
 let pagePuppetVersion = 0;
 function render() {
   cleanupLanguagePicker();
   cleanupScroll();
+  cleanupRegister();
   cleanupPuppets();
   cleanupNewsPuppets();
   cleanupPagePuppets();
@@ -175,13 +179,17 @@ function render() {
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div>${renderFactions(lang)}</section>
  <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
  <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">05</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
- <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><a class="privacy-link" href="/legal/preregistration-consent">${t.privacy} ${arrow}</a><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form></section>
+ <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><a class="privacy-link" href="/legal/preregistration-consent">${t.privacy} ${arrow}</a><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form>${registerMilestones(lang)}</section>
  </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span>${renderFooterLinks(lang)}<a class="footer-top-link" href="#home">${t.top} ${icon("up")}</a></div></footer>
  <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">${icon("close")}</button><div class="dialog-content"></div></dialog>`;
   renderNews();
   renderRelic();
   bind();
   cleanupScroll = mountScrollEffects();
+  cleanupRegister = mountRegisterSection(
+    document.querySelector<HTMLElement>("#register")!,
+    lang,
+  );
   // 메인 화면과 사전예약의 장식 퍼펫은 렐릭을 고를 때마다 다시 만들지 않고 화면을 그릴 때 한 번만 올린다.
   const page = ++pagePuppetVersion;
   void import("./puppets")

@@ -911,20 +911,6 @@
   object-fit: contain;
   filter: drop-shadow(0 8px 10px #0002);
 }
-.register-sd-luka {
-  height: 245px;
-  width: 210px;
-  bottom: 5px;
-  left: 0;
-  rotate: -5deg;
-}
-.register-sd-dodo {
-  height: 215px;
-  width: 175px;
-  bottom: 8px;
-  right: 10px;
-  rotate: 5deg;
-}
 .register-cake {
   height: 100px;
   width: 100px;
@@ -1291,14 +1277,6 @@
   }
   .register-companion-scene {
     height: 240px;
-  }
-  .register-sd-luka {
-    height: 220px;
-    width: 185px;
-  }
-  .register-sd-dodo {
-    height: 200px;
-    width: 160px;
   }
   .register-companion-label {
     letter-spacing: 0.8px;
