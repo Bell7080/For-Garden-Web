@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
+import coupon from "./api/coupon";
 import notices from "./api/notices";
 import preregister from "./api/preregister";
 import preregisterCount from "./api/preregister-count";
@@ -29,7 +30,9 @@ export default defineConfig(({ mode }) => {
               }
             }
             const handler =
-              path === "/api/notices"
+              path === "/api/coupon"
+                ? coupon
+                : path === "/api/notices"
                 ? notices
                 : path === "/api/preregister"
                   ? preregister

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>쿠폰 등록 · For Garden</title>
+<link rel="stylesheet" href="/ui/controls.css"><link rel="stylesheet" href="/legal/center.css"><script src="/legal/theme.js"></script>
+<style>
+.cp{max-width:520px;margin:0 auto;padding:28px 16px 64px}
+.cp h1{font-size:28px;margin:0 0 4px;letter-spacing:0}
+.cp .sub{color:var(--dim);margin:0 0 18px;font-size:15px}
+.stage{display:flex;align-items:flex-end;gap:10px;margin:0 0 -6px;position:relative;z-index:1}
+.stage img{width:118px;height:auto;flex:none;transform-origin:50% 100%;animation:hop 1.6s ease-in-out .2s 1 both}
+.bubble{position:relative;background:var(--panel);border:1px solid var(--line);padding:12px 16px;margin-bottom:56px;font-size:15px;font-weight:700;line-height:1.55;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.bubble:after{content:"";position:absolute;left:-1px;bottom:14px;width:12px;height:12px;background:var(--panel)}
+@keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-14px) scaleY(1.04)}55%{transform:translateY(0) scaleY(.96)}70%{transform:translateY(-4px)}}
+.card{background:var(--panel);border:1px solid var(--line);padding:20px;position:relative;clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px);box-shadow:0 6px 0 var(--tint)}
+.ticket{display:flex;align-items:center;gap:14px;padding:12px 14px;margin:0 0 18px;background:var(--tint);border-left:4px solid var(--accent)}
+.ticket img{width:44px;height:44px;flex:none;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+.who{min-width:0}
+.who b{display:block;font-size:18px;font-weight:800;overflow-wrap:anywhere}
+.who span{font-size:13px;color:var(--dim);letter-spacing:1px}
+label.field{display:grid;gap:6px;font-size:14px;font-weight:700}
+.field input{font:inherit;font-size:22px;font-weight:800;letter-spacing:3px;text-transform:uppercase;text-align:center;color:var(--ink);background:var(--bg);border:2px solid var(--line);padding:12px;width:100%;border-radius:0}
+.field input:focus{outline:none;border-color:var(--accent)}
+.field input[aria-invalid=true]{border-color:#b33b2c}
+.note{font-size:13px;color:var(--dim);margin:8px 0 16px}
+.go{width:100%;font-size:17px;font-weight:800;padding:14px;background:var(--accent);color:var(--bg);border-color:var(--accent);clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.go:hover{background:var(--accent);filter:brightness(1.08)}
+.go:disabled{opacity:.55;cursor:wait}
+#status{min-height:1.7em;font-size:15px;font-weight:700;margin:12px 0 0;text-align:center}
+#status[data-s=error]{color:#b33b2c}html[data-theme=dark] #status[data-s=error]{color:#ffa296}
+#status[data-s=ok]{color:#246640}html[data-theme=dark] #status[data-s=ok]{color:#9ad1ac}
+.empty{text-align:center}
+.empty p{margin:0 0 8px}
+.path{display:inline-block;font-weight:800;color:var(--accent);background:var(--tint);padding:4px 10px;margin:6px 0 4px}
+.links{font-size:13px;margin-top:20px;color:var(--dim)}
+.hidden{display:none!important}
+@media(prefers-reduced-motion:reduce){.stage img,.ticket img{animation:none}}
+</style>
+</head>
+<body>
+<main class="cp">
+<h1 id="h">쿠폰 등록</h1>
+<p class="sub" id="sub">쿠폰 코드만 입력하면 보상이 게임 우편함으로 도착해요.</p>
+<div class="stage" aria-hidden="true"><img src="/assets/torika-sd.webp" alt="" width="820" height="1071"><div class="bubble" id="bubble">코드를 입력해 주세요! 보상은 우편함으로 보내 드릴게요.</div></div>
+<section class="card">
+<div id="form-area" class="hidden">
+<div class="ticket"><img src="/assets/game/currency/crystal.webp" alt="" width="256" height="256"><div class="who"><span id="l-acc">등록할 계정</span><b id="nick">…</b><span id="uid"></span></div></div>
+<form id="f" novalidate>
+<label class="field"><span id="l-code">쿠폰 코드</span><input id="code" name="code" required maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX"></label>
+<p class="note" id="note">코드는 계정마다 한 번만 쓸 수 있어요. 보상은 우편함에서 받아 주세요.</p>
+<button type="submit" class="go" id="go">등록하기</button>
+<p id="status" role="status" aria-live="polite"></p>
+</form>
+</div>
+<div id="empty" class="empty">
+<p id="e1">게임에서 열어야 계정이 연결돼요.</p>
+<span class="path" id="e2">설정 › 계정 › 쿠폰 등록</span>
+<p id="e3" class="note">게임의 「홈페이지에서 등록하기」를 누르면 이 페이지가 계정과 함께 열립니다. 연결은 15분 동안 유지돼요.</p>
+<p id="estatus" role="status" aria-live="polite"></p>
+</div>
+</section>
+<p class="links"><a href="/legal/coupon" id="rule">쿠폰 이용 안내</a> · <a href="/" id="back">← 홈으로</a></p>
+</main>
+<script>
+(function(){
+var T={
+ko:{h:"쿠폰 등록",sub:"쿠폰 코드만 입력하면 보상이 게임 우편함으로 도착해요.",bubble:"코드를 입력해 주세요! 보상은 우편함으로 보내 드릴게요.","l-acc":"등록할 계정","l-code":"쿠폰 코드",note:"코드는 계정마다 한 번만 쓸 수 있어요. 보상은 우편함에서 받아 주세요.",go:"등록하기",e1:"게임에서 열어야 계정이 연결돼요.",e2:"설정 › 계정 › 쿠폰 등록",e3:"게임의 「홈페이지에서 등록하기」를 누르면 이 페이지가 계정과 함께 열립니다. 연결은 15분 동안 유지돼요.",rule:"쿠폰 이용 안내",back:"← 홈으로",
+ok:"「{name}」 보상을 우편함으로 보냈어요!",okBubble:"등록 완료! 게임 우편함을 열어 보세요.",expired:"연결이 만료됐어요. 게임에서 다시 열어 주세요.",
+err:{invalid_code:"존재하지 않는 코드예요.",unavailable:"지금은 쓸 수 없는 쿠폰이에요.",already_redeemed:"이미 등록한 쿠폰이에요.",already_used:"이미 사용된 코드예요.",exhausted:"선착순 수량이 모두 소진됐어요.",rate_limited:"잠시 후 다시 시도해 주세요.",account_restricted:"이 계정은 쿠폰을 등록할 수 없어요.",invalid_request:"코드를 다시 확인해 주세요.",fail:"등록하지 못했어요. 잠시 후 다시 시도해 주세요."}},
+en:{h:"Redeem a coupon",sub:"Just enter the code — rewards arrive in your in-game mailbox.",bubble:"Type your code! I'll send the rewards to your mailbox.","l-acc":"Account","l-code":"Coupon code",note:"Each code can be used once per account. Collect rewards from your mailbox.",go:"Redeem",e1:"Open this page from the game to link your account.",e2:"Settings › Account › Redeem Coupon",e3:"Tap \"Redeem on the website\" in the game and this page opens with your account. The link lasts 15 minutes.",rule:"Coupon terms",back:"← Home",
+ok:"Rewards for \"{name}\" were sent to your mailbox!",okBubble:"Done! Check your in-game mailbox.",expired:"The link has expired. Please open it again from the game.",
+err:{invalid_code:"That code doesn't exist.",unavailable:"This coupon can't be used right now.",already_redeemed:"You've already redeemed this coupon.",already_used:"This code has already been used.",exhausted:"All rewards for this coupon have been claimed.",rate_limited:"Please try again in a moment.",account_restricted:"This account can't redeem coupons.",invalid_request:"Please check the code.",fail:"Couldn't redeem. Please try again later."}},
+ja:{h:"クーポン登録",sub:"コードを入力するだけで、報酬がゲームのメールボックスに届きます。",bubble:"コードを入力してね！報酬はメールボックスに送るよ。","l-acc":"登録するアカウント","l-code":"クーポンコード",note:"コードは1アカウントにつき1回だけ使えます。報酬はメールボックスで受け取ってください。",go:"登録する",e1:"ゲームから開くとアカウントが連携されます。",e2:"設定 › アカウント › クーポン登録",e3:"ゲームの「公式サイトで登録」を押すと、アカウント付きでこのページが開きます。連携は15分間有効です。",rule:"クーポン利用案内",back:"← ホームへ",
+ok:"「{name}」の報酬をメールボックスに送りました！",okBubble:"登録完了！ゲームのメールボックスを見てね。",expired:"連携の有効期限が切れました。ゲームからもう一度開いてください。",
+err:{invalid_code:"存在しないコードです。",unavailable:"現在は使えないクーポンです。",already_redeemed:"すでに登録したクーポンです。",already_used:"すでに使用されたコードです。",exhausted:"先着数がすべてなくなりました。",rate_limited:"しばらくしてからお試しください。",account_restricted:"このアカウントはクーポンを登録できません。",invalid_request:"コードを確認してください。",fail:"登録できませんでした。後ほどお試しください。"}}};
+var lang=(navigator.language||"ko").slice(0,2);if(!T[lang])lang="ko";document.documentElement.lang=lang;
+var t=T[lang],$=function(id){return document.getElementById(id)};
+["h","sub","bubble","l-acc","l-code","note","go","e1","e2","e3","rule","back"].forEach(function(k){$(k).textContent=t[k]});
+document.title=t.h+" · For Garden";
+// 티켓은 주소의 # 뒤에만 실려 서버 로그·리퍼러에 남지 않는다. 읽은 뒤 주소에서 지우고 새로고침용으로 이 탭에만 둔다.
+var ticket="";try{var m=/(?:^|[#&])t=([0-9a-f]{48})/.exec(location.hash);if(m){ticket=m[1];sessionStorage.setItem("fg-coupon-ticket",ticket);history.replaceState(null,"",location.pathname)}else ticket=sessionStorage.getItem("fg-coupon-ticket")||""}catch(e){}
+function call(body){return fetch("/api/coupon",{method:"POST",headers:{"Content-Type":"application/json"},signal:AbortSignal.timeout(15000),body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return[r.status,j]})})}
+function expire(){try{sessionStorage.removeItem("fg-coupon-ticket")}catch(e){}$("form-area").classList.add("hidden");$("empty").classList.remove("hidden");$("estatus").textContent=t.expired;$("estatus").dataset.s="error"}
+if(!ticket)return;
+call({action:"info",ticket:ticket}).then(function(x){
+if(x[0]===200&&x[1].ok){$("nick").textContent=x[1].nickname||"—";$("uid").textContent="UID "+x[1].uid;$("empty").classList.add("hidden");$("form-area").classList.remove("hidden");$("code").focus()}
+else if(x[1]&&x[1].error==="invalid_ticket")expire();
+else{$("estatus").textContent=t.err.fail;$("estatus").dataset.s="error"}}).catch(function(){$("estatus").textContent=t.err.fail;$("estatus").dataset.s="error"});
+var f=$("f"),s=$("status"),b=$("go"),c=$("code");
+c.addEventListener("input",function(){var p=c.selectionStart===c.value.length;c.value=c.value.toUpperCase();if(p)c.selectionStart=c.selectionEnd=c.value.length;c.removeAttribute("aria-invalid")});
+f.addEventListener("submit",function(e){e.preventDefault();s.dataset.s="";
+var code=c.value.replace(/[^A-Za-z0-9]/g,"");if(code.length<4||code.length>32){s.textContent=t.err.invalid_request;s.dataset.s="error";c.setAttribute("aria-invalid","true");return}
+b.disabled=true;s.textContent="…";
+call({action:"redeem",ticket:ticket,code:code}).then(function(x){
+if(x[0]===200&&x[1].ok){s.textContent=t.ok.replace("{name}",x[1].name||"");s.dataset.s="ok";$("bubble").textContent=t.okBubble;c.value=""}
+else if(x[1]&&x[1].error==="invalid_ticket")expire();
+else{var k=x[1]&&x[1].error;s.textContent=t.err[k]||t.err.fail;s.dataset.s="error";if(k==="invalid_code"||k==="invalid_request")c.setAttribute("aria-invalid","true")}})
+.catch(function(){s.textContent=t.err.fail;s.dataset.s="error"}).then(function(){b.disabled=false})});
+})();
+</script>
+<script type="module" src="/ui/controls.js"></script>
+</body>
+</html>

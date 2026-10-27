@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import support from "../api/support";
 import preregister from "../api/preregister";
 import notices from "../api/notices";
+import coupon from "../api/coupon";
 import type { Request, Response } from "../server/http";
 
 function response() {
@@ -233,5 +234,74 @@ describe("support intake API", () => {
     const r = response();
     await support(request(ticket), r.res);
     expect(r.result().status).toBe(503);
+  });
+});
+
+describe("coupon API", () => {
+  const ticket = "ab".repeat(24);
+  function couponRequest(body: unknown): Request {
+    return { ...request(body), body: JSON.stringify(body) };
+  }
+  function db() {
+    vi.stubEnv("SUPABASE_URL", "https://project.supabase.co");
+    vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "test-only-server-key");
+  }
+  it("rejects requests without a well-formed game ticket", async () => {
+    db();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    for (const body of [
+      { action: "info", ticket: "short" },
+      { action: "info", uid: "123456" },
+      { action: "delete", ticket },
+    ]) {
+      const out = response();
+      await coupon(couponRequest(body), out.res);
+      expect(out.result().status).toBe(400);
+    }
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  it("reports unavailable when the database is not configured", async () => {
+    const out = response();
+    await coupon(couponRequest({ action: "info", ticket }), out.res);
+    expect(out.result().status).toBe(503);
+  });
+  it("shows the linked account and redeems with only the code", async () => {
+    db();
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({ ok: true, uid: "1234567", nickname: "연구원", expires_at: "2026-10-27T00:15:00Z" }),
+      )
+      .mockResolvedValueOnce(Response.json({ ok: true, name: "오픈 기념", rewards: [] }));
+    vi.stubGlobal("fetch", fetchMock);
+    const info = response();
+    await coupon(couponRequest({ action: "info", ticket }), info.res);
+    expect(info.result()).toMatchObject({ status: 200, body: { ok: true, uid: "1234567", nickname: "연구원" } });
+    const redeem = response();
+    await coupon(couponRequest({ action: "redeem", ticket, code: "open-2026-gift" }), redeem.res);
+    expect(redeem.result()).toMatchObject({ status: 200, body: { ok: true, name: "오픈 기념" } });
+    expect(fetchMock.mock.calls[1][0]).toContain("rpc/server_redeem_coupon_ticket");
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toEqual({ p_ticket: ticket, p_code: "OPEN2026GIFT" });
+  });
+  it("passes known coupon errors through and rate limits with 429", async () => {
+    db();
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValueOnce(Response.json({ ok: false, error: "already_redeemed" }))
+        .mockResolvedValueOnce(Response.json({ ok: false, error: "rate_limited" }))
+        .mockResolvedValueOnce(Response.json({ ok: false, error: "something_internal" })),
+    );
+    const a = response();
+    await coupon(couponRequest({ action: "redeem", ticket, code: "ABCD1234" }), a.res);
+    expect(a.result()).toMatchObject({ status: 400, body: { error: "already_redeemed" } });
+    const b = response();
+    await coupon(couponRequest({ action: "redeem", ticket, code: "ABCD1234" }), b.res);
+    expect(b.result().status).toBe(429);
+    const c = response();
+    await coupon(couponRequest({ action: "redeem", ticket, code: "ABCD1234" }), c.res);
+    expect(c.result()).toMatchObject({ status: 400, body: { error: "coupon_unavailable" } });
   });
 });

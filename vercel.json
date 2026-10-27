@@ -32,6 +32,10 @@
       "dest": "/support.html"
     },
     {
+      "src": "/coupon/?",
+      "dest": "/coupon.html"
+    },
+    {
       "src": "/api/.*",
       "status": 404
     },
