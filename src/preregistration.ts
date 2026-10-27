@@ -3,11 +3,12 @@ import type { Locale } from "./content";
 /**
  * Pre-registration milestones. The thresholds are not linear, so the gauge gives each
  * stretch between two milestones the same width; the fill interpolates inside a stretch.
- * Reward amounts follow the game's clean paid-amount units and are paid by mail after launch.
+ * Rewards lean on premium currency (gem 300 = one research), as genre pre-registration
+ * rewards do; amounts follow the game's clean paid-amount units and are mailed after launch.
  */
 export interface Milestone {
   goal: number;
-  icon: "gold" | "cake" | "crystal" | "fossil" | "amber";
+  icon: "crystal" | "fossil" | "amber" | "universal-fragment-ssr";
   amount: number;
   name: Record<Locale, string>;
 }
@@ -15,33 +16,37 @@ export interface Milestone {
 export const MILESTONES: readonly Milestone[] = [
   {
     goal: 1000,
-    icon: "gold",
-    amount: 50000,
-    name: { ko: "골드", en: "Gold", ja: "ゴールド" },
+    icon: "crystal",
+    amount: 300,
+    name: { ko: "젬", en: "Gems", ja: "ジェム" },
   },
   {
     goal: 3000,
-    icon: "cake",
-    amount: 300,
-    name: { ko: "치즈케이크", en: "Cheesecake", ja: "チーズケーキ" },
+    icon: "fossil",
+    amount: 3,
+    name: { ko: "화석", en: "Fossils", ja: "化石" },
   },
   {
     goal: 5000,
     icon: "crystal",
-    amount: 500,
+    amount: 1000,
     name: { ko: "젬", en: "Gems", ja: "ジェム" },
   },
   {
     goal: 10000,
-    icon: "fossil",
+    icon: "amber",
     amount: 5,
-    name: { ko: "화석", en: "Fossils", ja: "化石" },
+    name: { ko: "호박석", en: "Amber", ja: "琥珀石" },
   },
   {
     goal: 30000,
-    icon: "amber",
-    amount: 10,
-    name: { ko: "호박석", en: "Amber", ja: "琥珀石" },
+    icon: "universal-fragment-ssr",
+    amount: 1,
+    name: {
+      ko: "만능 SSR 파편",
+      en: "Universal SSR Shard",
+      ja: "万能SSR欠片",
+    },
   },
 ];
 
