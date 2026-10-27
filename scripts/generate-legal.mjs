@@ -20,6 +20,28 @@ const current = versions.at(-1);
 
 const table = (heads, rows) =>
   `<div class="table-scroll" tabindex="0" role="region" aria-label="${e(heads.join(" / "))}"><table><thead><tr>${heads.map((h) => `<th scope="col">${e(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((c) => `<td>${e(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+// [대괄호] 자리는 운영자가 확정해야 하는 값이다. 시행 전 초안에서 눈에 띄게 남겨 둔다.
+const placeholder = (text) =>
+  e(text).replace(/\[([^\]]+)\]/g, '<mark class="todo">[$1]</mark>');
+const placeholders = (doc) =>
+  doc.sections.flatMap((sec) =>
+    [
+      ...sec.paragraphs,
+      ...(sec.items ?? []),
+      ...(sec.after ?? []),
+      ...(sec.table ? sec.table.rows.flat() : []),
+    ].flatMap((text) => [...String(text).matchAll(/\[([^\]]+)\]/g)].map((m) => m[1])),
+  );
+const sectionBody = (sec) =>
+  `${sec.paragraphs.map((p) => `<p>${placeholder(p)}</p>`).join("")}${
+    sec.items
+      ? `<${sec.ordered ? "ol" : "ul"}>${sec.items.map((item) => `<li>${placeholder(item)}</li>`).join("")}</${sec.ordered ? "ol" : "ul"}>`
+      : ""
+  }${
+    sec.table
+      ? `<div class="table-scroll" tabindex="0" role="region" aria-label="${e(sec.title)}"><table${sec.table.heads.length > 2 ? ' class="wide"' : ""}><thead><tr>${sec.table.heads.map((h) => `<th scope="col">${e(h)}</th>`).join("")}</tr></thead><tbody>${sec.table.rows.map((row) => `<tr>${row.map((c) => `<td>${placeholder(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`
+      : ""
+  }${(sec.after ?? []).map((p) => `<p>${placeholder(p)}</p>`).join("")}`;
 const nav = () =>
   `<nav class="sections" aria-label="안내 문서"><a href="/legal">안내 센터</a><a href="/probabilities">확률 정보</a>${current.documents.map((d) => `<a href="${d.path}">${e(d.title)}</a>`).join("")}<a href="/support.html">비공개 문의</a></nav>`;
 const shell = (title, description, body, archive = false) =>
@@ -33,7 +55,7 @@ for (const edition of versions) {
   for (const d of edition.documents) {
     const archived = `/legal/archive/${edition.version}/${d.id}`;
     const isDraft = edition.status !== "effective";
-    const body = `<div class="notice" role="note"><strong>${isDraft ? "출시 준비 초안 · 시행 전" : "시행 중인 문서"}</strong><p>${isDraft ? "확정된 방침이 아닙니다. 운영자·연락처·보유기간과 실제 기능을 확정하고 검토한 뒤 시행해야 합니다." : "시행일과 변경 이력을 확인해 주세요."}</p></div><div class="meta"><span>문서 버전 ${e(edition.version)}</span><span>시행일 ${e(edition.effectiveDate ?? "미정")}</span></div><nav class="toc" aria-label="본문 목차">${d.sections.map((s, i) => `<a href="#section-${i + 1}">${i + 1}. ${e(s.title)}</a>`).join("")}</nav>${d.sections.map((s, i) => `<section id="section-${i + 1}"><p class="section-number">RECORD ${String(i + 1).padStart(2, "0")}</p><h2>${e(s.title)}</h2>${s.paragraphs.map((p) => `<p>${e(p)}</p>`).join("")}</section>`).join("")}<section><h2>문서 이력</h2>${(edition === current ? versions.filter((v) => v.documents.some((doc) => doc.id === d.id)) : [edition]).map((v) => `<p><a href="/legal/archive/${v.version}/${d.id}">${e(v.version)} 원문 보관본</a></p>`).join("")}<p><a href="${d.path}">현재 문서 확인</a> · <a href="/legal">전체 정책 목록</a></p></section>`;
+    const body = `<div class="notice" role="note"><strong>${isDraft ? "출시 준비 초안 · 시행 전" : "시행 중인 문서"}</strong><p>${isDraft ? "확정된 방침이 아닙니다. 표시된 [대괄호] 항목(운영자·연락처·보유기간 등)과 실제 기능을 확정하고, 법률 전문가의 검토를 거친 뒤 시행해야 합니다." : "시행일과 변경 이력을 확인해 주세요."}</p></div><div class="meta"><span>문서 버전 ${e(edition.version)}</span><span>시행일 ${e(edition.effectiveDate ?? "미정")}</span></div><nav class="toc" aria-label="본문 목차">${d.sections.map((s, i) => `<a href="#section-${i + 1}">${/^(\d+\.|제\d+조|부칙)/.test(s.title) ? "" : `${i + 1}. `}${e(s.title)}</a>`).join("")}</nav>${d.sections.map((s, i) => `<section id="section-${i + 1}"><p class="section-number">RECORD ${String(i + 1).padStart(2, "0")}</p><h2>${e(s.title)}</h2>${sectionBody(s)}</section>`).join("")}<section><h2>문서 이력</h2>${(edition === current ? versions.filter((v) => v.documents.some((doc) => doc.id === d.id)) : [edition]).map((v) => `<p><a href="/legal/archive/${v.version}/${d.id}">${e(v.version)} 원문 보관본</a></p>`).join("")}<p><a href="${d.path}">현재 문서 확인</a> · <a href="/legal">전체 정책 목록</a></p></section>`;
     await page(
       archived,
       shell(d.title + " · 원문 보관본", d.summary, body, true),
@@ -47,7 +69,14 @@ await page(
   shell(
     "정책·운영 안내",
     "연구를 시작하기 전에, 알아두어야 할 기록을 모았습니다.",
-    `<div class="notice"><strong>출시 준비 중인 안내 센터</strong><p>문서 내용은 초안이며 시행일은 미정입니다. 확정되지 않은 운영 정보를 임의로 기재하지 않았습니다. 문서 게시와 실제 기능 구현은 별개입니다.</p></div><a class="feature" href="/probabilities"><span class="eyebrow">PROBABILITY ARCHIVE</span><h2>확률을 투명하게.</h2><p>연구별 개별 렐릭·재화 확률과 천장·픽업 조건을 확인하세요.</p><span>확률 정보 열기 →</span></a><div class="cards">${current.documents.map((d, i) => `<a class="card" href="${d.path}"><span class="section-number">DOCUMENT ${String(i + 1).padStart(2, "0")}</span><h2>${e(d.title)}</h2><p>${e(d.summary)}</p><span class="tag">시행 전 초안</span></a>`).join("")}</div><section><h2>문의와 권리 행사</h2><p>개인정보와 거래 정보는 공개 게시판에 올리지 마세요. <a href="/support.html">비공개 문의</a>에서 접수 결과를 확인할 수 있습니다. 전담 운영자·연락처와 처리 기준은 출시 전에 확정할 예정입니다.</p></section>`,
+    `<div class="notice"><strong>출시 준비 중인 안내 센터</strong><p>문서 내용은 초안이며 시행일은 미정입니다. 확정되지 않은 운영 정보를 임의로 기재하지 않았습니다. 문서 게시와 실제 기능 구현은 별개입니다.</p></div><a class="feature" href="/probabilities"><span class="eyebrow">PROBABILITY ARCHIVE</span><h2>확률을 투명하게.</h2><p>연구별 개별 렐릭·재화 확률과 천장·픽업 조건을 확인하세요.</p><span>확률 정보 열기 →</span></a>${(current.groups ?? [{ id: undefined, title: "문서" }])
+      .map((g) => {
+        const docs = current.documents.filter((d) => (g.id ? d.group === g.id : true));
+        return docs.length
+          ? `<h2 class="group-title">${e(g.title)}</h2><div class="cards">${docs.map((d) => { const todo = placeholders(d).length; return `<a class="card" href="${d.path}"><span class="section-number">DOCUMENT ${String(current.documents.indexOf(d) + 1).padStart(2, "0")}</span><h2>${e(d.title)}</h2><p>${e(d.summary)}</p><span class="tag">${current.status === "effective" ? "시행 중" : "시행 전 초안"}</span>${todo ? `<span class="tag">확정 필요 ${todo}곳</span>` : ""}</a>`; }).join("")}</div>`
+          : "";
+      })
+      .join("")}<section><h2>문의와 권리 행사</h2><p>개인정보와 거래 정보는 공개 게시판에 올리지 마세요. <a href="/support.html">비공개 문의</a>에서 접수 결과를 확인할 수 있습니다. 전담 운영자·연락처와 처리 기준은 출시 전에 확정할 예정입니다.</p></section>`,
   ),
 );
 const pct = (n) =>

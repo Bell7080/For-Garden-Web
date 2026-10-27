@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
-import edition from "../content/legal/2026-10-17-draft-3.json";
+import edition from "../content/legal/2026-10-27-draft-4.json";
 import snapshot from "../content/probabilities/2026-10-17-draft-1.json";
 
 describe("공개 연구 확률의 조건별 정합성", () => {
@@ -78,9 +78,41 @@ describe("정책 원문과 보관본", () => {
         const html = readFileSync(path, "utf8");
         expect(html).toContain(d.title);
         expect(html).toContain("출시 준비 초안");
-        for (const section of d.sections) expect(html).toContain(section.title);
+        for (const section of d.sections) {
+          expect(html).toContain(section.title);
+          for (const head of section.table?.heads ?? []) expect(html).toContain(head);
+        }
         expect(html).not.toContain("src/main.ts");
       }
     }
+  });
+});
+
+describe("법적 문서 4판의 구성", () => {
+  const ids = edition.documents.map((d) => d.id);
+  it("실제 게임 홈페이지가 갖추는 필수 문서를 모두 갖는다", () => {
+    for (const id of ["terms", "paid", "refunds", "privacy", "withdrawal", "operation", "youth", "coupon", "business"])
+      expect(ids).toContain(id);
+  });
+  it("모든 문서는 분류에 속하고 분류는 안내 센터에 선다", () => {
+    const groups = new Set(edition.groups.map((g) => g.id));
+    for (const d of edition.documents) expect(groups.has(d.group)).toBe(true);
+    const center = readFileSync("public/legal/index.html", "utf8");
+    for (const g of edition.groups) expect(center).toContain(g.title);
+  });
+  it("확정되지 않은 값은 [대괄호] 자리표시자로 남고 강조 표시된다", () => {
+    const html = readFileSync("public/terms/index.html", "utf8");
+    expect(html).toContain('<mark class="todo">[운영자 상호]</mark>');
+    expect(html).toContain("법률 전문가의 검토");
+  });
+  it("개인정보 처리방침은 법정 기재 사항의 절을 모두 갖는다", () => {
+    const privacy = edition.documents.find((d) => d.id === "privacy")!;
+    const titles = privacy.sections.map((s) => s.title).join(" ");
+    for (const word of ["목적", "보유", "제3자", "위탁", "국외", "파기", "권리", "14세", "자동으로 수집", "안전성", "보호책임자", "구제", "변경"])
+      expect(titles).toContain(word);
+  });
+  it("게임 밖에서도 계정 삭제를 요청하는 경로를 안내한다", () => {
+    const withdrawal = edition.documents.find((d) => d.id === "withdrawal")!;
+    expect(withdrawal.sections.map((s) => s.title).join(" ")).toContain("게임 밖에서");
   });
 });

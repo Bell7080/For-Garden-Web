@@ -8,6 +8,7 @@ const labels = {
       "확률 정보",
       "정책·운영 안내",
       "문의하기",
+      "사업자 정보",
     ],
   },
   en: {
@@ -19,6 +20,7 @@ const labels = {
       "Probabilities",
       "Policies",
       "Contact",
+      "Business info",
     ],
   },
   ja: {
@@ -30,6 +32,7 @@ const labels = {
       "提供割合",
       "規約・運営案内",
       "お問い合わせ",
+      "事業者情報",
     ],
   },
 };
@@ -43,6 +46,7 @@ export function renderFooterLinks(locale = "ko", currentPath = "") {
     "/probabilities",
     "/legal",
     "/support.html",
+    "/legal/business",
   ];
-  return `<nav class="site-footer-links" aria-label="${text.nav}">${paths.map((path, i) => `<a href="${path}"${path === currentPath ? ' aria-current="page"' : ""}${i > 0 && i < 5 && lang !== "ko" ? ' hreflang="ko"' : ""}>${text.links[i]}</a>`).join("")}</nav>`;
+  return `<nav class="site-footer-links" aria-label="${text.nav}">${paths.map((path, i) => `<a href="${path}"${path === currentPath ? ' aria-current="page"' : ""}${i > 0 && i !== 5 && lang !== "ko" ? ' hreflang="ko"' : ""}>${text.links[i]}</a>`).join("")}</nav>`;
 }

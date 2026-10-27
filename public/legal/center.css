@@ -538,3 +538,36 @@ body {
 #f {
   background: var(--panel);
 }
+
+/* [대괄호] 자리표시자 — 운영자가 확정해야 하는 값 */
+mark.todo {
+  background: var(--tint);
+  color: var(--accent);
+  border-bottom: 1px dashed var(--accent);
+  padding: 0 3px;
+  font-weight: 700;
+}
+@media (forced-colors: active) {
+  mark.todo {
+    border-bottom-color: Highlight;
+  }
+}
+.group-title {
+  margin-top: 40px;
+}
+main ol,
+main ul {
+  padding-left: 1.4em;
+}
+.card .tag + .tag {
+  margin-left: 6px;
+}
+/* 세 칸 이상 표는 좁은 화면에서 글자가 한 자씩 꺾이지 않도록 가로로 흐르게 한다. */
+table.wide {
+  min-width: 640px;
+}
+td,
+th {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
