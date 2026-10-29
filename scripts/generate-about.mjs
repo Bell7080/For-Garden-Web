@@ -29,7 +29,7 @@ for (const [lang, t] of Object.entries(content)) {
         `<a href="${code === "ko" ? "/about" : `/about/${code}`}" lang="${code}" hreflang="${code}"${code === lang ? ' aria-current="page"' : ""}>${label}</a>`,
     )
     .join("");
-  const html = `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(t.intro)}"><title>${escape(t.title)} · For Garden</title><link rel="icon" href="/favicon.svg"><script src="/legal/theme.js"></script><link rel="stylesheet" href="/legal/center.css"><link rel="stylesheet" href="/ui/footer.css"><link rel="stylesheet" href="/ui/about.css"><script defer src="/legal/center.js"></script><script defer src="/ui/about.js"></script>${Object.keys(
+  const html = `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(t.intro)}"><title>${escape(t.title)} · For Garden</title><link rel="icon" href="/favicon.svg"><script src="/legal/theme.js"></script><link rel="stylesheet" href="/legal/center.css"><link rel="stylesheet" href="/ui/footer.css"><link rel="stylesheet" href="/ui/about.css"><script defer src="/legal/center.js"></script><script defer src="/ui/storage-notice.js"></script><script defer src="/ui/about.js"></script>${Object.keys(
     content,
   )
     .map(

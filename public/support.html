@@ -35,7 +35,7 @@ a{color:var(--accent)}
 <form id="f" novalidate>
 <label><span id="l-email">이메일</span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>
 <label><span id="l-cat">종류</span>
-<select name="category"><option value="inquiry">문의</option><option value="bug">버그 제보</option><option value="report">신고</option><option value="other">기타</option></select></label>
+<select name="category"><option value="inquiry">문의</option><option value="bug">버그 제보</option><option value="report">신고</option><option value="privacy">개인정보·삭제</option><option value="other">기타</option></select></label>
 <label><span id="l-subject">제목</span><input name="subject" required maxlength="100"></label>
 <label><span id="l-body">내용</span><textarea name="body" required maxlength="4000"></textarea></label>
 <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
@@ -48,8 +48,8 @@ a{color:var(--accent)}
 </main>
 <script>
 (function(){
-var T={ko:{},en:{h:"Contact us",sub:"Send an inquiry, bug report or complaint. We will reply by email.","l-email":"Email","l-cat":"Type","l-subject":"Subject","l-body":"Message","l-consent":"I agree to the collection and storage of my email and message for the purpose of replying.",go:"Send",back:"← Home",ok:"Received. Your ticket number is #",bad:"Please check the form.",rate:"Too many requests. Please try again later.",fail:"Could not send. Please try again later.",opts:["Inquiry","Bug report","Report","Other"]},
-ja:{h:"お問い合わせ",sub:"お問い合わせ・不具合報告・通報をお送りください。メールで返信します。","l-email":"メールアドレス","l-cat":"種類","l-subject":"件名","l-body":"内容","l-consent":"返信のためにメールアドレスと内容を収集・保管することに同意します。",go:"送信",back:"← ホームへ",ok:"受け付けました。受付番号は #",bad:"入力内容を確認してください。",rate:"送信回数が多すぎます。しばらくしてからお試しください。",fail:"送信できませんでした。後ほどお試しください。",opts:["お問い合わせ","不具合報告","通報","その他"]}};
+var T={ko:{},en:{h:"Contact us",sub:"Send an inquiry, bug report or complaint. We will reply by email.","l-email":"Email","l-cat":"Type","l-subject":"Subject","l-body":"Message","l-consent":"I agree to the collection and storage of my email and message for the purpose of replying.",go:"Send",back:"← Home",ok:"Received. Your ticket number is #",bad:"Please check the form.",rate:"Too many requests. Please try again later.",fail:"Could not send. Please try again later.",opts:["Inquiry","Bug report","Report","Privacy / deletion","Other"]},
+ja:{h:"お問い合わせ",sub:"お問い合わせ・不具合報告・通報をお送りください。メールで返信します。","l-email":"メールアドレス","l-cat":"種類","l-subject":"件名","l-body":"内容","l-consent":"返信のためにメールアドレスと内容を収集・保管することに同意します。",go:"送信",back:"← ホームへ",ok:"受け付けました。受付番号は #",bad:"入力内容を確認してください。",rate:"送信回数が多すぎます。しばらくしてからお試しください。",fail:"送信できませんでした。後ほどお試しください。",opts:["お問い合わせ","不具合報告","通報","個人情報・削除","その他"]}};
 var lang=(navigator.language||"ko").slice(0,2);if(!T[lang])lang="ko";document.documentElement.lang=lang;
 var ko={ok:"접수되었습니다. 접수 번호는 #",bad:"입력 내용을 확인해 주세요.",rate:"요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.",fail:"전송하지 못했습니다. 잠시 후 다시 시도해 주세요."};
 var t=T[lang],m=lang==="ko"?ko:t;
@@ -70,5 +70,6 @@ else{s.textContent=x[0]===429?m.rate:x[0]===400?m.bad:m.fail;s.dataset.s="error"
 })();
 </script>
 <script type="module" src="/ui/controls.js"></script>
+<script defer src="/ui/storage-notice.js"></script>
 </body>
 </html>

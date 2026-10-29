@@ -91,7 +91,7 @@ describe("정책 원문과 보관본", () => {
 describe("법적 문서 4판의 구성", () => {
   const ids = edition.documents.map((d) => d.id);
   it("실제 게임 홈페이지가 갖추는 필수 문서를 모두 갖는다", () => {
-    for (const id of ["terms", "paid", "refunds", "privacy", "withdrawal", "operation", "youth", "coupon", "business"])
+    for (const id of ["terms", "paid", "refunds", "privacy", "withdrawal", "operation", "youth", "coupon", "business", "cookies", "licenses"])
       expect(ids).toContain(id);
   });
   it("모든 문서는 분류에 속하고 분류는 안내 센터에 선다", () => {
@@ -114,5 +114,31 @@ describe("법적 문서 4판의 구성", () => {
   it("게임 밖에서도 계정 삭제를 요청하는 경로를 안내한다", () => {
     const withdrawal = edition.documents.find((d) => d.id === "withdrawal")!;
     expect(withdrawal.sections.map((s) => s.title).join(" ")).toContain("게임 밖에서");
+  });
+});
+
+describe("출시 점검 20항목 보강", () => {
+  it("쿠키 정책은 웹 전용이며 저장하는 값을 표로 밝히고 앱에는 적용되지 않음을 말한다", () => {
+    const doc = edition.documents.find((d) => d.id === "cookies")!;
+    expect(doc.path).toBe("/legal/cookies");
+    const text = JSON.stringify(doc);
+    for (const word of ["fg-language", "fg-theme", "fg-storage-notice", "앱에는 적용되지 않습니다", "사용하지 않는 것"]) expect(text).toContain(word);
+  });
+  it("저작물 고지는 글꼴·음원·이미지·외부 구성요소를 모두 다룬다", () => {
+    const doc = edition.documents.find((d) => d.id === "licenses")!;
+    const titles = doc.sections.map((s) => s.title).join(" ");
+    for (const word of ["글꼴", "음원", "이미지", "외부 구성요소"]) expect(titles).toContain(word);
+  });
+  it("모든 정적 페이지가 저장소 안내 띠를 불러오고 띠는 키보드로 닫을 수 있는 버튼을 갖는다", () => {
+    for (const file of ["index.html", "public/support.html", "public/coupon.html", "public/legal/cookies/index.html"])
+      expect(readFileSync(file, "utf8")).toContain("/ui/storage-notice.js");
+    const script = readFileSync("public/ui/storage-notice.js", "utf8");
+    expect(script).toContain('createElement("button")');
+    expect(script).toContain("/legal/cookies");
+  });
+  it("문의 종류에 개인정보·삭제가 있고 탈퇴 안내가 같은 이름으로 가리킨다", () => {
+    expect(readFileSync("public/support.html", "utf8")).toContain('value="privacy"');
+    const withdrawal = JSON.stringify(edition.documents.find((d) => d.id === "withdrawal"));
+    expect(withdrawal).toContain("개인정보·삭제");
   });
 });
