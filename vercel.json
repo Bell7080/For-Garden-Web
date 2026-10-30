@@ -32,6 +32,10 @@
       "dest": "/support.html"
     },
     {
+      "src": "/unsubscribe/?",
+      "dest": "/unsubscribe.html"
+    },
+    {
       "src": "/coupon/?",
       "dest": "/coupon.html"
     },

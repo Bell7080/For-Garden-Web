@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>출시 알림 수신거부 · For Garden</title>
+<link rel="stylesheet" href="/ui/controls.css"><link rel="stylesheet" href="/legal/center.css"><script src="/legal/theme.js"></script>
+<style>
+main{max-width:520px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:28px;margin:0 0 8px}
+.sub{color:var(--dim);margin:0 0 18px;font-size:15px;line-height:1.7}
+#who{font-weight:800;overflow-wrap:anywhere;margin:0 0 18px}
+#status{min-height:1.7em;font-size:15px}
+#status[data-s=error]{color:var(--bad)}#status[data-s=ok]{color:var(--ok)}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+<h1 id="h">출시 알림 수신거부</h1>
+<p class="sub" id="sub">출시 알림 신청을 삭제하고 더 이상 알림 메일을 받지 않습니다.</p>
+<p id="who"></p>
+<button type="button" id="go">신청 삭제하기</button>
+<p id="status" role="status"></p>
+<p class="sub"><a href="/support.html" id="help">링크가 열리지 않으면 문의하기(종류: 개인정보·삭제)</a> · <a href="/" id="back">← 홈으로</a></p>
+</main>
+<script>
+(function(){
+var T={en:{h:"Unsubscribe from launch notifications",sub:"Delete your launch-notification sign-up and stop receiving emails.",go:"Delete my sign-up",help:"If this link does not work, contact us (type: Privacy / deletion)",back:"← Home",ok:"Your sign-up was deleted. You will not receive further emails.",bad:"This link is not valid. Please use the link in the latest email or contact us.",fail:"Could not delete. Please try again later."},
+ja:{h:"リリース通知の配信停止",sub:"リリース通知の登録を削除し、今後メールを受け取らないようにします。",go:"登録を削除する",help:"リンクが開けない場合はお問い合わせください(種類:個人情報・削除)",back:"← ホームへ",ok:"登録を削除しました。今後メールは届きません。",bad:"このリンクは無効です。最新のメールのリンクをご利用になるか、お問い合わせください。",fail:"削除できませんでした。後ほどお試しください。"}};
+var ko={ok:"신청이 삭제되었습니다. 더 이상 메일을 받지 않습니다.",bad:"유효하지 않은 링크입니다. 가장 최근 메일의 링크를 사용하거나 문의해 주세요.",fail:"삭제하지 못했습니다. 잠시 후 다시 시도해 주세요."};
+var lang=(navigator.language||"ko").slice(0,2);if(!T[lang])lang="ko";document.documentElement.lang=lang;
+var t=T[lang]||{},m=lang==="ko"?ko:t;
+if(lang!=="ko"){["h","sub","go","help","back"].forEach(function(k){document.getElementById(k).textContent=t[k]});document.title=t.h+" · For Garden"}
+var p=new URLSearchParams(location.hash.slice(1)),email=p.get("e")||"",token=p.get("t")||"";
+var s=document.getElementById("status"),b=document.getElementById("go");
+document.getElementById("who").textContent=email;
+if(!email||!token){b.disabled=true;s.textContent=m.bad;s.dataset.s="error";return}
+b.addEventListener("click",function(){b.disabled=true;s.textContent="…";s.dataset.s="";
+fetch("/api/unsubscribe",{method:"POST",headers:{"Content-Type":"application/json"},signal:AbortSignal.timeout(15000),body:JSON.stringify({email:email,token:token})})
+.then(function(r){if(r.ok){s.textContent=m.ok;s.dataset.s="ok";history.replaceState(null,"",location.pathname)}else{s.textContent=r.status===400?m.bad:m.fail;s.dataset.s="error";b.disabled=false}})
+.catch(function(){s.textContent=m.fail;s.dataset.s="error";b.disabled=false})});
+})();
+</script>
+<script type="module" src="/ui/controls.js"></script>
+<script defer src="/ui/storage-notice.js"></script>
+</body>
+</html>
