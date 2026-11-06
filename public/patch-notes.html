@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="For Garden 업데이트 내역입니다.">
+<title>패치노트 · For Garden</title>
+<style>
+:root{--bg:#f4f1e8;--ink:#24282e;--muted:#686356;--line:#cec7b7;--accent:#805d24;--card:#fffdf7;--new:#246640;--fix:#a33124;--bal:#5b4a9c}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1d21;--ink:#f2f0ec;--muted:#bdb9ad;--line:#454b54;--accent:#d8b978;--card:#24282e;--new:#9ad1ac;--fix:#ffa296;--bal:#c7b8ff}}
+:root[data-theme=light]{--bg:#f4f1e8;--ink:#24282e;--muted:#686356;--line:#cec7b7;--accent:#805d24;--card:#fffdf7;--new:#246640;--fix:#a33124;--bal:#5b4a9c}
+:root[data-theme=dark]{--bg:#1a1d21;--ink:#f2f0ec;--muted:#bdb9ad;--line:#454b54;--accent:#d8b978;--card:#24282e;--new:#9ad1ac;--fix:#ffa296;--bal:#c7b8ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "NEXON Kart",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:32px 16px 64px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:800;margin:0}
+h1{font-size:26px;margin:2px 0 4px}
+p.sub{color:var(--muted);margin:0 0 24px;font-size:14px}
+article{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);padding:16px 18px;margin:0 0 14px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+article h2{font-size:19px;margin:0;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+article h2 .v{color:var(--accent)}
+article time{display:block;font-size:13px;color:var(--muted);margin:2px 0 10px}
+article ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+article li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.k{flex:none;font-size:12px;font-weight:800;padding:1px 8px;border:1px solid currentColor;margin-top:3px;min-width:52px;text-align:center}
+.k-new{color:var(--new)}.k-fix{color:var(--fix)}.k-balance{color:var(--bal)}.k-improve{color:var(--accent)}.k-etc{color:var(--muted)}
+.note{white-space:pre-wrap;font-size:14px;color:var(--muted);margin:10px 0 0}
+#state{font-size:14px;color:var(--muted)}
+a{color:var(--accent)}
+</style>
+<script src="/legal/theme.js"></script>
+</head>
+<body>
+<main>
+<p class="eyebrow">FOR GARDEN / UPDATE LOG</p>
+<h1 id="h">패치노트</h1>
+<p class="sub" id="sub">업데이트마다 바뀐 내용을 모았습니다.</p>
+<div id="list" lang="ko"></div>
+<p id="state" role="status">불러오는 중…</p>
+<p class="sub" style="margin-top:20px"><a href="/" id="back">← 홈으로</a></p>
+</main>
+<script>
+(function(){
+var T={ko:{h:"패치노트",sub:"업데이트마다 바뀐 내용을 모았습니다.",back:"← 홈으로",loading:"불러오는 중…",empty:"아직 공개된 패치노트가 없습니다.",fail:"패치노트를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",kinds:{new:"신규",improve:"개선",fix:"수정",balance:"밸런스",etc:"기타"}},
+en:{h:"Patch notes",sub:"Changes in each update. Notes are written in Korean; your browser can translate them.",back:"← Home",loading:"Loading…",empty:"No patch notes have been published yet.",fail:"Could not load patch notes. Please try again later.",kinds:{new:"New",improve:"Improved",fix:"Fixed",balance:"Balance",etc:"Other"}},
+ja:{h:"パッチノート",sub:"アップデートごとの変更内容です。本文は韓国語です。ブラウザの翻訳機能をご利用いただけます。",back:"← ホームへ",loading:"読み込み中…",empty:"公開されたパッチノートはまだありません。",fail:"パッチノートを読み込めませんでした。しばらくしてから再度お試しください。",kinds:{new:"新規",improve:"改善",fix:"修正",balance:"バランス",etc:"その他"}}};
+var lang=(navigator.language||"ko").slice(0,2);if(!T[lang])lang="ko";document.documentElement.lang=lang;
+var t=T[lang],state=document.getElementById("state"),list=document.getElementById("list");
+["h","sub","back"].forEach(function(k){document.getElementById(k).textContent=t[k]});state.textContent=t.loading;
+if(lang!=="ko")document.title=t.h+" · For Garden";
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+fetch("/api/patch-notes",{signal:AbortSignal.timeout(8000)}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(j){
+var notes=(j&&j.notes)||[];state.textContent=notes.length?"":t.empty;
+notes.forEach(function(n){var a=el("article"),h=el("h2");h.appendChild(el("span","v","v"+n.version));if(n.title)h.appendChild(el("span",null,n.title));a.appendChild(h);
+var d=n.released_at?new Date(n.released_at):null;if(d&&!isNaN(d)){var tm=el("time",null,d.toLocaleDateString(lang,{dateStyle:"long"}));tm.dateTime=n.released_at;a.appendChild(tm)}
+if(n.items.length){var ul=el("ul");n.items.forEach(function(it){var li=el("li");li.appendChild(el("span","k k-"+it.kind,t.kinds[it.kind]||t.kinds.etc));li.appendChild(el("span",null,it.text));ul.appendChild(li)});a.appendChild(ul)}
+if(n.note)a.appendChild(el("p","note",n.note));list.appendChild(a)})
+}).catch(function(){state.textContent=t.fail});
+})();
+</script>
+<script defer src="/ui/storage-notice.js"></script>
+</body>
+</html>

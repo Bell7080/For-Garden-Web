@@ -40,6 +40,10 @@
       "dest": "/coupon.html"
     },
     {
+      "src": "/patch-notes/?",
+      "dest": "/patch-notes.html"
+    },
+    {
       "src": "/api/.*",
       "status": 404
     },

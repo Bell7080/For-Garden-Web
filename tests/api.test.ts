@@ -5,6 +5,7 @@ import notices from "../api/notices";
 import coupon from "../api/coupon";
 import faq from "../api/faq";
 import site from "../api/site";
+import patchNotes from "../api/patch-notes";
 import type { Request, Response } from "../server/http";
 
 function response() {
@@ -337,6 +338,37 @@ describe("FAQ API", () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(Error("offline")));
     const down = response();
     await faq({ method: "GET", headers: {}, url: "/api/faq" }, down.res);
+    expect(down.result().status).toBe(503);
+  });
+});
+
+describe("patch notes API", () => {
+  it("shows no notes before configuration", async () => {
+    const r = response();
+    await patchNotes({ method: "GET", headers: {}, url: "/api/patch-notes" }, r.res);
+    expect(r.result()).toMatchObject({ status: 200, body: { notes: [] } });
+  });
+  it("lists released notes and drops malformed items", async () => {
+    configure();
+    const rows = [{ version: "v0.406.0", title: "운영 정비", released_at: "2026-11-06T00:00:00Z", note: "", items: [{ kind: "new", text: "배너" }, { kind: "bad", text: "x" }, { text: "" }] }];
+    const fetch = vi.fn().mockResolvedValue(new globalThis.Response(JSON.stringify(rows)));
+    vi.stubGlobal("fetch", fetch);
+    const r = response();
+    await patchNotes({ method: "GET", headers: {}, url: "/api/patch-notes" }, r.res);
+    expect(fetch.mock.calls[0][0]).toContain("deleted_at=is.null");
+    const body = r.result().body as { notes: { version: string; items: unknown[] }[] };
+    expect(body.notes[0].version).toBe("v0.406.0");
+    expect(body.notes[0].items).toEqual([{ kind: "new", text: "배너" }, { kind: "etc", text: "x" }]);
+  });
+  it("treats a missing table as empty but reports outages", async () => {
+    configure();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new globalThis.Response("{}", { status: 404 })));
+    const missing = response();
+    await patchNotes({ method: "GET", headers: {}, url: "/api/patch-notes" }, missing.res);
+    expect(missing.result()).toMatchObject({ status: 200, body: { notes: [] } });
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(Error("offline")));
+    const down = response();
+    await patchNotes({ method: "GET", headers: {}, url: "/api/patch-notes" }, down.res);
     expect(down.result().status).toBe(503);
   });
 });

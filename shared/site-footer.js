@@ -9,6 +9,7 @@ const labels = {
       "정책·운영 안내",
       "문의하기",
       "사업자 정보",
+      "패치노트",
     ],
   },
   en: {
@@ -21,6 +22,7 @@ const labels = {
       "Policies",
       "Contact",
       "Business info",
+      "Patch notes",
     ],
   },
   ja: {
@@ -33,6 +35,7 @@ const labels = {
       "規約・運営案内",
       "お問い合わせ",
       "事業者情報",
+      "パッチノート",
     ],
   },
 };
@@ -47,6 +50,7 @@ export function renderFooterLinks(locale = "ko", currentPath = "") {
     "/legal",
     "/support.html",
     "/legal/business",
+    "/patch-notes",
   ];
   return `<nav class="site-footer-links" aria-label="${text.nav}">${paths.map((path, i) => `<a href="${path}"${path === currentPath ? ' aria-current="page"' : ""}${i > 0 && i !== 5 && lang !== "ko" ? ' hreflang="ko"' : ""}>${text.links[i]}</a>`).join("")}</nav>`;
 }
