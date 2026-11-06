@@ -3,6 +3,8 @@ import support from "../api/support";
 import preregister from "../api/preregister";
 import notices from "../api/notices";
 import coupon from "../api/coupon";
+import faq from "../api/faq";
+import site from "../api/site";
 import type { Request, Response } from "../server/http";
 
 function response() {
@@ -303,5 +305,52 @@ describe("coupon API", () => {
     const c = response();
     await coupon(couponRequest({ action: "redeem", ticket, code: "ABCD1234" }), c.res);
     expect(c.result()).toMatchObject({ status: 400, body: { error: "coupon_unavailable" } });
+  });
+});
+
+describe("FAQ API", () => {
+  it("shows no FAQ before configuration", async () => {
+    const r = response();
+    await faq({ method: "GET", headers: {}, url: "/api/faq?lang=en" }, r.res);
+    expect(r.result()).toMatchObject({ status: 200, body: { faqs: [] } });
+  });
+  it("lists only published rows and uses a manual translation only when complete", async () => {
+    configure();
+    const rows = [
+      { id: "a", category: "account", sort: 0, question: "연동은?", answer: "설정에서", source_locale: "ko", translations: { en: { question: "Linking?", answer: "In settings." } } },
+      { id: "b", category: "game", sort: 0, question: "원문", answer: "본문", source_locale: "ko", translations: { en: { question: "Half" } } },
+    ];
+    const fetch = vi.fn().mockResolvedValue(new globalThis.Response(JSON.stringify(rows)));
+    vi.stubGlobal("fetch", fetch);
+    const r = response();
+    await faq({ method: "GET", headers: {}, url: "/api/faq?lang=en" }, r.res);
+    expect(fetch.mock.calls[0][0]).toContain("published=eq.true");
+    const body = r.result().body as { faqs: { question: string; content_locale: string }[] };
+    expect(body.faqs.map((x) => [x.question, x.content_locale])).toEqual([["Linking?", "en"], ["원문", "ko"]]);
+  });
+  it("treats a missing table as an empty FAQ but reports outages", async () => {
+    configure();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new globalThis.Response("{}", { status: 404 })));
+    const missing = response();
+    await faq({ method: "GET", headers: {}, url: "/api/faq" }, missing.res);
+    expect(missing.result()).toMatchObject({ status: 200, body: { faqs: [] } });
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(Error("offline")));
+    const down = response();
+    await faq({ method: "GET", headers: {}, url: "/api/faq" }, down.res);
+    expect(down.result().status).toBe(503);
+  });
+});
+
+describe("site API maintenance", () => {
+  it("reports live maintenance from app_config and nothing otherwise", async () => {
+    configure();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new globalThis.Response(JSON.stringify([{ maintenance: true, maintenance_message: "서버 점검", maintenance_ends_at: "2026-11-07T03:00:00Z" }]))));
+    const on = response();
+    await site({ method: "GET", headers: {} }, on.res);
+    expect((on.result().body as { maintenance: unknown }).maintenance).toEqual({ message: "서버 점검", endsAt: "2026-11-07T03:00:00Z" });
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(Error("offline")));
+    const off = response();
+    await site({ method: "GET", headers: {} }, off.res);
+    expect(off.result()).toMatchObject({ status: 200, body: { maintenance: null } });
   });
 });
