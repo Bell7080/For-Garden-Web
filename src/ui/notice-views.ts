@@ -9,10 +9,13 @@ import {
 import { icon } from "./icons";
 import {
   EVENT_PHASES,
+  EVENT_ROTATION,
   GAME_EVENTS,
+  expandRotation,
   gameEventPhase,
   renderGameEventBoard,
   type EventPhase,
+  type EventRotation,
   type GameEvent,
 } from "./game-events";
 
@@ -233,6 +236,7 @@ export interface BoardOptions<T extends StyledNotice> {
   pick?: string;
   phase?: EventPhase;
   gameEvents?: readonly GameEvent[];
+  rotation?: EventRotation | null;
   now?: number;
   row: (n: T, ended?: boolean) => string;
 }
@@ -252,7 +256,8 @@ export function renderNoticeBoard<T extends StyledNotice>(
   let html = "";
   if (only === "event") {
     // 이벤트 탭: 인게임 이벤트 카드를 상태별로 보여 준다. 게임 이벤트와 이어지지 않은 공지 이벤트는 같은 상태의 목록에 덧붙는다.
-    const gameEvents = o.gameEvents ?? GAME_EVENTS;
+    // 정기 이벤트는 주 단위 회차로 펴서 지난주·이번 주·다음 차례가 제 상태 칸에 서게 한다.
+    const gameEvents = expandRotation(o.gameEvents ?? GAME_EVENTS, o.rotation === undefined ? EVENT_ROTATION : o.rotation, now);
     const known = new Set(gameEvents.map((e) => e.id));
     const own = (events || []).filter((n) => {
       const id = normalizeMeta(n.meta).game_event_id;

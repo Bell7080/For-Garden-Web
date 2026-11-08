@@ -53,5 +53,20 @@
     "width": 1254,
     "height": 1254,
     "bounds": [202, 76, 1098, 1197]
+  },
+  "tia-sd": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [98, 38, 1156, 1216]
+  },
+  "delopi-sd": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [184, 55, 1153, 1207]
+  },
+  "shute-sd": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [31, 18, 1222, 1235]
   }
 }

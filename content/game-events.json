@@ -1,6 +1,16 @@
 {
-  "version": "0.339.0",
-  "commit": "9c42a0bd3610c196645571ed0094199f0f629089",
+  "schema": 1,
+  "version": "0.408.1",
+  "commit": "6601f9239d47eda8dff5ae853455b1ef867fa2f5",
+  "rotation": {
+    "cycle": [
+      "chest-forge",
+      "delophy-hunt",
+      "shute-fishing"
+    ],
+    "anchor": "2026-11-02T00:00:00.000Z",
+    "weekMs": 604800000
+  },
   "events": [
     {
       "id": "wolf-cafe",
@@ -16,6 +26,7 @@
       },
       "startsAt": "2026-09-01T00:00:00+09:00",
       "endsAt": "2026-12-31T23:59:59+09:00",
+      "weekly": false,
       "backdrop": "/assets/events/wolf-cafe.webp",
       "frame": {
         "zoom": 1.22,
@@ -25,7 +36,14 @@
       "sd": {
         "relicId": "dian",
         "side": "right",
-        "still": "/assets/dian-sd.webp"
+        "still": "/assets/dian-sd.webp",
+        "zip": "/assets/puppets/dian-sd.zip",
+        "bounds": [
+          23,
+          83,
+          1237,
+          1184
+        ]
       },
       "showcase": null,
       "destination": "lab"
@@ -44,15 +62,119 @@
       },
       "startsAt": "2026-09-01T00:00:00+09:00",
       "endsAt": "2026-12-31T23:59:59+09:00",
+      "weekly": false,
       "backdrop": "/assets/events/research-roulette.webp",
       "frame": null,
       "sd": {
         "relicId": "meron",
         "side": "right",
-        "still": "/assets/meron-sd.webp"
+        "still": "/assets/meron-sd.webp",
+        "zip": "/assets/puppets/meron-sd.zip",
+        "bounds": [
+          197,
+          13,
+          1057,
+          1241
+        ]
       },
       "showcase": "roulette",
       "destination": "roulette"
+    },
+    {
+      "id": "chest-forge",
+      "title": {
+        "ko": "티아의 보물상자",
+        "en": "Tia's Treasure Chest",
+        "ja": "ティアの宝箱"
+      },
+      "subtitle": {
+        "ko": "티아가 모아 둔 반짝이를 꺼내 가요!",
+        "en": "Take the shiny things Tia has gathered!",
+        "ja": "ティアが集めたキラキラを持っていこう！"
+      },
+      "startsAt": "2026-11-02T00:00:00Z",
+      "endsAt": "2099-12-31T23:59:59Z",
+      "weekly": true,
+      "backdrop": "/assets/events/chest-forge.webp",
+      "frame": null,
+      "sd": {
+        "relicId": "tia",
+        "side": "right",
+        "still": "/assets/tia-sd.webp",
+        "zip": "/assets/puppets/tia-sd.zip",
+        "bounds": [
+          98,
+          38,
+          1156,
+          1216
+        ]
+      },
+      "showcase": "chestForge",
+      "destination": "chestForge"
+    },
+    {
+      "id": "delophy-hunt",
+      "title": {
+        "ko": "델로피의 보물 찾기",
+        "en": "Delophy's Treasure Hunt",
+        "ja": "デロフィの宝さがし"
+      },
+      "subtitle": {
+        "ko": "같은 보물 둘을 찾아 주세요!",
+        "en": "Find the matching treasures!",
+        "ja": "同じお宝を見つけてね！"
+      },
+      "startsAt": "2026-11-02T00:00:00Z",
+      "endsAt": "2099-12-31T23:59:59Z",
+      "weekly": true,
+      "backdrop": "/assets/events/delophy-hunt.webp",
+      "frame": null,
+      "sd": {
+        "relicId": "delopi",
+        "side": "right",
+        "still": "/assets/delopi-sd.webp",
+        "zip": "/assets/puppets/delopi-sd.zip",
+        "bounds": [
+          184,
+          55,
+          1153,
+          1207
+        ]
+      },
+      "showcase": "delophyHunt",
+      "destination": "delophyHunt"
+    },
+    {
+      "id": "shute-fishing",
+      "title": {
+        "ko": "슈테의 리듬 낚시",
+        "en": "Shute's Rhythm Fishing",
+        "ja": "シュテのリズム釣り"
+      },
+      "subtitle": {
+        "ko": "박자 맞춰 낚아 올려!",
+        "en": "Reel 'em in on the beat!",
+        "ja": "リズムに合わせて釣り上げろ！"
+      },
+      "startsAt": "2026-11-02T00:00:00Z",
+      "endsAt": "2099-12-31T23:59:59Z",
+      "weekly": true,
+      "backdrop": "/assets/events/shute-fishing.webp",
+      "frame": null,
+      "sd": {
+        "relicId": "shute",
+        "side": "right",
+        "still": "/assets/shute-sd.webp",
+        "zip": "/assets/puppets/shute-sd.zip",
+        "bounds": [
+          31,
+          18,
+          1222,
+          1235
+        ]
+      },
+      "showcase": "shuteFishing",
+      "destination": "shuteFishing"
     }
   ]
 }

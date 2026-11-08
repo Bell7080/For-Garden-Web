@@ -4,18 +4,28 @@ import { createHitMotion } from "./puppet-motion";
 
 type Character = keyof typeof bounds;
 const definitions = new Map<
-  Character,
+  string,
   Promise<{ project: PuppetProject; texture: PuppetTexture | null }>
 >();
-function definition(id: Character) {
-  let promise = definitions.get(id);
+// 사이트에 없는 퍼펫(게임 피드가 막 알려 준 이벤트 SD)은 data-puppet-src의 ZIP과 data-puppet-bounds의 경계로 읽는다.
+function sourceOf(image: HTMLImageElement, id: string) {
+  const src = image.dataset.puppetSrc;
+  const box = image.dataset.puppetBounds?.split(",").map(Number);
+  if (src && /^https:\/\//.test(src) && box?.length === 4 && box.every(Number.isFinite))
+    return { url: src, box: box as [number, number, number, number] };
+  const local = (bounds as Record<string, { bounds: number[] } | undefined>)[id];
+  if (!local) throw Error("Unknown puppet");
+  return { url: `/assets/puppets/${id}.zip`, box: local.bounds as [number, number, number, number] };
+}
+function definition(url: string) {
+  let promise = definitions.get(url);
   if (!promise) {
-    promise = Puppet.load(`/assets/puppets/${id}.zip`).then((p) => ({
+    promise = Puppet.load(url).then((p) => ({
       project: p.project,
       texture: p.texture,
     }));
-    definitions.set(id, promise);
-    promise.catch(() => definitions.delete(id));
+    definitions.set(url, promise);
+    promise.catch(() => definitions.delete(url));
   }
   return promise;
 }
@@ -30,7 +40,8 @@ async function surface(
   image: HTMLImageElement,
   id: Character,
 ): Promise<Surface> {
-  const source = await definition(id);
+  const where = sourceOf(image, id);
+  const source = await definition(where.url);
   const puppet = Puppet.fromProject(source.project, source.texture);
   if (!puppet.mesh || !puppet.texture || !puppet.play("idle"))
     throw Error("Idle puppet unavailable");
@@ -55,7 +66,7 @@ async function surface(
   canvas.dataset.motion = "idle";
   canvas.style.animation = "none";
   canvas.style.visibility = "hidden";
-  const [left, top, right, bottom] = bounds[id].bounds;
+  const [left, top, right, bottom] = where.box;
   const width = right - left;
   const height = bottom - top;
   canvas.width = Math.round(width);

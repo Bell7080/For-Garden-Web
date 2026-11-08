@@ -28,7 +28,8 @@ import { mountFeedback } from "./ui/feedback";
 import { mountScrollEffects } from "./ui/scroll";
 import { mountRegisterSection, registerMilestones } from "./ui/register-milestones";
 import { icon } from "./ui/icons";
-import type { EventPhase } from "./ui/game-events";
+import { mergeEventFeed, type EventFeed, type EventPhase } from "./ui/game-events";
+import { parseEventFeed } from "../shared/game-event-feed.js";
 import { languagePicker, bindLanguagePicker } from "./ui/language-picker";
 import { copy, locales, relics, type Locale } from "./content";
 
@@ -124,6 +125,8 @@ interface Notice {
   content_locale?: string;
 }
 let notices: Notice[] = [];
+// 게임이 배포할 때 구운 최신 이벤트 피드. 받기 전·실패하면 묶인 스냅샷을 쓴다(renderNoticeBoard 기본값).
+let eventFeed: EventFeed | null = null;
 let newsState: "loading" | "ready" | "error" = "loading";
 let newsRequest = 0;
 const escape = (s: string) =>
@@ -213,6 +216,7 @@ function renderNews() {
           tab: category,
           pick: eventPick,
           phase: eventPhaseSel,
+          ...(eventFeed ? { gameEvents: eventFeed.events, rotation: eventFeed.rotation } : {}),
           row,
         })
       : "";
@@ -432,6 +436,16 @@ function bind() {
   });
   document.querySelector<HTMLFormElement>("form")!.onsubmit = submit;
 }
+async function loadEvents() {
+  try {
+    const response = await fetch("/api/events", { signal: AbortSignal.timeout(8000) });
+    if (!response.ok) return;
+    const feed = parseEventFeed(await response.json()) as EventFeed | null;
+    if (!feed || !feed.events.length) return;
+    eventFeed = mergeEventFeed(feed);
+    if (newsState === "ready") renderNews();
+  } catch {}
+}
 async function loadNews() {
   const request = ++newsRequest;
   newsState = "loading";
@@ -531,3 +545,4 @@ async function submit(e: SubmitEvent) {
 mountFeedback();
 render();
 void loadNews();
+void loadEvents();

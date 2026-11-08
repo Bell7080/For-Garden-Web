@@ -47,6 +47,7 @@ try {
  import faq from './api/faq.js';
  import patchNotes from './api/patch-notes.js';
  import preregisterCount from './api/preregister-count.js';
+ import events from './api/events.js';
  delete process.env.SUPABASE_URL;
  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
  function response(){let status,body;const res={setHeader(){},status(code){status=code;return res;},json(value){body=value;}};return {res,result:()=>({status,body})};}
@@ -63,7 +64,11 @@ try {
  process.env.SUPABASE_URL='https://project.supabase.co';process.env.SUPABASE_SERVICE_ROLE_KEY='runtime-test-only';
  globalThis.fetch=async()=>Response.json([{slug:'published',category:'notice',published_at:'2026-10-16T00:00:00Z',website_notice_translations:[{locale:'ko',title:'게시된 공지',summary:'',body:'본문'}]}]);
  const published=response();await notices({method:'GET',headers:{},url:'/api/notices?lang=ko'},published.res);assert.equal(published.result().status,200);assert.equal(published.result().body.notices[0].title,'게시된 공지');
- console.log('PASS: all 8 API modules load in native Node ESM; site/editorial news/published DB news and API guards execute');
+ globalThis.fetch=async(url)=>{assert.equal(String(url),'https://forgarden.vercel.app/site/events.json');return Response.json({schema:1,version:'0.0.0',rotation:{cycle:['a-week'],anchor:'2026-11-02T00:00:00.000Z',weekMs:604800000},events:[{id:'a-week',title:{ko:'이벤트'},subtitle:{ko:'부제'},startsAt:'2026-11-02T00:00:00Z',endsAt:'2099-12-31T23:59:59Z',weekly:true,backdrop:'/sprites/events/a.webp',sd:null}]});};
+ const ev=response();await events({method:'GET',headers:{}},ev.res);assert.equal(ev.result().status,200);assert.equal(ev.result().body.events[0].backdrop,'https://forgarden.vercel.app/sprites/events/a.webp');
+ globalThis.fetch=async()=>{throw Error('offline');};
+ const evDown=response();await events({method:'GET',headers:{}},evDown.res);assert.equal(evDown.result().status,503);
+ console.log('PASS: all 9 API modules load in native Node ESM; site/editorial news/published DB news and API guards execute');
  `,
   );
   process.stdout.write(
