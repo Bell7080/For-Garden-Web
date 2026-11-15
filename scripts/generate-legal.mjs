@@ -69,7 +69,7 @@ await page(
   shell(
     "정책·운영 안내",
     "연구를 시작하기 전에, 알아두어야 할 기록을 모았습니다.",
-    `<div class="notice"><strong>출시 준비 중인 안내 센터</strong><p>문서 내용은 초안이며 시행일은 미정입니다. 확정되지 않은 운영 정보를 임의로 기재하지 않았습니다. 문서 게시와 실제 기능 구현은 별개입니다.</p></div><a class="feature" href="/probabilities"><span class="eyebrow">PROBABILITY ARCHIVE</span><h2>확률을 투명하게.</h2><p>연구별 개별 렐릭·재화 확률과 천장·픽업 조건을 확인하세요.</p><span>확률 정보 열기 →</span></a>${(current.groups ?? [{ id: undefined, title: "문서" }])
+    `<div class="notice"><strong>출시 준비 중인 안내 센터</strong><p>문서 내용은 초안이며 시행일은 미정입니다. 확정되지 않은 운영 정보를 임의로 기재하지 않았습니다. 문서 게시와 실제 기능 구현은 별개입니다.</p></div><a class="feature" href="/probabilities"><span class="eyebrow">PROBABILITY ARCHIVE</span><h2>확률을 투명하게.</h2><p>연구별 개별 렐릭·재화 확률과 SSR 확정·픽업 확정 조건을 확인하세요.</p><span>확률 정보 열기 →</span></a>${(current.groups ?? [{ id: undefined, title: "문서" }])
       .map((g) => {
         const docs = current.documents.filter((d) => (g.id ? d.group === g.id : true));
         return docs.length
@@ -84,7 +84,7 @@ const pct = (n) =>
 const modes = {
   normal: "일반 1회",
   tenth: "10회 연구의 마지막 슬롯",
-  pity: "SSR 천장 발동 슬롯",
+  pity: "SSR 확정 발동 슬롯",
 };
 for (const edition of versions) {
   const snapshot = JSON.parse(
@@ -125,7 +125,7 @@ for (const edition of versions) {
           .join("")}</section>`,
     )
     .join("");
-  const probabilityBody = `<div class="notice"><strong>출시 전 개발 빌드 기준</strong><p>게임 v${e(snapshot.version)} 소스에서 추출한 연구 확률입니다. 실제 상용 서버의 운영 확률임을 보증하는 안내가 아닙니다. 출시·배너 변경 시 동일 빌드와 다시 대조해야 합니다.</p></div><nav class="toc" aria-label="연구 목록">${snapshot.banners.map((b) => `<a href="#banner-${b.id}">${e(b.name)}</a>`).join("")}<a href="#rules">보장 규칙·적용 범위</a><a href="#sources">버전·원본 데이터</a></nav><div class="rates">${["SSR", "SR", "R", "GRAY"].map((tier) => `<div><strong>${pct(snapshot.banners[0].slotRates[tier])}</strong><span>${tier === "GRAY" ? "잡화" : tier}</span></div>`).join("")}</div><p class="small">위 요약은 ${e(snapshot.banners[0].name)} 일반 슬롯의 기본 확률입니다. 아래 조건별 표에서 보장 상태에 따른 차이를 확인하세요.</p>${bannerHtml}<section id="rules"><h2>보장 규칙과 읽는 방법</h2><ul><li>10회 연구의 마지막 슬롯은 일반 판정에서 R·잡화가 나오면 SR로 바뀝니다. 앞선 9회에 SR·SSR이 나왔어도 적용됩니다. 천장과 겹치면 SSR 천장이 우선합니다.</li><li>호박석 연구는 SSR 당첨 시 픽업 디안의 비중이 50%입니다. 일반 상태에서 디안의 1회 절대 확률은 0.5%입니다. 비픽업 SSR을 획득하면 다음 SSR은 픽업 확정이며, SSR이 나오는 기본 확률 자체가 100%가 되는 것은 아닙니다.</li><li>픽업 SSR 획득 시 픽업 확정 상태가 해제됩니다. 같은 누적 그룹을 사용하는 교체 배너 사이에서 천장과 픽업 보장이 이어집니다. 다른 그룹으로 합쳐지지 않습니다.</li><li>연구권이 부족할 때 부족한 1개당 젬 300개로 대체됩니다. 실제 소비 내역은 게임의 실행 전 확인 화면에서 확인하세요.</li><li>표는 백분율 소수 여섯째 자리까지 반올림합니다. 반올림에 따라 표시 합계가 100%와 미세하게 다를 수 있습니다. 전체 대상과 수량별 계산 근거는 원본 데이터에서 확인할 수 있습니다.</li></ul><h3>다른 확률 요소의 공개 범위</h3><p>현재 이 센터에서 검증·공개한 범위는 렐릭 연구입니다. 룬 생성·강화·특성 재설정, 지층 보상, 상점·보상 로테이션 등은 별도 조사·표준화가 필요합니다. 유료 재화와 연결된 모든 확률 요소를 목록화하고 조건부·확정 보상까지 검증한 후 상용 서비스를 시작해야 합니다. 이 표를 전체 확률형 시스템의 공개 완료로 해석하지 마세요.</p></section><section id="sources"><h2>버전과 원본 데이터</h2><p>기준 게임 버전: v${e(snapshot.version)}</p><p class="code">소스 커밋: ${e(snapshot.commit)}</p><p><a href="/legal/archive/${edition.version}/probabilities.json" download>조건별 전체 확률 JSON 내려받기</a></p><p><a href="/legal/archive/${edition.version}/probabilities">이 버전의 확률표 보관본</a></p><p>게임의 배너 데이터와 실제 개별 확률 계산 함수에서 생성합니다. 파일별 SHA-256은 JSON의 sourceHashes에 보관합니다.</p></section>`;
+  const probabilityBody = `<div class="notice"><strong>출시 전 개발 빌드 기준</strong><p>게임 v${e(snapshot.version)} 소스에서 추출한 연구 확률입니다. 실제 상용 서버의 운영 확률임을 보증하는 안내가 아닙니다. 출시·배너 변경 시 동일 빌드와 다시 대조해야 합니다.</p></div><nav class="toc" aria-label="연구 목록">${snapshot.banners.map((b) => `<a href="#banner-${b.id}">${e(b.name)}</a>`).join("")}<a href="#rules">보장 규칙·적용 범위</a><a href="#sources">버전·원본 데이터</a></nav><div class="rates">${["SSR", "SR", "R", "GRAY"].map((tier) => `<div><strong>${pct(snapshot.banners[0].slotRates[tier])}</strong><span>${tier === "GRAY" ? "잡화" : tier}</span></div>`).join("")}</div><p class="small">위 요약은 ${e(snapshot.banners[0].name)} 일반 슬롯의 기본 확률입니다. 아래 조건별 표에서 보장 상태에 따른 차이를 확인하세요.</p>${bannerHtml}<section id="rules"><h2>보장 규칙과 읽는 방법</h2><ul><li>10회 연구의 마지막 슬롯은 일반 판정에서 R·잡화가 나오면 SR로 바뀝니다. 앞선 9회에 SR·SSR이 나왔어도 적용됩니다. SSR 확정과 겹치면 SSR 확정이 우선합니다.</li><li>호박석 연구는 SSR 당첨 시 픽업 디안의 비중이 50%입니다. 일반 상태에서 디안의 1회 절대 확률은 0.5%입니다. 비픽업 SSR을 획득하면 다음 SSR은 픽업 확정이며, SSR이 나오는 기본 확률 자체가 100%가 되는 것은 아닙니다.</li><li>픽업 SSR 획득 시 픽업 확정 상태가 해제됩니다. 같은 누적 그룹을 사용하는 교체 배너 사이에서 확정 카운트와 픽업 확정이 다음 픽업으로 이월됩니다. 다른 그룹으로 합쳐지지 않습니다.</li><li>연구권이 부족할 때 부족한 1개당 젬 300개로 대체됩니다. 실제 소비 내역은 게임의 실행 전 확인 화면에서 확인하세요.</li><li>표는 백분율 소수 여섯째 자리까지 반올림합니다. 반올림에 따라 표시 합계가 100%와 미세하게 다를 수 있습니다. 전체 대상과 수량별 계산 근거는 원본 데이터에서 확인할 수 있습니다.</li></ul><h3>다른 확률 요소의 공개 범위</h3><p>현재 이 센터에서 검증·공개한 범위는 렐릭 연구입니다. 룬 생성·강화·특성 재설정, 지층 보상, 상점·보상 로테이션 등은 별도 조사·표준화가 필요합니다. 유료 재화와 연결된 모든 확률 요소를 목록화하고 조건부·확정 보상까지 검증한 후 상용 서비스를 시작해야 합니다. 이 표를 전체 확률형 시스템의 공개 완료로 해석하지 마세요.</p></section><section id="sources"><h2>버전과 원본 데이터</h2><p>기준 게임 버전: v${e(snapshot.version)}</p><p class="code">소스 커밋: ${e(snapshot.commit)}</p><p><a href="/legal/archive/${edition.version}/probabilities.json" download>조건별 전체 확률 JSON 내려받기</a></p><p><a href="/legal/archive/${edition.version}/probabilities">이 버전의 확률표 보관본</a></p><p>게임의 배너 데이터와 실제 개별 확률 계산 함수에서 생성합니다. 파일별 SHA-256은 JSON의 sourceHashes에 보관합니다.</p></section>`;
   if (edition === current)
     await page(
       "/probabilities",
