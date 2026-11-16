@@ -34,7 +34,7 @@ try {
       ]),
     ),
   );
-  const entry = `import {BANNERS} from ${JSON.stringify(resolve(game, modules[0]))};import {PLAYABLE_RELICS} from ${JSON.stringify(resolve(game, modules[1]))};import {gachaRateTable} from ${JSON.stringify(resolve(game, modules[3]))};const names=Object.fromEntries(PLAYABLE_RELICS.map(r=>[r.id,r.name]));const banners=BANNERS.map(b=>({...b,states:[false,...(b.pickupRate?[true]:[])].flatMap(guaranteed=>['normal','tenth','pity'].map(state=>({state,pickupGuaranteed:guaranteed,rows:gachaRateTable({...b,pickupRate:guaranteed?1:b.pickupRate,slotRates:state==='pity'?{SSR:1,SR:0,R:0,GRAY:0}:state==='tenth'?{SSR:b.slotRates.SSR,SR:1-b.slotRates.SSR,R:0,GRAY:0}:b.slotRates})})))}));export default {names,banners};`;
+  const entry = `import {BANNERS} from ${JSON.stringify(resolve(game, modules[0]))};import {PLAYABLE_RELICS} from ${JSON.stringify(resolve(game, modules[1]))};import {gachaRateTable} from ${JSON.stringify(resolve(game, modules[3]))};import {TEN_PULL_SR_UPGRADE_CHANCE} from ${JSON.stringify(resolve(game, modules[2]))};const names=Object.fromEntries(PLAYABLE_RELICS.map(r=>[r.id,r.name]));const banners=BANNERS.map(b=>({...b,states:[false,...(b.pickupRate?[true]:[])].flatMap(guaranteed=>['normal','tenth','pity'].map(state=>({state,pickupGuaranteed:guaranteed,rows:gachaRateTable({...b,pickupRate:guaranteed?1:b.pickupRate,slotRates:state==='pity'?{SSR:1,SR:0,R:0,GRAY:0}:state==='tenth'?{SSR:b.slotRates.SSR+(1-b.slotRates.SSR)*TEN_PULL_SR_UPGRADE_CHANCE,SR:(1-b.slotRates.SSR)*(1-TEN_PULL_SR_UPGRADE_CHANCE),R:0,GRAY:0}:b.slotRates})})))}));export default {names,banners,tenPullSrUpgradeChance:TEN_PULL_SR_UPGRADE_CHANCE};`;
   await build({
     stdin: { contents: entry, resolveDir: game },
     bundle: true,

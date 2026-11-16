@@ -1,0 +1,4199 @@
+{
+  "version": "0.484.1",
+  "commit": "a08b47c9dc4fa681406cbd87a6e80d80ac86caac",
+  "sourceHashes": {
+    "src/data/banners.ts": "0dae04deeb692ddb261d465f5c7afd0a5823b02e91c457cadec7392e3bee72ca",
+    "src/data/relics.ts": "80039759e762337f7eb6a7ebf982f7f174e2524448d287c1f5ad04af2847af8b",
+    "src/core/gacha.ts": "d19a6fa04d441cf7552d625ae1074e3da15f24cac98273c10260220575ff831d",
+    "src/core/gachaRateTable.ts": "a9307a5f606b135d2275afa40b9606bfeab88cfb58c04832633c4a2f314eba93"
+  },
+  "names": {
+    "rex": "렉시아",
+    "torika": "토리카",
+    "spino": "스피나",
+    "luka": "루카",
+    "dodo": "도디",
+    "tia": "티아",
+    "stella": "스테라",
+    "kento": "켄토",
+    "mosana": "모사나",
+    "anka": "안카",
+    "irna": "이르나",
+    "ark": "아크",
+    "yuti": "유티",
+    "teku": "테쿠",
+    "plesha": "플레샤",
+    "meron": "메론",
+    "pachi": "파치",
+    "maki": "마키",
+    "keris": "케리스",
+    "delopi": "델로피",
+    "nodonia": "노도니아",
+    "ella": "엘라",
+    "mette": "메테",
+    "deina": "데이",
+    "maddy": "매디",
+    "terisa": "테리사",
+    "arte": "아르테",
+    "parua": "파루아",
+    "shute": "슈테",
+    "morphe": "모르페",
+    "dian": "디안"
+  },
+  "banners": [
+    {
+      "id": "welcome",
+      "pityGroupId": "welcome",
+      "name": "첫 복원 연구",
+      "featuredRelicId": "rex",
+      "artKey": "background-recruit-welcome",
+      "castRelicIds": [
+        "rex",
+        "spino",
+        "nodonia",
+        "mette"
+      ],
+      "currency": "fossil",
+      "costOne": 1,
+      "costTen": 8,
+      "tenOnly": true,
+      "pullLimit": 50,
+      "closeOnHighestRarity": true,
+      "carryoverTo": "standard-fossil",
+      "slotRates": {
+        "R": 0.2,
+        "SR": 0.04,
+        "SSR": 0.01,
+        "GRAY": 0.75
+      },
+      "grayRewards": [
+        {
+          "kind": "gold",
+          "min": 4000,
+          "max": 10000,
+          "weight": 2
+        },
+        {
+          "kind": "cheesecake",
+          "min": 60,
+          "max": 150,
+          "weight": 1
+        }
+      ],
+      "relicPools": {
+        "R": [
+          "dodo",
+          "tia",
+          "kento",
+          "anka",
+          "parua"
+        ],
+        "SR": [
+          "torika",
+          "luka",
+          "stella",
+          "mosana",
+          "irna",
+          "teku",
+          "pachi",
+          "keris",
+          "delopi",
+          "maddy",
+          "terisa",
+          "arte"
+        ],
+        "SSR": [
+          "rex",
+          "spino",
+          "nodonia",
+          "mette"
+        ]
+      },
+      "pickupRelicIds": {},
+      "pickupRate": 0,
+      "highestRarityGuarantee": 50,
+      "states": [
+        {
+          "state": "normal",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.01,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0025
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0025
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0025
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0025
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.04,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0.2,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0.04
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0.75,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0.25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "tenth",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.0298,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.00745
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.00745
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.00745
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.00745
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.9702,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "pity",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 1,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.25
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.25
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.25
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.25
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fossil",
+      "pityGroupId": "standard-fossil",
+      "name": "화석 연구",
+      "featuredRelicId": "torika",
+      "artKey": "background-recruit-fossil",
+      "currency": "fossil",
+      "costOne": 1,
+      "costTen": 10,
+      "carryoverTenCost": 8,
+      "slotRates": {
+        "R": 0.2,
+        "SR": 0.04,
+        "SSR": 0.01,
+        "GRAY": 0.75
+      },
+      "grayRewards": [
+        {
+          "kind": "gold",
+          "min": 4000,
+          "max": 10000,
+          "weight": 2
+        },
+        {
+          "kind": "cheesecake",
+          "min": 60,
+          "max": 150,
+          "weight": 1
+        }
+      ],
+      "relicPools": {
+        "R": [
+          "dodo",
+          "tia",
+          "kento",
+          "anka",
+          "parua"
+        ],
+        "SR": [
+          "torika",
+          "luka",
+          "stella",
+          "mosana",
+          "irna",
+          "teku",
+          "pachi",
+          "keris",
+          "delopi",
+          "maddy",
+          "terisa",
+          "arte"
+        ],
+        "SSR": [
+          "rex",
+          "spino",
+          "ark",
+          "yuti",
+          "meron",
+          "maki",
+          "nodonia",
+          "ella",
+          "mette",
+          "deina",
+          "shute",
+          "morphe"
+        ]
+      },
+      "pickupRelicIds": {},
+      "pickupRate": 0,
+      "highestRarityGuarantee": 120,
+      "states": [
+        {
+          "state": "normal",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.01,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.0008333333333333334
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.04,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0.2,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0.04
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0.75,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0.25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "tenth",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.0298,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.0024833333333333335
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.9702,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "pity",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 1,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.08333333333333333
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amber",
+      "pityGroupId": "limited-pickup",
+      "name": "호박석 연구",
+      "featuredRelicId": "dian",
+      "artKey": "background-recruit-dian",
+      "currency": "amber",
+      "costOne": 1,
+      "costTen": 10,
+      "slotRates": {
+        "R": 0.2,
+        "SR": 0.04,
+        "SSR": 0.01,
+        "GRAY": 0.75
+      },
+      "grayRewards": [
+        {
+          "kind": "gold",
+          "min": 4000,
+          "max": 10000,
+          "weight": 2
+        },
+        {
+          "kind": "cheesecake",
+          "min": 60,
+          "max": 150,
+          "weight": 1
+        }
+      ],
+      "relicPools": {
+        "R": [
+          "dodo",
+          "tia",
+          "kento",
+          "anka",
+          "parua"
+        ],
+        "SR": [
+          "torika",
+          "luka",
+          "stella",
+          "mosana",
+          "irna",
+          "teku",
+          "pachi",
+          "keris",
+          "delopi",
+          "maddy",
+          "terisa",
+          "arte"
+        ],
+        "SSR": [
+          "rex",
+          "spino",
+          "ark",
+          "yuti",
+          "meron",
+          "maki",
+          "nodonia",
+          "ella",
+          "mette",
+          "deina",
+          "shute",
+          "morphe",
+          "dian"
+        ]
+      },
+      "pickupRelicIds": {
+        "SSR": [
+          "dian"
+        ]
+      },
+      "pickupRate": 0.5,
+      "highestRarityGuarantee": 120,
+      "states": [
+        {
+          "state": "normal",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.01,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dian",
+                  "pickup": true,
+                  "rate": 0.005
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.04,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0.2,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0.04
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0.75,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0.25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "tenth",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.0298,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dian",
+                  "pickup": true,
+                  "rate": 0.0149
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.9702,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "pity",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 1,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dian",
+                  "pickup": true,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "normal",
+          "pickupGuaranteed": true,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.01,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dian",
+                  "pickup": true,
+                  "rate": 0.01
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.04,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0.2,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0.04
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0.75,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0.25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "tenth",
+          "pickupGuaranteed": true,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.0298,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dian",
+                  "pickup": true,
+                  "rate": 0.0298
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.9702,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "pity",
+          "pickupGuaranteed": true,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 1,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dian",
+                  "pickup": true,
+                  "rate": 1
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "moonlit",
+      "pityGroupId": "limited-pickup",
+      "name": "호박석 연구",
+      "featuredRelicId": "plesha",
+      "artKey": "background-recruit-moon-picnic",
+      "currency": "amber",
+      "costOne": 1,
+      "costTen": 10,
+      "slotRates": {
+        "R": 0.2,
+        "SR": 0.04,
+        "SSR": 0.01,
+        "GRAY": 0.75
+      },
+      "grayRewards": [
+        {
+          "kind": "gold",
+          "min": 4000,
+          "max": 10000,
+          "weight": 2
+        },
+        {
+          "kind": "cheesecake",
+          "min": 60,
+          "max": 150,
+          "weight": 1
+        }
+      ],
+      "relicPools": {
+        "R": [
+          "dodo",
+          "tia",
+          "kento",
+          "anka",
+          "parua"
+        ],
+        "SR": [
+          "torika",
+          "luka",
+          "stella",
+          "mosana",
+          "irna",
+          "teku",
+          "pachi",
+          "keris",
+          "delopi",
+          "maddy",
+          "terisa",
+          "arte"
+        ],
+        "SSR": [
+          "rex",
+          "spino",
+          "ark",
+          "yuti",
+          "meron",
+          "maki",
+          "nodonia",
+          "ella",
+          "mette",
+          "deina",
+          "shute",
+          "morphe",
+          "plesha"
+        ]
+      },
+      "pickupRelicIds": {
+        "SSR": [
+          "plesha"
+        ]
+      },
+      "pickupRate": 0.5,
+      "highestRarityGuarantee": 120,
+      "states": [
+        {
+          "state": "normal",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.01,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "plesha",
+                  "pickup": true,
+                  "rate": 0.005
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.0004166666666666667
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.04,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0.2,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0.04
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0.75,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0.25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "tenth",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.0298,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "plesha",
+                  "pickup": true,
+                  "rate": 0.0149
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.0012416666666666667
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.9702,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "pity",
+          "pickupGuaranteed": false,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 1,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "plesha",
+                  "pickup": true,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0.041666666666666664
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "normal",
+          "pickupGuaranteed": true,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.01,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "plesha",
+                  "pickup": true,
+                  "rate": 0.01
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.04,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.0033333333333333335
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0.2,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0.04
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0.04
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0.75,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0.5
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0.25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "tenth",
+          "pickupGuaranteed": true,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 0.0298,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "plesha",
+                  "pickup": true,
+                  "rate": 0.0298
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0.9702,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0.08084999999999999
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "state": "pity",
+          "pickupGuaranteed": true,
+          "rows": [
+            {
+              "tier": "SSR",
+              "rate": 1,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "plesha",
+                  "pickup": true,
+                  "rate": 1
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "rex",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "spino",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ark",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "yuti",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "meron",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maki",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "nodonia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "ella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mette",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "deina",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "shute",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "morphe",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "SR",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "torika",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "luka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "stella",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "mosana",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "irna",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "teku",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "pachi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "keris",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "delopi",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "maddy",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "terisa",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "arte",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "R",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "relic",
+                  "relicId": "dodo",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "tia",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "kento",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "anka",
+                  "pickup": false,
+                  "rate": 0
+                },
+                {
+                  "kind": "relic",
+                  "relicId": "parua",
+                  "pickup": false,
+                  "rate": 0
+                }
+              ]
+            },
+            {
+              "tier": "GRAY",
+              "rate": 0,
+              "entries": [
+                {
+                  "kind": "reward",
+                  "reward": "gold",
+                  "min": 4000,
+                  "max": 10000,
+                  "rate": 0
+                },
+                {
+                  "kind": "reward",
+                  "reward": "cheesecake",
+                  "min": 60,
+                  "max": 150,
+                  "rate": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tenPullSrUpgradeChance": 0.02
+}

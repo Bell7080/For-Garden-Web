@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "0.408.1",
-  "commit": "6601f9239d47eda8dff5ae853455b1ef867fa2f5",
+  "version": "0.484.1",
+  "commit": "a08b47c9dc4fa681406cbd87a6e80d80ac86caac",
   "rotation": {
     "cycle": [
       "chest-forge",
@@ -25,7 +25,7 @@
         "ja": "ディアン限定ピックアップイベント！"
       },
       "startsAt": "2026-09-01T00:00:00+09:00",
-      "endsAt": "2026-12-31T23:59:59+09:00",
+      "endsAt": "2099-12-31T23:59:59.000Z",
       "weekly": false,
       "backdrop": "/assets/events/wolf-cafe.webp",
       "frame": {
@@ -49,6 +49,42 @@
       "destination": "lab"
     },
     {
+      "id": "moon-picnic",
+      "title": {
+        "ko": "밤하늘의 피크닉",
+        "en": "Picnic Under the Night Sky",
+        "ja": "夜空のピクニック"
+      },
+      "subtitle": {
+        "ko": "플레샤 한정 픽업 이벤트!",
+        "en": "Limited-time Plesha Pick-Up Event!",
+        "ja": "プレシャ限定ピックアップイベント！"
+      },
+      "startsAt": "2026-11-12T00:00:00+09:00",
+      "endsAt": "2099-12-31T23:59:59.000Z",
+      "weekly": false,
+      "backdrop": "/assets/events/moon-picnic.webp",
+      "frame": {
+        "zoom": 1.22,
+        "offsetX": 170,
+        "offsetY": 515
+      },
+      "sd": {
+        "relicId": "plesha",
+        "side": "right",
+        "still": "/assets/plesha-sd.webp",
+        "zip": "/assets/puppets/plesha-sd.zip",
+        "bounds": [
+          177,
+          24,
+          1158,
+          1220
+        ]
+      },
+      "showcase": null,
+      "destination": "lab"
+    },
+    {
       "id": "research-roulette",
       "title": {
         "ko": "행운의 돌림판",
@@ -61,7 +97,7 @@
         "ja": "ジェム1,000個のチャンス！毎日無料1回"
       },
       "startsAt": "2026-09-01T00:00:00+09:00",
-      "endsAt": "2026-12-31T23:59:59+09:00",
+      "endsAt": "2099-12-31T23:59:59.000Z",
       "weekly": false,
       "backdrop": "/assets/events/research-roulette.webp",
       "frame": null,
