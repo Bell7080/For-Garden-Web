@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "0.484.1",
-  "commit": "a08b47c9dc4fa681406cbd87a6e80d80ac86caac",
+  "version": "0.487.13",
+  "commit": "60f3c36cf722904758db096a8c2106a0982cc5b1",
   "rotation": {
     "cycle": [
       "chest-forge",
@@ -10,6 +10,14 @@
     ],
     "anchor": "2026-11-02T00:00:00.000Z",
     "weekMs": 604800000
+  },
+  "pickup": {
+    "cycle": [
+      "moon-picnic",
+      "wolf-cafe"
+    ],
+    "anchor": "2026-11-13T00:00:00.000Z",
+    "periodMs": 1814400000
   },
   "events": [
     {

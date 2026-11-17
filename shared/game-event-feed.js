@@ -83,6 +83,13 @@ function rotation(value) {
   const weekMs = value?.weekMs === WEEK_MS ? WEEK_MS : WEEK_MS;
   return cycle.length && anchor ? { cycle, anchor, weekMs } : null;
 }
+// 한정 픽업 교대(게임 `core/pickupRotation.ts`) — 픽업 카드는 한 번에 하나만 선다. 차례 길이는 1~90일만 받는다.
+function pickup(value) {
+  const cycle = Array.isArray(value?.cycle) ? value.cycle.filter((id) => typeof id === "string" && ID.test(id)).slice(0, 20) : [];
+  const anchor = time(value?.anchor);
+  const periodMs = finite(value?.periodMs, 90 * 86_400_000);
+  return cycle.length && anchor && periodMs && periodMs >= 86_400_000 ? { cycle, anchor, periodMs } : null;
+}
 /** 피드 한 장을 거른다. `origin`을 주면 원화·SD 경로를 그 주소의 절대 URL로 바꾼다. 쓸 수 없으면 null. */
 export function parseEventFeed(json, origin) {
   if (!json || typeof json !== "object" || !Array.isArray(json.events)) return null;
@@ -92,9 +99,13 @@ export function parseEventFeed(json, origin) {
     const e = event(raw, origin);
     if (e && !seen.has(e.id)) (seen.add(e.id), events.push(e));
   }
+  // 픽업 교대는 정기 교대와 한 묶음(`rotation.pickup`)으로 다닌다 — 화면이 교대를 넘기는 길이 하나라서다.
+  // 화면이 서버가 이미 거른 피드를 다시 거를 때는 `rotation.pickup`에 들어 있다.
+  const weekly = rotation(json.rotation);
+  const pick = pickup(json.pickup ?? json.rotation?.pickup);
   return {
     version: typeof json.version === "string" ? json.version.slice(0, 32) : null,
-    rotation: rotation(json.rotation),
+    rotation: pick ? { ...(weekly ?? { cycle: [], anchor: pick.anchor, weekMs: WEEK_MS }), pickup: pick } : weekly,
     events,
   };
 }

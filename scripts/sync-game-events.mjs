@@ -44,10 +44,10 @@ try {
     events.push({ ...e, backdrop: `/assets/events/${e.id}.webp`, sd });
   }
   const commit = (await execute("git", ["rev-parse", "HEAD"], { cwd: game })).stdout.trim();
-  const snapshot = { schema: feed.schema, version: feed.version, commit, rotation: feed.rotation, events };
+  const snapshot = { schema: feed.schema, version: feed.version, commit, rotation: feed.rotation, pickup: feed.pickup, events };
   if (check) {
     const saved = JSON.parse(await readFile("content/game-events.json", "utf8"));
-    const same = JSON.stringify(saved.events) === JSON.stringify(events) && JSON.stringify(saved.rotation) === JSON.stringify(feed.rotation);
+    const same = JSON.stringify(saved.events) === JSON.stringify(events) && JSON.stringify(saved.rotation) === JSON.stringify(feed.rotation) && JSON.stringify(saved.pickup) === JSON.stringify(feed.pickup);
     if (!same) {
       console.error("content/game-events.json이 게임의 이벤트와 다릅니다. `npm run sync:events`를 실행하고 함께 커밋하세요.");
       process.exit(1);

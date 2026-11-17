@@ -10,6 +10,7 @@ import {
   type GameEvent,
 } from "../src/ui/game-events";
 import { renderNoticeBoard, type StyledNotice } from "../src/ui/notice-views";
+import EVENT_FEED_RAW from "../content/game-events.json";
 
 const base = GAME_EVENTS[0];
 const make = (id: string, startsAt: string, endsAt: string): GameEvent => ({
@@ -140,6 +141,28 @@ describe("live event feed", () => {
     const card = eventCard({ ...fresh, startsAt: "2026-10-01T00:00:00Z" }, "ko", now);
     expect(card).toContain('data-puppet-src="https://forgarden.vercel.app/puppets/x.zip"');
     expect(card).toContain('data-puppet-bounds="0,0,10,10"');
+  });
+  it("shows one pickup at a time along the game's pickup rotation", async () => {
+    const { expandRotation, EVENT_ROTATION } = await import("../src/ui/game-events");
+    expect(EVENT_ROTATION!.pickup!.cycle).toEqual(["moon-picnic", "wolf-cafe"]);
+    const at = Date.parse("2026-11-17T04:00:00Z"); // 플레샤 첫 차례(11-13 ~ 12-04)
+    const list = expandRotation(GAME_EVENTS, EVENT_ROTATION, at);
+    const live = list.filter((e) => gameEventPhase(e, at) === "live").map((e) => e.id);
+    expect(live).toContain("moon-picnic");
+    expect(live).not.toContain("wolf-cafe");
+    const moon = list.find((e) => e.id === "moon-picnic" && gameEventPhase(e, at) === "live")!;
+    expect(moon.endsAt).toBe("2026-12-04T00:00:00.000Z");
+    const wolf = list.filter((e) => e.id === "wolf-cafe");
+    expect(wolf.find((e) => gameEventPhase(e, at) === "ended")!.endsAt).toBe("2026-11-13T00:00:00.000Z");
+    expect(wolf.find((e) => gameEventPhase(e, at) === "upcoming")!.startsAt).toBe("2026-12-04T00:00:00.000Z");
+    // 다음 차례에는 디안만 선다.
+    const later = Date.parse("2026-12-10T00:00:00Z");
+    const next = expandRotation(GAME_EVENTS, EVENT_ROTATION, later).filter((e) => gameEventPhase(e, later) === "live").map((e) => e.id);
+    expect(next).toContain("wolf-cafe");
+    expect(next).not.toContain("moon-picnic");
+    // 서버가 거른 피드를 화면이 다시 걸러도 교대가 남는다.
+    const { parseEventFeed } = await import("../shared/game-event-feed.js");
+    expect(parseEventFeed(parseEventFeed({ ...EVENT_FEED_RAW }))!.rotation!.pickup!.periodMs).toBe(21 * 86_400_000);
   });
   it("spreads the weekly rotation into last, this and next weeks", async () => {
     const { expandRotation, EVENT_ROTATION } = await import("../src/ui/game-events");

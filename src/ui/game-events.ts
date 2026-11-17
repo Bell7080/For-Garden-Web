@@ -32,6 +32,13 @@ export interface EventRotation {
   cycle: readonly string[];
   anchor: string;
   weekMs: number;
+  /** 한정 픽업 교대 — 게임 `core/pickupRotation.ts`와 같은 규칙(앵커부터 `periodMs`마다 다음 칸, 앵커 전에는 마지막 칸). */
+  pickup?: PickupRotation;
+}
+export interface PickupRotation {
+  cycle: readonly string[];
+  anchor: string;
+  periodMs: number;
 }
 export interface EventFeed {
   version: string | null;
@@ -73,7 +80,31 @@ export function expandRotation(events: readonly GameEvent[], rotation: EventRota
     const back = (d.getUTCDay() + 6) % 7;
     return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - back);
   })();
+  const pick = rotation?.pickup;
+  const pickAnchor = pick ? Date.parse(pick.anchor) : NaN;
   for (const e of events) {
+    const pickSlot = pick && Number.isFinite(pickAnchor) ? pick.cycle.indexOf(e.id) : -1;
+    if (pickSlot >= 0) {
+      // 픽업은 한 번에 하나 — 지난 차례 · 지금 차례 · 다음 차례들이 제 기간으로 선다.
+      const period = pick!.periodMs;
+      const size = pick!.cycle.length;
+      const from = Date.parse(e.startsAt);
+      const until = Date.parse(e.endsAt);
+      const current = Math.floor((now - pickAnchor) / period);
+      const add = (start: number, end: number) => {
+        const s = Math.max(start, from);
+        const t = Math.min(end, until);
+        if (t > s) out.push({ ...e, startsAt: iso(s), endsAt: iso(t) });
+      };
+      // 교대가 시작하기 전에는 마지막 칸이 서 있었다(게임 `currentPickupBannerId`).
+      if (pickSlot === size - 1 && current <= 0) add(from, pickAnchor);
+      for (let k = -1; k < size; k++) {
+        const index = current + k;
+        if (index < 0 || index % size !== pickSlot) continue;
+        add(pickAnchor + index * period, pickAnchor + (index + 1) * period);
+      }
+      continue;
+    }
     if (!e.weekly) {
       out.push(e);
       continue;
