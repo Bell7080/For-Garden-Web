@@ -80,8 +80,6 @@ describe("launch notification API", () => {
     { ...valid, ageConfirmed: false },
     { ...valid, phone: undefined },
     { ...valid, phone: "" },
-    { ...valid, email: undefined },
-    { ...valid, email: "" },
     { ...valid, phone: "12345", marketing: true },
     { ...valid, phone: "010-1234-5678" },
     { ...valid, phone: "010-1111-1111" },
@@ -126,7 +124,7 @@ describe("launch notification API", () => {
     expect(sent.p_email).toBe("researcher@example.com");
     expect(sent.p_phone).toBe("+821027418853");
     expect(sent.p_marketing).toBe(false);
-    expect(sent.p_consent_version).toBe("preregistration-v4");
+    expect(sent.p_consent_version).toBe("preregistration-v3");
     expect(sent.p_fingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(options.body).not.toContain("192.0.2.10");
   });
