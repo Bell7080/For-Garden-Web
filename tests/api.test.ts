@@ -28,6 +28,7 @@ function response() {
 }
 const valid = {
   email: "researcher@example.com",
+  phone: "010-2741-8853",
   platform: "android",
   locale: "ko",
   consent: true,
@@ -77,9 +78,13 @@ describe("launch notification API", () => {
     { ...valid, locale: "xx" },
     { ...valid, website: "bot.example" },
     { ...valid, ageConfirmed: false },
-    { ...valid, email: undefined },
-    { ...valid, phone: "010-1234-5678" },
+    { ...valid, phone: undefined },
+    { ...valid, phone: "" },
     { ...valid, phone: "12345", marketing: true },
+    { ...valid, phone: "010-1234-5678" },
+    { ...valid, phone: "010-1111-1111" },
+    { ...valid, email: "x@mailinator.com" },
+    { ...valid, email: "x@inbox.yopmail.com" },
   ])(
     "rejects invalid signup without calling the database: %j",
     async (body) => {
@@ -114,15 +119,16 @@ describe("launch notification API", () => {
     expect(r.result().status).toBe(200);
     expect(r.result().body).toEqual({ ok: true });
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toMatch(/rpc\/register_website_interest_v2$/);
+    expect(url).toMatch(/rpc\/register_website_interest_v3$/);
     const sent = JSON.parse(options.body);
     expect(sent.p_email).toBe("researcher@example.com");
-    expect(sent.p_phone).toBeNull();
-    expect(sent.p_consent_version).toBe("preregistration-v2");
+    expect(sent.p_phone).toBe("+821027418853");
+    expect(sent.p_marketing).toBe(false);
+    expect(sent.p_consent_version).toBe("preregistration-v3");
     expect(sent.p_fingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(options.body).not.toContain("192.0.2.10");
   });
-  it("normalizes a Korean mobile number and keeps the source tag", async () => {
+  it("accepts a number without email, normalizes it and keeps the source tag", async () => {
     configure();
     const fetch = vi
       .fn()
@@ -130,13 +136,13 @@ describe("launch notification API", () => {
     vi.stubGlobal("fetch", fetch);
     const r = response();
     await preregister(
-      request({ ...valid, email: "", phone: "010-1234-5678", marketing: true, source: "GSTAR" }),
+      request({ ...valid, email: "", phone: "010-5839-2047", marketing: true, source: "GSTAR" }),
       r.res,
     );
     expect(r.result().status).toBe(200);
     const sent = JSON.parse(fetch.mock.calls[0][1].body);
     expect(sent.p_email).toBeNull();
-    expect(sent.p_phone).toBe("+821012345678");
+    expect(sent.p_phone).toBe("+821058392047");
     expect(sent.p_marketing).toBe(true);
     expect(sent.p_source).toBe("gstar");
   });

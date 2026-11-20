@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emailTypoSuggestion, normalizePhone, normalizeSource, validEmail } from "../server/contact";
+import { disposableEmail, emailTypoSuggestion, implausiblePhone, normalizePhone, normalizeSource, validEmail } from "../server/contact";
 
 describe("사전예약 연락처 규칙", () => {
   it("같은 번호는 어떻게 적어도 하나로 굳는다", () => {
@@ -22,5 +22,17 @@ describe("사전예약 연락처 규칙", () => {
     expect(normalizeSource("GSTAR")).toBe("gstar");
     expect(normalizeSource("<script>")).toBeNull();
     expect(normalizeSource(42)).toBeNull();
+  });
+  it("누가 봐도 지어낸 번호만 막는다", () => {
+    for (const v of ["+821011111111", "+821000000000", "+821012345678", "+821087654321", "+821000001234"])
+      expect(implausiblePhone(v)).toBe(true);
+    for (const v of ["+821027418853", "+821058392047", "+15551234567", "+819012345679"])
+      expect(implausiblePhone(v)).toBe(false);
+  });
+  it("일회용 메일 도메인은 하위 도메인까지 막고 흔한 메일은 통과시킨다", () => {
+    expect(disposableEmail("a@mailinator.com")).toBe(true);
+    expect(disposableEmail("a@x.yopmail.com")).toBe(true);
+    for (const v of ["a@gmail.com", "a@naver.com", "a@mail.com", "a@notmailinator.com"])
+      expect(disposableEmail(v)).toBe(false);
   });
 });

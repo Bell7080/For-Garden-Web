@@ -6,7 +6,8 @@ import {
 } from "../server/http.js";
 
 /**
- * Public pre-registration total for the milestone gauge: website sign-ups plus an
+ * Public pre-registration total for the milestone gauge: website sign-ups that carry a mobile
+ * number (one per number — legacy email-only rows are not counted) plus an
  * operator-set offset (PREREGISTRATION_COUNT_OFFSET) for store pre-registrations
  * counted elsewhere, such as Google Play. Returns null instead of a guess when the
  * database is unavailable. Short CDN caching keeps page views off the database.
@@ -25,7 +26,7 @@ export default async function handler(req: Request, res: Response) {
   let count: number | null = null;
   try {
     if (configuration()) {
-      const response = await database("website_preregistrations?select=id", {
+      const response = await database("website_preregistrations?select=id&phone=not.is.null", {
         method: "HEAD",
         headers: { Prefer: "count=exact", Range: "0-0" },
       });
