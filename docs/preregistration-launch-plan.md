@@ -85,6 +85,8 @@ Production·Preview 각각에 넣는다. Preview는 **테스트 DB**를, Product
 
 ### 전환 순서 (운영 적용은 응태가 직접)
 
+2026-11-21: 1(마이그레이션 운영 적용)을 확인했다 — 칸·제약·함수·인덱스 모두 들어갔고 v3는 service_role만 실행한다. 이어서 2(홈페이지 배포)를 진행했다.
+
 1. 마이그레이션 `supabase/migrations/20261125000000_preregistration_phone_required.sql`을 운영 DB에 적용한다(어드민 저장소에도 같은 사본이 있다). `20261124000000_preregistration_phone.sql` 다음이다.
 2. 곧바로 홈페이지 main을 배포한다. 새 홈페이지는 `register_website_interest_v3`만 부르므로 1보다 먼저 배포하면 접수가 503이 된다.
 3. 새 홈페이지로 한 건이 들어오는 것을 확인한 뒤 v2를 닫는다.
