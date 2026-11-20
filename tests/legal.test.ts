@@ -102,7 +102,7 @@ describe("법적 문서 4판의 구성", () => {
   });
   it("확정되지 않은 값은 [대괄호] 자리표시자로 남고 강조 표시된다", () => {
     const html = readFileSync("public/terms/index.html", "utf8");
-    expect(html).toContain('<mark class="todo">[운영자 상호]</mark>');
+    expect(html).toContain('<mark class="todo">[대표자명]</mark>');
     expect(html).toContain("법률 전문가의 검토");
   });
   it("개인정보 처리방침은 법정 기재 사항의 절을 모두 갖는다", () => {
