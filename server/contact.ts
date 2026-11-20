@@ -53,7 +53,7 @@ export function normalizeSource(input: unknown): string | null {
 }
 
 /** 동의 문서 버전. 안내 문구(/legal/preregistration-consent)를 고치면 함께 올린다. */
-export const PREREGISTRATION_CONSENT_VERSION = "preregistration-v3";
+export const PREREGISTRATION_CONSENT_VERSION = "preregistration-v4";
 
 /**
  * 누가 봐도 지어낸 번호(같은 숫자 반복 · 0000/1234 꼴 가입자 번호). 문자 인증이 없는 동안 번호를 필수로 받는 이유가

@@ -16,12 +16,13 @@ import {
 } from "../server/contact.js";
 
 /**
- * 사전예약 접수(v3). 휴대폰 번호는 필수이고 번호 하나에 한 건만 받는다 — 가짜 이메일을 여러 개 적어 달성 인원을
- * 부풀리지 못하게 하려는 것이다. 이메일은 선택이며 적으면 그 이메일도 한 번만 받는다(일회용 메일 도메인은 받지 않는다).
+ * 사전예약 접수(v4 동의). 휴대폰 번호와 이메일이 모두 필수이고 번호 하나·이메일 하나에 한 건만 받는다 — 가짜 연락처를
+ * 여러 개 적어 달성 인원을 부풀리지 못하게 하려는 것이다(일회용 메일 도메인은 받지 않는다). 번호는 출시 때 본인 확인,
+ * 이메일은 출시 안내의 기본 수단이다.
  * 만 14세 이상 확인과 개인정보 수집·이용 동의는 필수, 광고성 정보(문자·메일) 수신 동의는 선택이다 —
  * 번호가 필수이므로 광고 동의를 번호에 묶으면 선택 동의를 강제하게 된다. 문자는 광고 동의자에게만 보낸다.
  * 문자 인증은 발송 업체가 정해진 뒤 넣는다(docs/preregistration-launch-plan.md 「인증」).
- * 같은 번호·이메일은 409(duplicate)로 알리고 기존 신청을 바꾸지 않는다(예전 이메일만의 신청에 번호를 붙이는 것만 예외).
+ * 같은 번호·이메일은 409(duplicate)로 알리고 기존 신청을 바꾸지 않는다(예전 한쪽만 적은 신청에 빠진 연락처를 붙이는 것만 예외).
  */
 export default async function handler(req: Request, res: Response) {
   if (req.method !== "POST") {
@@ -63,7 +64,7 @@ export default async function handler(req: Request, res: Response) {
     if (
       !phone ||
       implausiblePhone(phone) ||
-      (emailText && (!validEmail(emailText) || disposableEmail(emailText))) ||
+      !emailText || !validEmail(emailText) || disposableEmail(emailText) ||
       data.consent !== true ||
       data.ageConfirmed !== true ||
       !["android", "ios", "both"].includes(data.platform) ||
@@ -91,7 +92,7 @@ export default async function handler(req: Request, res: Response) {
     const response = await database("rpc/register_website_interest_v3", {
       method: "POST",
       body: JSON.stringify({
-        p_email: emailText ? emailText.toLowerCase() : null,
+        p_email: emailText.toLowerCase(),
         p_phone: phone,
         p_platform: data.platform,
         p_locale: data.locale,

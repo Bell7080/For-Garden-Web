@@ -80,6 +80,8 @@ describe("launch notification API", () => {
     { ...valid, ageConfirmed: false },
     { ...valid, phone: undefined },
     { ...valid, phone: "" },
+    { ...valid, email: undefined },
+    { ...valid, email: "" },
     { ...valid, phone: "12345", marketing: true },
     { ...valid, phone: "010-1234-5678" },
     { ...valid, phone: "010-1111-1111" },
@@ -124,11 +126,11 @@ describe("launch notification API", () => {
     expect(sent.p_email).toBe("researcher@example.com");
     expect(sent.p_phone).toBe("+821027418853");
     expect(sent.p_marketing).toBe(false);
-    expect(sent.p_consent_version).toBe("preregistration-v3");
+    expect(sent.p_consent_version).toBe("preregistration-v4");
     expect(sent.p_fingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(options.body).not.toContain("192.0.2.10");
   });
-  it("accepts a number without email, normalizes it and keeps the source tag", async () => {
+  it("lowercases the email, normalizes the number and keeps the source tag", async () => {
     configure();
     const fetch = vi
       .fn()
@@ -136,12 +138,12 @@ describe("launch notification API", () => {
     vi.stubGlobal("fetch", fetch);
     const r = response();
     await preregister(
-      request({ ...valid, email: "", phone: "010-5839-2047", marketing: true, source: "GSTAR" }),
+      request({ ...valid, email: "Player@Example.com", phone: "010-5839-2047", marketing: true, source: "GSTAR" }),
       r.res,
     );
     expect(r.result().status).toBe(200);
     const sent = JSON.parse(fetch.mock.calls[0][1].body);
-    expect(sent.p_email).toBeNull();
+    expect(sent.p_email).toBe("player@example.com");
     expect(sent.p_phone).toBe("+821058392047");
     expect(sent.p_marketing).toBe(true);
     expect(sent.p_source).toBe("gstar");
