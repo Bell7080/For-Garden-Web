@@ -13,7 +13,12 @@
 | 운영 DB (`forgarden-prod`, ref `udujahnlyhedlrfbaaow`) | `website_preregistrations`·`website_registration_limits`·`register_website_interest`·`prereg_no_client` 정책 **모두 적용됨**, 현재 0행 |
 | 테스트 DB (`forgarden-test`, ref `rscxzfdnbdmftortrcqt`) | 미확인 — 아래 1단계에서 확인 |
 
-**새 마이그레이션은 필요 없다.** 인원 API는 기존 표를 서비스 롤로 `count=exact` 조회만 한다.
+**2026-11-20 갱신 — 휴대폰 번호·동의 개편.** 폼은 이메일·휴대폰 중 하나 이상, [필수] 만 14세 이상, [필수] 수집·이용,
+[선택] 광고성 정보(번호를 적으면 필수)를 받는다. 접수 API는 새 함수 `register_website_interest_v2`를 부르므로
+**`supabase/migrations/20261124000000_preregistration_phone.sql`을 운영 DB에 먼저 적용한 뒤 배포**해야 한다
+(적용 전 배포하면 접수가 503으로 떨어진다 — 행은 생기지 않는다). 같은 파일이 어드민 저장소에도 있고, 어드민 「사전예약」
+화면(통계·조회·마스킹·CSV 내보내기·삭제)이 그 함수들을 읽는다. 같은 연락처는 409(`duplicate`)이며 기존 행을 바꾸지 않는다.
+번호는 E.164(`+8210…`)로 굳혀 중복을 막는다(`server/contact.ts`). 유입 경로는 `?ref=gstar`처럼 붙인다.
 
 ## 1. DB 확인 (쓰기 없음)
 
@@ -52,7 +57,7 @@ Production·Preview 각각에 넣는다. Preview는 **테스트 DB**를, Product
 
 1. Preview 배포에서 `GET /api/site` → `registrationOpen: true`.
 2. `GET /api/preregister-count` → `{"count": 0}` (또는 오프셋 값), 응답 헤더 `Cache-Control: public, s-maxage=60...`.
-3. 폼에 테스트 메일로 신청 → 성공 문구. 테스트 DB에 행 1개 생겼는지 확인. 같은 메일 재신청 → 성공 응답이지만 행은 그대로.
+3. 폼에 테스트 메일로 신청 → 성공 문구. 테스트 DB에 행 1개 생겼는지 확인. 같은 메일 재신청 → 「이미 사전예약된…」(409), 행은 그대로.
 4. 같은 IP로 6번째 신청 → 429(`rate_limited`) 문구.
 5. 60초 뒤 게이지 숫자가 1 오른 것 확인.
 6. 테스트 행 삭제(테스트 DB만): `delete from public.website_preregistrations where email = '<테스트 메일>';`

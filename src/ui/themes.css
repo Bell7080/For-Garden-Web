@@ -169,7 +169,7 @@
 [data-theme="light"] .language-trigger {
   color: #24282e;
 }
-[data-theme="light"] :is(.language-menu, dialog, input[type="email"]) {
+[data-theme="light"] :is(.language-menu, dialog, input[type="email"], input[type="tel"]) {
   background: #fffdf7;
   color: #24282e;
   border-color: #b7ad99;
@@ -189,7 +189,8 @@
   color: #4d4b43;
   border-color: #9d937e;
 }
-[data-theme="light"] input[type="email"]::placeholder {
+[data-theme="light"] input[type="email"]::placeholder,
+[data-theme="light"] input[type="tel"]::placeholder {
   color: #767166;
 }
 [data-theme="light"] :is(.consent input, .platform-options input) {

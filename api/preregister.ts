@@ -6,6 +6,18 @@ import {
   type Request,
   type Response,
 } from "../server/http.js";
+import {
+  normalizePhone,
+  normalizeSource,
+  PREREGISTRATION_CONSENT_VERSION,
+  validEmail,
+} from "../server/contact.js";
+
+/**
+ * 사전예약 접수. 이메일·휴대폰 중 하나 이상, 만 14세 이상 확인과 개인정보 수집·이용 동의(필수),
+ * 번호를 줄 때는 광고성 정보(문자) 수신 동의가 함께 있어야 한다 — 출시·보상 안내 문자가 광고성 정보이기 때문이다.
+ * 같은 이메일·번호는 409(duplicate)로 알리고 기존 신청을 바꾸지 않는다.
+ */
 export default async function handler(req: Request, res: Response) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -33,13 +45,23 @@ export default async function handler(req: Request, res: Response) {
     if (Buffer.byteLength(raw) > 4096)
       return reply(res, 413, { error: "body_too_large" });
     const data = JSON.parse(raw);
+    if (!data || typeof data !== "object")
+      return reply(res, 400, { error: "invalid_request" });
+    const emailText = typeof data.email === "string" ? data.email.trim() : "";
+    const phoneText = typeof data.phone === "string" ? data.phone.trim() : "";
+    if (data.email != null && typeof data.email !== "string")
+      return reply(res, 400, { error: "invalid_request" });
+    if (data.phone != null && typeof data.phone !== "string")
+      return reply(res, 400, { error: "invalid_request" });
+    const phone = phoneText ? normalizePhone(phoneText) : null;
+    const marketing = data.marketing === true;
     if (
-      !data ||
-      typeof data !== "object" ||
-      typeof data.email !== "string" ||
-      data.email.length > 254 ||
-      !/^\S+@[^\s@]+\.[^\s@]+$/.test(data.email.trim()) ||
+      (!emailText && !phoneText) ||
+      (emailText && !validEmail(emailText)) ||
+      (phoneText && !phone) ||
+      (phone && !marketing) ||
       data.consent !== true ||
+      data.ageConfirmed !== true ||
       !["android", "ios", "both"].includes(data.platform) ||
       !["ko", "en", "ja"].includes(data.locale)
     )
@@ -62,18 +84,23 @@ export default async function handler(req: Request, res: Response) {
     const fingerprint = createHmac("sha256", config.key)
       .update(ip)
       .digest("hex");
-    const response = await database("rpc/register_website_interest", {
+    const response = await database("rpc/register_website_interest_v2", {
       method: "POST",
       body: JSON.stringify({
-        p_email: data.email.trim().toLowerCase(),
+        p_email: emailText ? emailText.toLowerCase() : null,
+        p_phone: phone,
         p_platform: data.platform,
         p_locale: data.locale,
         p_fingerprint: fingerprint,
+        p_marketing: marketing,
+        p_source: normalizeSource(data.source),
+        p_consent_version: PREREGISTRATION_CONSENT_VERSION,
       }),
     });
     const result = await response.json();
     if (result === "rate_limited")
       return reply(res, 429, { error: "rate_limited" });
+    if (result === "duplicate") return reply(res, 409, { error: "duplicate" });
     if (result !== "accepted")
       return reply(res, 503, { error: "registration_unavailable" });
     return reply(res, 200, { ok: true });

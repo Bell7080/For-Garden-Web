@@ -729,3 +729,64 @@ button.milestone-reward:focus-visible {
     translate: none;
   }
 }
+
+/* 사전예약 연락처·동의 묶음 — 이메일·휴대폰 중 하나 이상, 필수 동의 둘, 광고성 수신 선택 하나. */
+.contact-hint {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #a9b59b;
+  margin: 0 0 14px;
+}
+#phone {
+  margin-bottom: 4px;
+}
+label[for="phone"] {
+  margin-top: 18px;
+}
+.email-typo {
+  font-size: 12px;
+  color: #ead585;
+  margin: 8px 0 0;
+}
+.email-typo .text-link {
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 6px;
+}
+.consent-group {
+  margin-top: 6px;
+}
+.consent-group .consent {
+  margin-top: 8px;
+}
+.consent-all {
+  font-weight: 700;
+  color: #e6ead7;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ffffff1a;
+}
+.privacy-summary {
+  margin: 12px 0 0 25px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #a9b59b;
+}
+.privacy-summary summary {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.privacy-summary p {
+  margin: 8px 0 0;
+}
+[data-theme="light"] :is(.contact-hint, .privacy-summary) {
+  color: #5c5a50;
+}
+[data-theme="light"] .consent-all {
+  color: #2f2e28;
+  border-color: #0000001a;
+}
+[data-theme="light"] .email-typo {
+  color: #785420;
+}

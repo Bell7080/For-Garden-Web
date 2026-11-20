@@ -31,6 +31,7 @@ const valid = {
   platform: "android",
   locale: "ko",
   consent: true,
+  ageConfirmed: true,
 };
 function request(body: unknown = valid): Request {
   return {
@@ -75,6 +76,10 @@ describe("launch notification API", () => {
     { ...valid, platform: "windows" },
     { ...valid, locale: "xx" },
     { ...valid, website: "bot.example" },
+    { ...valid, ageConfirmed: false },
+    { ...valid, email: undefined },
+    { ...valid, phone: "010-1234-5678" },
+    { ...valid, phone: "12345", marketing: true },
   ])(
     "rejects invalid signup without calling the database: %j",
     async (body) => {
@@ -109,11 +114,42 @@ describe("launch notification API", () => {
     expect(r.result().status).toBe(200);
     expect(r.result().body).toEqual({ ok: true });
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toMatch(/rpc\/register_website_interest$/);
+    expect(url).toMatch(/rpc\/register_website_interest_v2$/);
     const sent = JSON.parse(options.body);
     expect(sent.p_email).toBe("researcher@example.com");
+    expect(sent.p_phone).toBeNull();
+    expect(sent.p_consent_version).toBe("preregistration-v2");
     expect(sent.p_fingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(options.body).not.toContain("192.0.2.10");
+  });
+  it("normalizes a Korean mobile number and keeps the source tag", async () => {
+    configure();
+    const fetch = vi
+      .fn()
+      .mockResolvedValue(new globalThis.Response(JSON.stringify("accepted")));
+    vi.stubGlobal("fetch", fetch);
+    const r = response();
+    await preregister(
+      request({ ...valid, email: "", phone: "010-1234-5678", marketing: true, source: "GSTAR" }),
+      r.res,
+    );
+    expect(r.result().status).toBe(200);
+    const sent = JSON.parse(fetch.mock.calls[0][1].body);
+    expect(sent.p_email).toBeNull();
+    expect(sent.p_phone).toBe("+821012345678");
+    expect(sent.p_marketing).toBe(true);
+    expect(sent.p_source).toBe("gstar");
+  });
+  it("reports a duplicate without claiming a new signup", async () => {
+    configure();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(new globalThis.Response(JSON.stringify("duplicate"))),
+    );
+    const r = response();
+    await preregister(request(), r.res);
+    expect(r.result().status).toBe(409);
+    expect(r.result().body).toEqual({ error: "duplicate" });
   });
   it("preserves rate limit outcome", async () => {
     configure();

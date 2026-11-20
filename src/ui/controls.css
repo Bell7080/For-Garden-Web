@@ -237,7 +237,8 @@ input:focus-visible,
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m2.8 11.8 3-3L10 13l8-9 3 3-11 12z'/%3E%3C/svg%3E")
     center/contain no-repeat;
 }
-input[type="email"] {
+input[type="email"],
+input[type="tel"] {
   appearance: none;
   caret-color: #d8b978;
 }

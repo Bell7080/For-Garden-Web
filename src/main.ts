@@ -32,6 +32,7 @@ import { mergeEventFeed, type EventFeed, type EventPhase } from "./ui/game-event
 import { parseEventFeed } from "../shared/game-event-feed.js";
 import { languagePicker, bindLanguagePicker } from "./ui/language-picker";
 import { copy, locales, relics, type Locale } from "./content";
+import { emailTypoSuggestion, normalizePhone, normalizeSource, validEmail } from "../server/contact";
 
 const emblem = gameSymbol("factions", "rune", "archive-emblem");
 const gameScreens = [
@@ -182,7 +183,7 @@ function render() {
  <section id="relics" class="section relic-section"><div class="section-heading"><div><p class="eyebrow">${t.relicLabel} <span class="section-number">03</span></p><h2>${t.relicTitle}<span class="heading-dot">.</span></h2></div><p class="small-copy">${escape(t.relicIntro).replace("\n", "<br>")}</p></div><div id="relic-display"></div>${renderFactions(lang)}</section>
  <section id="gameplay" class="section gameplay-section"><div class="section-heading"><div><p class="eyebrow">IN-GAME ARCHIVE <span class="section-number">04</span></p><h2>${screenCopy[lang].title}<span class="heading-dot">.</span></h2></div><p class="small-copy">${screenCopy[lang].intro}</p></div><div class="screenshot-grid" aria-label="${screenCopy[lang].intro}">${gameScreens.map((name, i) => `<button class="screenshot-card" data-screenshot="${i}" aria-label="${screenCopy[lang].labels[i]} · ${screenCopy[lang].open}"><span class="screenshot-image"><img src="/assets/screenshots/${name}.webp" alt="${screenCopy[lang].labels[i]}" width="540" height="960" loading="lazy"/><span class="screenshot-enlarge" aria-hidden="true">${icon("arrow")}</span></span><span class="screenshot-caption"><span>0${i + 1}</span><strong>${screenCopy[lang].labels[i]}</strong></span></button>`).join("")}</div><p class="gallery-hint">${screenCopy[lang].hint}</p><p class="art-disclaimer">${t.sample}</p></section>
  <section id="about" class="section about-section"><p class="eyebrow">${t.featuresLabel} <span class="section-number">05</span></p><h2>${t.featuresTitle}<span class="heading-dot">.</span></h2><div class="feature-grid">${t.features.map((f, i) => `<article class="feature"><div class="feature-image"><img src="/assets/${["archive", "battle", "city"][i]}.webp" alt="" loading="lazy" width="844" height="1500"/><span>0${i + 1}</span></div><p class="eyebrow">${["EXPLORE THE UNKNOWN", "FIND YOUR SYNERGY", "GROW TOGETHER"][i]}</p><h3>${f[0]}</h3><p>${f[1]}</p></article>`).join("")}</div><p class="art-disclaimer">${t.sample}</p></section>
- <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" required maxlength="254" autocomplete="email"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><a class="privacy-link" href="/legal/preregistration-consent">${t.privacy} ${arrow}</a><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form>${registerMilestones(lang)}</section>
+ <section id="register" class="register-section"><div class="ambient-dots" aria-hidden="true"></div><div class="register-copy"><p class="eyebrow">${t.registerLabel}</p><h2>${lines(t.registerTitle)}</h2><p>${t.registerBody}</p>${registerDecor(lang)}<small>${t.noPromise}</small></div><form id="register-form" novalidate><fieldset><legend>${t.platform}</legend><div class="platform-options">${["android", "ios", "both"].map((p, i) => `<label><input type="radio" name="platform" value="${p}" ${i === 0 ? "checked" : ""}/><span>${[t.android, t.ios, t.both][i]}</span></label>`).join("")}</div></fieldset><p class="contact-hint">${t.contactHint}</p><label class="email-label" for="email">${t.email}</label><input type="email" id="email" name="email" placeholder="${t.emailPlaceholder}" maxlength="254" autocomplete="email" aria-describedby="email-typo"/><p id="email-typo" class="email-typo" hidden></p><label class="email-label" for="phone">${t.phone}</label><input type="tel" id="phone" name="phone" placeholder="${t.phonePlaceholder}" maxlength="24" autocomplete="tel" inputmode="tel"/><div class="honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"/></label></div><div class="consent-group"><label class="consent consent-all"><input type="checkbox" name="agreeAll"/><span>${t.agreeAll}</span></label><label class="consent"><input type="checkbox" name="ageConfirmed" required/><span>${t.age}</span></label><label class="consent"><input type="checkbox" name="consent" required/><span>${t.consent}</span></label><label class="consent"><input type="checkbox" name="marketing"/><span>${t.marketing}</span></label></div><details class="privacy-summary"><summary>${t.privacySummary}</summary><p>${t.privacyBody}</p></details><a class="privacy-link" href="/legal/preregistration-consent">${t.privacy} ${arrow}</a><button type="submit" class="button button-yellow">${t.submit} ${arrow}</button><p id="form-status" role="status"></p></form>${registerMilestones(lang)}</section>
  </main><footer><div class="footer-main"><a class="brand" href="#home"><img class="brand-logotype" src="/assets/for-garden-logo.webp" alt="For Garden" width="1358" height="392"/></a><p>${t.footer}</p><span class="footer-status"><span class="live-dot"></span>${t.status}</span></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} For Garden. All rights reserved.</span>${renderFooterLinks(lang)}<a class="footer-top-link" href="#home">${t.top} ${icon("up")}</a></div></footer>
  <dialog id="content-dialog"><button class="dialog-close" aria-label="${t.close}">${icon("close")}</button><div class="dialog-content"></div></dialog>`;
   renderNews();
@@ -434,7 +435,9 @@ function bind() {
     url.searchParams.delete("notice");
     history.replaceState(null, "", url);
   });
-  document.querySelector<HTMLFormElement>("form")!.onsubmit = submit;
+  const registerForm = document.querySelector<HTMLFormElement>("#register-form")!;
+  registerForm.onsubmit = submit;
+  bindRegisterForm(registerForm);
 }
 async function loadEvents() {
   try {
@@ -483,6 +486,34 @@ async function loadNews() {
       openDialog(`<h2>${copy[lang].noticeMissing}</h2>`);
   }
 }
+/** 「모두 동의」와 개별 동의를 맞물리고, 메일 도메인 오타를 묻는다(고쳐 쓰지 않고 누르면 고친다). */
+function bindRegisterForm(form: HTMLFormElement) {
+  const all = form.querySelector<HTMLInputElement>('[name="agreeAll"]')!;
+  const items = [...form.querySelectorAll<HTMLInputElement>('.consent-group input:not([name="agreeAll"])')];
+  all.onchange = () => items.forEach((x) => (x.checked = all.checked));
+  items.forEach((x) => (x.onchange = () => (all.checked = items.every((y) => y.checked))));
+  const email = form.querySelector<HTMLInputElement>("#email")!;
+  const typo = form.querySelector<HTMLElement>("#email-typo")!;
+  const check = () => {
+    const fix = emailTypoSuggestion(email.value);
+    typo.hidden = !fix;
+    if (!fix) return;
+    const t = copy[lang];
+    typo.innerHTML = `${escape(t.typo.replace("{email}", fix))} <button type="button" class="text-link">${escape(t.typoFix)}</button>`;
+    typo.querySelector("button")!.onclick = () => {
+      email.value = fix;
+      typo.hidden = true;
+      email.focus({ preventScroll: true });
+    };
+  };
+  email.addEventListener("blur", check);
+  email.addEventListener("input", () => { if (!typo.hidden) check(); });
+}
+/** 유입 경로: ?ref=gstar 또는 utm_source. 서버가 같은 규칙으로 다시 거른다. */
+function registerSource(): string | null {
+  const q = new URLSearchParams(location.search);
+  return normalizeSource(q.get("ref") ?? q.get("utm_source"));
+}
 async function submit(e: SubmitEvent) {
   e.preventDefault();
   const t = copy[lang];
@@ -490,18 +521,30 @@ async function submit(e: SubmitEvent) {
   const data = new FormData(form);
   const button = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
   const status = document.querySelector<HTMLElement>("#form-status")!;
-  const inputs = [...form.querySelectorAll<HTMLInputElement>("input")];
-  inputs.forEach((input) =>
-    input.setAttribute("aria-invalid", String(!input.validity.valid)),
-  );
-  if (!form.checkValidity()) {
-    status.textContent = t.invalid;
+  const emailInput = form.querySelector<HTMLInputElement>("#email")!;
+  const phoneInput = form.querySelector<HTMLInputElement>("#phone")!;
+  const email = emailInput.value.trim();
+  const phoneRaw = phoneInput.value.trim();
+  const phone = phoneRaw ? normalizePhone(phoneRaw) : null;
+  const marketing = data.get("marketing") === "on";
+  const emailBad = email !== "" && !validEmail(email);
+  const phoneBad = phoneRaw !== "" && !phone;
+  const noContact = email === "" && phoneRaw === "";
+  emailInput.setAttribute("aria-invalid", String(emailBad || noContact));
+  phoneInput.setAttribute("aria-invalid", String(phoneBad || noContact));
+  const required = [...form.querySelectorAll<HTMLInputElement>("input[required]")];
+  required.forEach((input) => input.setAttribute("aria-invalid", String(!input.checked)));
+  const fail = (message: string, focus?: HTMLInputElement) => {
+    status.textContent = message;
     status.dataset.state = "error";
-    inputs
-      .find((input) => !input.validity.valid)
-      ?.focus({ preventScroll: true });
-    return;
-  }
+    focus?.focus({ preventScroll: true });
+  };
+  if (noContact || emailBad || phoneBad)
+    return fail(t.invalid, emailBad || noContact ? emailInput : phoneInput);
+  const unchecked = required.find((input) => !input.checked);
+  if (unchecked) return fail(t.invalid, unchecked);
+  if (phone && !marketing)
+    return fail(t.needMarketing, form.querySelector<HTMLInputElement>('[name="marketing"]')!);
 
   button.disabled = true;
   button.textContent = t.submitting;
@@ -511,10 +554,14 @@ async function submit(e: SubmitEvent) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: data.get("email"),
+        email: email || undefined,
+        phone: phone || undefined,
         platform: data.get("platform"),
         locale: lang,
         consent: data.get("consent") === "on",
+        ageConfirmed: data.get("ageConfirmed") === "on",
+        marketing,
+        source: registerSource(),
         website: data.get("website"),
       }),
       signal: AbortSignal.timeout(15000),
@@ -523,10 +570,14 @@ async function submit(e: SubmitEvent) {
       status.textContent =
         response.status === 503
           ? t.unavailable
-          : response.status === 400
-            ? t.invalid
-            : t.failed;
-      status.dataset.state = "error";
+          : response.status === 409
+            ? t.duplicate
+            : response.status === 429
+              ? t.rateLimited
+              : response.status === 400
+                ? t.invalid
+                : t.failed;
+      status.dataset.state = response.status === 409 ? "success" : "error";
       return;
     }
     const result = await response.json();
@@ -534,6 +585,7 @@ async function submit(e: SubmitEvent) {
     status.textContent = t.success;
     status.dataset.state = "success";
     form.reset();
+    form.querySelector<HTMLElement>("#email-typo")!.hidden = true;
   } catch {
     status.textContent = t.failed;
     status.dataset.state = "error";

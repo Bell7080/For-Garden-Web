@@ -1038,7 +1038,8 @@ legend,
   outline: 3px solid var(--yellow);
   outline-offset: 4px;
 }
-input[type="email"] {
+input[type="email"],
+input[type="tel"] {
   width: 100%;
   background: #ffffff08;
   border: 1px solid #657859;
@@ -1047,7 +1048,8 @@ input[type="email"] {
   border-radius: 0;
   font-size: 13px;
 }
-input[type="email"]::placeholder {
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder {
   color: #91a084;
 }
 .consent {
@@ -2446,13 +2448,15 @@ legend,
   color: var(--game-void);
   border-color: var(--game-gold);
 }
-input[type="email"] {
+input[type="email"],
+input[type="tel"] {
   color: var(--game-ink);
   background: var(--game-panel);
   border-color: #6f6c63;
   font-size: 16px;
 }
-input[type="email"]::placeholder {
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder {
   color: #b0ada5;
 }
 .consent {
