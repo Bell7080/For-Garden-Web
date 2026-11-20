@@ -2,7 +2,7 @@
 -- 기존 표(website_preregistrations)에 열만 더한다. 새 표를 만들지 않으므로 출시 초기화 분류(keep)는 그대로다.
 -- 이메일·휴대폰 중 하나 이상이 있어야 하고, 둘 다 각자 중복을 막는다(같은 번호·같은 메일은 한 번만).
 -- 휴대폰으로 받는 출시·보상 안내 문자는 광고성 정보로 보고 수신 동의 없이는 번호를 받지 않는다.
--- 홈페이지·게임·어드민 저장소에 같은 사본을 둔다. 게임 20261017080000 보안 강화(private.admin_can · private.audit) 다음에 적용한다.
+-- 홈페이지·어드민 저장소에 같은 사본을 둔다. 게임 20261017080000 보안 강화(private.admin_can · private.audit) 다음에 적용한다.
 begin;
 
 alter table public.website_preregistrations alter column email drop not null;
