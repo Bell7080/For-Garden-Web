@@ -249,7 +249,7 @@ export function heroProfile(lang: Locale) {
 }
 function descriptions(id: string, lang: Locale): string[] {
   const entries: Record<string, string[][]> = {
-    dodo: [
+    dodi: [
       [
         "깃펜으로 마법 피해를 주고, 입힌 피해의 30%만큼 가장 다친 아군을 회복합니다.",
         "Deals magic damage with her quill and heals the most wounded ally for 30% of damage dealt.",
@@ -293,7 +293,7 @@ function descriptions(id: string, lang: Locale): string[] {
         "戦闘中1回、体力が半分以下になると5秒間、毎秒最大体力の3.5%を回復します。",
       ],
     ],
-    rex: [
+    rexia: [
       [
         "날카로운 송곳니로 공격하고 3초 동안 출혈을 남깁니다.",
         "Sharp fangs strike and leave a 3-second bleed.",
@@ -315,7 +315,7 @@ function descriptions(id: string, lang: Locale): string[] {
         "攻撃速度・攻撃力・会心率・会心ダメージ・吸血が25%増加。中距離から突進し1秒気絶させます。",
       ],
     ],
-    spino: [
+    spina: [
       [
         "물가에 여울을 만들고 그 사이로 파고드는 기동형 공격.",
         "An agile attack that opens shallows and darts between them.",
@@ -396,5 +396,5 @@ export function registerDecor(lang: Locale) {
         `<i class="register-sparkle" style="left:${x}%;top:${y}%;--delay:${d}s"></i>`,
     )
     .join("");
-  return `<div class="register-companions"><span class="register-companion-label">A LITTLE COMPANY FOR YOUR NEXT CHAPTER</span><div class="register-companion-scene" aria-hidden="true"><span class="register-spotlight"></span><span class="register-floor"></span>${sparkles}<span class="register-actor register-actor-luka"><img class="register-sd" data-puppet="luka-sd" data-puppet-mode="idle" src="/assets/luka-sd.webp" alt="" width="240" height="300" loading="lazy"/></span><span class="register-actor register-actor-dodo"><img class="register-sd" data-puppet="dodo-sd" data-puppet-mode="idle" src="/assets/dodo-sd.webp" alt="" width="200" height="270" loading="lazy"/></span><span class="register-bubble">${tr(lang, "기다리고 있을게요!", "We'll be waiting!", "待ってますね!")}</span><img class="register-cake" src="/assets/game/currency/cake.webp" alt="" width="110" height="110" loading="lazy"/><img class="register-coin coin-one" src="/assets/game/currency/gold.webp" alt="" width="64" height="64" loading="lazy"/><img class="register-coin coin-two" src="/assets/game/currency/gold.webp" alt="" width="48" height="48" loading="lazy"/><img class="register-coin coin-three" src="/assets/game/currency/crystal.webp" alt="" width="48" height="48" loading="lazy"/></div><p>${tr(lang, "루카와 도디도, 당신과의 만남을 기다리는 중.", "Luka and Dodi are waiting to meet you, too.", "ルカとドディも、あなたとの出会いを待っています。")}</p></div>`;
+  return `<div class="register-companions"><span class="register-companion-label">A LITTLE COMPANY FOR YOUR NEXT CHAPTER</span><div class="register-companion-scene" aria-hidden="true"><span class="register-spotlight"></span><span class="register-floor"></span>${sparkles}<span class="register-actor register-actor-luka"><img class="register-sd" data-puppet="luka-sd" data-puppet-mode="idle" src="/assets/luka-sd.webp" alt="" width="240" height="300" loading="lazy"/></span><span class="register-actor register-actor-dodi"><img class="register-sd" data-puppet="dodi-sd" data-puppet-mode="idle" src="/assets/dodi-sd.webp" alt="" width="200" height="270" loading="lazy"/></span><span class="register-bubble">${tr(lang, "기다리고 있을게요!", "We'll be waiting!", "待ってますね!")}</span><img class="register-cake" src="/assets/game/currency/cake.webp" alt="" width="110" height="110" loading="lazy"/><img class="register-coin coin-one" src="/assets/game/currency/gold.webp" alt="" width="64" height="64" loading="lazy"/><img class="register-coin coin-two" src="/assets/game/currency/gold.webp" alt="" width="48" height="48" loading="lazy"/><img class="register-coin coin-three" src="/assets/game/currency/crystal.webp" alt="" width="48" height="48" loading="lazy"/></div><p>${tr(lang, "루카와 도디도, 당신과의 만남을 기다리는 중.", "Luka and Dodi are waiting to meet you, too.", "ルカとドディも、あなたとの出会いを待っています。")}</p></div>`;
 }

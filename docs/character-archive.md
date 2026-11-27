@@ -2,7 +2,7 @@
 
 게임 체크아웃 `For-Garden`의 `db57cb2a` 기준으로 홈페이지의 공개 캐릭터 4명(토리카·렉시아·스피나·도디)을 확장했다. 게임 저장소는 수정하지 않았다.
 
-- `src/codex-data.json`: 게임 `src/data/relics.ts`, `src/data/relicStories/{torika,rex,spino,dodo}.ts`, `src/i18n/{en,ja}/data.ts`에서 가져온 기본 수치·개체번호·복원 프로필·발굴지·관찰일지·실제 마지막 대사·스킬 이름. 본드 스토리 전체는 공개하지 않는다.
+- `src/codex-data.json`: 게임 `src/data/relics.ts`, `src/data/relicStories/{torika,rexia,spina,dodi}.ts`, `src/i18n/{en,ja}/data.ts`에서 가져온 기본 수치·개체번호·복원 프로필·발굴지·관찰일지·실제 마지막 대사·스킬 이름. 본드 스토리 전체는 공개하지 않는다.
 - `src/codex.ts`: 위 기록을 표시하는 한·영·일 UI. 파벌 설명은 `docs/factions.md`와 `src/data/factions.ts`를 간추렸다. 스킬 효과 요약은 현재 구조화된 전투 수치를 기준으로 작성했다. 게임 밸런스가 바뀌면 JSON과 효과 요약을 함께 갱신해야 한다. 웹에서 게임 라이브 데이터나 API를 불러오는 구조가 아니다.
 - `public/assets/game/`: 게임 `public/sprites/{factions,elements,roles,skills,currency}`의 사용 에셋만 그대로 복사했다. 파벌·속성·직군의 정체성을 임의 SVG로 대체하지 않는다. 스킬의 실제 전용 아이콘도 동일하다. 기능용 화살표·닫기·메뉴는 기존 게임 기하를 따르는 UI SVG를 유지한다.
 - `public/assets/*-sd.webp`: `public/puppets/charSD_001.zip`부터 `005.zip`의 원본 텍스처에서 투명 여백만 제거했다. 001 토리카, 002 렉시아, 003 스피나, 004 루카, 005 도디. 코인·치즈케이크와 루카·도디 SD는 사전예약의 장식이며 확정 보상이 아니다.

@@ -4,12 +4,12 @@
     "height": 1492,
     "bounds": [94, 0, 1054, 1421]
   },
-  "rex": {
+  "rexia": {
     "width": 1054,
     "height": 1492,
     "bounds": [15, 40, 1039, 1453]
   },
-  "spino": {
+  "spina": {
     "width": 1085,
     "height": 1450,
     "bounds": [0, 0, 1085, 1450]
@@ -19,22 +19,22 @@
     "height": 1254,
     "bounds": [198, 90, 1018, 1161]
   },
-  "rex-sd": {
+  "rexia-sd": {
     "width": 1254,
     "height": 1254,
     "bounds": [82, 86, 1082, 1211]
   },
-  "spino-sd": {
+  "spina-sd": {
     "width": 1122,
     "height": 1402,
     "bounds": [218, 112, 987, 1328]
   },
-  "dodo": {
+  "dodi": {
     "width": 1086,
     "height": 1448,
     "bounds": [100, 76, 986, 1352]
   },
-  "dodo-sd": {
+  "dodi-sd": {
     "width": 1254,
     "height": 1254,
     "bounds": [121, 72, 1088, 1207]

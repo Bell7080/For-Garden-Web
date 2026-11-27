@@ -161,7 +161,7 @@
     }
   },
   {
-    "id": "rex",
+    "id": "rexia",
     "squad": "fang",
     "name": "렉시아",
     "specimenNumber": "072",
@@ -199,7 +199,7 @@
       "ferocityGain": 0
     },
     "passive": {
-      "id": "rex-passive",
+      "id": "rexia-passive",
       "name": "전투는 메이드의 소양이기에.",
       "kind": "battleMaidMastery",
       "iconAssetId": "skill-icon-buff",
@@ -217,7 +217,7 @@
       "desc": "전투 시작 시 공격 속도·공격력·치명타 확률·치명타 피해·흡혈이 모두 25% 오르고, 표적에게 중거리까지 다가서면 돌진해 1초 동안 기절시킨다."
     },
     "basic": {
-      "id": "rex-basic",
+      "id": "rexia-basic",
       "name": "출혈 송곳니",
       "power": 120,
       "iconAssetId": "skill-icon-physical",
@@ -233,7 +233,7 @@
       ]
     },
     "ultimate": {
-      "id": "rex-ult",
+      "id": "rexia-ult",
       "name": "절멸의 포효",
       "power": 300,
       "iconAssetId": "skill-icon-physical",
@@ -316,7 +316,7 @@
     }
   },
   {
-    "id": "spino",
+    "id": "spina",
     "squad": "gear",
     "name": "스피나",
     "specimenNumber": "105",
@@ -354,7 +354,7 @@
       "ferocityGain": 0
     },
     "passive": {
-      "id": "spino-passive",
+      "id": "spina-passive",
       "name": "전투의 환희",
       "kind": "basicHitAttackSpeedStack",
       "iconAssetId": "skill-icon-buff",
@@ -364,7 +364,7 @@
       "desc": "기본 공격이 적중할 때마다 이번 전투 동안 공격 속도가 3 증가한다."
     },
     "basic": {
-      "id": "spino-basic",
+      "id": "spina-basic",
       "name": "악어턱 물어뜯기",
       "power": 80,
       "iconAssetId": "skill-icon-physical",
@@ -386,7 +386,7 @@
       }
     },
     "ultimate": {
-      "id": "spino-ult",
+      "id": "spina-ult",
       "name": "범람의 포식자",
       "power": 200,
       "iconAssetId": "skill-icon-physical",
@@ -481,7 +481,7 @@
     }
   },
   {
-    "id": "dodo",
+    "id": "dodi",
     "squad": "rogue",
     "name": "도디",
     "specimenNumber": "001",
@@ -519,7 +519,7 @@
       "ferocityGain": 0
     },
     "passive": {
-      "id": "dodo-passive",
+      "id": "dodi-passive",
       "name": "연구원님, 이것 좀 보세요!",
       "kind": "guardianNestAura",
       "iconAssetId": "skill-icon-buff",
@@ -530,7 +530,7 @@
       "desc": "생존 중 아군 전체의 방어력·저항력을 15% 높이고 적 전체가 받는 회복량을 30% 낮춘다."
     },
     "basic": {
-      "id": "dodo-basic",
+      "id": "dodi-basic",
       "name": "깃펜 톡톡",
       "power": 50,
       "iconAssetId": "skill-icon-magical",
@@ -539,7 +539,7 @@
       "lowestHpAllyHealingFromDamagePercent": 30
     },
     "ultimate": {
-      "id": "dodo-ult",
+      "id": "dodi-ult",
       "name": "세기의 대발견... 맞죠?!",
       "power": 150,
       "iconAssetId": "skill-icon-magical",

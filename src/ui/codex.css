@@ -748,7 +748,7 @@
 .codex-selector [data-character="torika"] .codex-card-art .codex-card-portrait {
   top: -26%;
 }
-.codex-selector [data-character="spino"] .codex-card-art .codex-card-portrait {
+.codex-selector [data-character="spina"] .codex-card-art .codex-card-portrait {
   top: -8%;
   left: 47%;
 }
@@ -1246,7 +1246,7 @@
     top: -18%;
   }
   .codex-selector
-    [data-character="spino"]
+    [data-character="spina"]
     .codex-card-art
     .codex-card-portrait {
     top: -5%;
@@ -1406,7 +1406,7 @@ html[lang="ja"]
 .codex-selector [data-character="torika"] .codex-card-art .codex-card-portrait {
   top: -45%;
 }
-.codex-selector [data-character="rex"] .codex-card-art .codex-card-portrait {
+.codex-selector [data-character="rexia"] .codex-card-art .codex-card-portrait {
   width: 190%;
   left: 35%;
   top: -10%;
@@ -1418,7 +1418,7 @@ html[lang="ja"]
     .codex-card-portrait {
     top: -18%;
   }
-  .codex-selector [data-character="rex"] .codex-card-art .codex-card-portrait {
+  .codex-selector [data-character="rexia"] .codex-card-art .codex-card-portrait {
     width: 240%;
     left: 25%;
     top: -2%;
@@ -1441,24 +1441,24 @@ html[lang="ja"]
     .codex-card-portrait {
     top: -48%;
   }
-  .codex-selector [data-character="rex"] .codex-card-art .codex-card-portrait {
+  .codex-selector [data-character="rexia"] .codex-card-art .codex-card-portrait {
     width: 150%;
     left: 35%;
     top: -5%;
   }
   .codex-selector
-    [data-character="spino"]
+    [data-character="spina"]
     .codex-card-art
     .codex-card-portrait {
     width: 125%;
     top: 0;
   }
-  .codex-selector [data-character="dodo"] .codex-card-art .codex-card-portrait {
+  .codex-selector [data-character="dodi"] .codex-card-art .codex-card-portrait {
     top: -20%;
   }
 }
 @media (max-width: 760px) {
-  .codex-selector [data-character="dodo"] .codex-card-art .codex-card-portrait {
+  .codex-selector [data-character="dodi"] .codex-card-art .codex-card-portrait {
     top: -15%;
   }
 }
